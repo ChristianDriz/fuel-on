@@ -2,25 +2,25 @@
 
 //CHANGE THIS BEFORE UPLOADING IN HOSTING
 
-// # server name
-// $sName = "localhost";
-// # user name
-// $uName = "u887826340_db_fuelon";
-// # password
-// $pass = "Schuzoo.1227";
-
-// # database name
-// $db_name = "u887826340_db_fuelon";
-
 # server name
 $sName = "localhost";
 # user name
-$uName = "root";
+$uName = "u887826340_db_fuelon";
 # password
-$pass = "";
+$pass = "Schuzoo.1227";
 
 # database name
-$db_name = "db_fuelon";
+$db_name = "u887826340_db_fuelon";
+
+// # server name
+// $sName = "localhost";
+// # user name
+// $uName = "root";
+// # password
+// $pass = "";
+
+// # database name
+// $db_name = "db_fuelon";
 
 #creating database connection
 try {
