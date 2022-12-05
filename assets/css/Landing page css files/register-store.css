@@ -1,0 +1,149 @@
+body {
+  font-family: 'Source Sans Pro';
+}
+
+.navbar {
+  background-color: #ffffff;
+}
+
+.navbar-brand {
+  color: black;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.register .container {
+  padding: 10px;
+}
+
+.card {
+  margin: 40px 0;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.05);
+  padding: 0;
+}
+
+@media (max-width: 767px) {
+  .card {
+    margin: 0;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.05);
+    padding: 0;
+  }
+}
+
+.btn {
+  color: #ffffff;
+  background-color: #fea600;
+  margin: 30px 0 50px 0;
+  border-radius: 50px;
+  border: none;
+  width: 120px;
+  padding: 10px;
+}
+
+.btn:hover {
+  color: #ffffff;
+  background-color: #dc940d;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+.register {
+  min-height: 60vh;
+  background-color: #fea600;
+}
+
+.foot {
+  min-height: 30vh;
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  width: 100%;
+  padding-right: var(--bs-gutter-x,.75rem);
+  padding-left: var(--bs-gutter-x,.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.card-header {
+  padding: .5rem 1rem;
+  background-color: rgb(255,255,255);
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #000000;
+}
+
+.nav-link:focus, .nav-link:hover {
+  color: #fea600;
+}
+
+.card-body {
+  padding: 20px 50px;
+}
+
+@media (max-width: 575px) {
+  .card-body {
+    padding: 16px 30px;
+  }
+}
+
+.card-body .form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+  border: 1px solid #ced4da;
+}
+
+.card-body p {
+  text-align: center;
+}
+
+.card-body p a {
+  text-decoration: none;
+}
+
+.card-body p a:hover {
+  text-decoration: underline;
+}
+
+#footerpad {
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: #ffffff;
+  color: #3e3d3d;
+}
+
+.input-cols p {
+  margin-top: -10px;
+  margin-bottom: 10px;
+  color: #afb2ba;
+  font-size: 14px;
+}
+
+.map-cols p {
+  margin: 0;
+  color: #3e3d3d;
+  text-align: left;
+}
+
+.map-div {
+  margin-top: 7px;
+  height: 453px;
+  width: 100%;
+  background-color: #f8f5f5;
+}
+
+.form-group label {
+  margin: 5px 0 2px 0;
+  color: #3e3d3d;
+}
+
+textarea {
+  height: 38px;
+}

@@ -1,0 +1,173 @@
+body {
+  background-color: #f5f0f0;
+}
+
+.ratings-container {
+  margin: 20px auto;
+}
+
+.div-div {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+  border-radius: 7px;
+  margin: 20px 0;
+  padding: 10px 30px;
+}
+
+@media (max-width: 575px) {
+  .div-div {
+    background-color: #ffffff;
+    box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+    border-radius: 7px;
+    margin: 20px 0;
+    padding: 10px 20px;
+  }
+}
+
+.ratings-summary {
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #f5f0f0;
+}
+
+@media (max-width: 575px) {
+  .ratings-summary {
+    text-align: center;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #f5f0f0;
+  }
+}
+
+.ratings-summary h2 {
+  color: #3e3d3d;
+  padding: 10px 0;
+}
+
+.ratings-summary h2 .fa-star {
+  font-size: 22px;
+  margin-left: 5px;
+}
+
+.rates-heading {
+  padding: 10px 0;
+}
+
+.rates-heading a {
+  color: #3e3d3d;
+  font-size: 22px;
+  padding: 3px 8px 5px 8px;
+}
+
+.rates-heading a:hover {
+  background-color: #f5f0f0;
+  border-radius: 10px;
+}
+
+.col-auto {
+  padding: 5px 7px;
+  display: flex;
+}
+
+.ratings-btn {
+  border: 1px solid rgba(99,93,93,0.28);
+  width: 100px;
+  border-radius: 2px;
+  padding: 3px;
+}
+
+.ratings-btn.active {
+  border: 1px solid #fea600;
+}
+
+.ratings-btn:hover {
+  border: 1px solid #fea600;
+}
+
+.btn-check:focus + .btn, .btn:focus {
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #fea600;
+}
+
+.ratings-btn span {
+  display: block;
+  margin-top: -5px;
+  font-size: 14px;
+}
+
+.fa-star {
+  color: #fea600;
+  font-size: 14px;
+}
+
+.ratings-container h4 {
+  font-weight: 600;
+  color: #3e3d3d;
+}
+
+.ratings-div {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid #f5f0f0;
+}
+
+.rates-pic-div {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  border: 1px solid #f5f0f0;
+}
+
+@media (max-width: 767px) {
+  .rates-pic-div {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #f5f0f0;
+  }
+}
+
+.rates-pic-div .rates-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rates-content {
+  padding: 0 15px;
+}
+
+.user-div .user-name {
+  margin: 0;
+  color: #3e3d3d;
+}
+
+.star-div .fa-star {
+  color: #fea600;
+  padding-right: 3px;
+  font-size: 14px;
+}
+
+.date-div .rate-date {
+  margin: 10px 0;
+  color: rgba(62,61,61,0.76);
+}
+
+.comment-div p {
+  color: #000000;
+}
+
+/* END */
+
+/* NO RATINGS */
+
+.no-ratings-div {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.no-ratings-div p {
+  color: #3e3d3d;
+  margin: 0;
+}

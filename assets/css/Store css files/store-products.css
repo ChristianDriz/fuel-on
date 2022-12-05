@@ -1,0 +1,381 @@
+body {
+  background-color: #f5f0f0;
+}
+
+/* display pag wala pang products */
+
+#no-products {
+  padding-top: 70px;
+  max-width: 900px;
+}
+
+#no-products .cont {
+  background-color: #ffffff;
+  min-height: 320px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 0px rgba(211,211,211,0.26);
+}
+
+#no-products .cont .row {
+  min-height: 320px;
+}
+
+#no-products .cont .left {
+  margin: auto;
+  text-align: center;
+}
+
+#no-products .cont .left .icon {
+  color: #3e3d3d;
+  font-size: 140px;
+}
+
+@media (max-width: 575px) {
+  #no-products .cont .left .icon {
+    margin-top: 20px;
+    font-size: 100px;
+  }
+}
+
+#no-products .cont .right {
+  margin: auto;
+}
+
+@media (max-width: 575px) {
+  #no-products .cont .right {
+    margin-top: 10px;
+    text-align: center;
+  }
+}
+
+#no-products .cont .right h4 {
+  color: #3e3d3d;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 576px) {
+  #no-products .cont .right h4 {
+    font-size: 18px;
+  }
+}
+
+#no-products .cont .right .btn {
+  margin-top: 20px;
+  border: none;
+  background-color: rgb(254,166,0);
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  padding: 12px 25px;
+}
+
+@media (max-width: 575px) {
+  #no-products .cont .right .btn {
+    font-size: 14px;
+    margin-top: 10px;
+    padding: 8px 20px;
+  }
+}
+
+#no-products .cont .right .btn:hover {
+  background-color: rgb(208,140,10);
+}
+
+/* end ng pangdisplay pag walang product */
+
+/* pag merong products */
+
+#modal-button {
+  text-align: right;
+}
+
+#modal-button div {
+  padding: 10px;
+}
+
+.top-btn {
+  font-size: 16px;
+  border: none;
+  background-color: rgb(254,166,0);
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 8px 15px;
+}
+
+.top-btn:hover {
+  background-color: rgb(210,141,11);
+}
+
+.product-list {
+  overflow: hidden;
+  -webkit-perspective: 1000px;
+  -moz-perspective: 1000px;
+  -ms-perspective: 1000px;
+  perspective: 1000px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.product-item {
+  padding: 20px 10px 20px 10px;
+}
+
+.product-item .product-container {
+  font: normal 14px sans-serif;
+  background-color: #ffffff;
+}
+
+.product-item h2 {
+  margin-top: 25px;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  font-weight: 700;
+}
+
+.product-item h2 a {
+  text-decoration: none;
+  color: #2b2b2b;
+  padding: 0 25px;
+}
+
+.product-item a.small-text {
+  color: #808080;
+  text-decoration: none;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: block;
+  text-align: right;
+  font-size: 12px;
+}
+
+.product-item .product-rating {
+  color: #fea600;
+  font-size: 14px;
+  padding: 0 25px;
+}
+
+.product-item .product-rating a.small-text {
+  text-align: left;
+  margin: 0 0 0 10px;
+  display: inline-block;
+}
+
+.product-item p.product-description {
+  margin-top: 20px;
+  color: #5d5d5d;
+  line-height: 1.45;
+  padding: 0 25px 10px 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-item .btn {
+  width: 100px;
+  border-radius: 2px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  border: 0;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 8px 15px;
+}
+
+.btn-edit-prod {
+  background-color: #fea600;
+}
+
+.btn-edit-prod:hover {
+  background-color: #cd8a0b;
+}
+
+.btn-delete-prod {
+  background-color: #ff4500;
+}
+
+.btn-delete-prod:hover {
+  background-color: #d2400a;
+}
+
+.product-item .product-price {
+  color: #4e4e4e;
+  font-weight: bold;
+  font-size: 20px;
+  padding-top: 5px;
+  text-align: right;
+}
+
+.product-item .product-price {
+  text-align: left;
+  padding: 0 25px;
+}
+
+.row-btn {
+  padding: 0 25px 25px 25px;
+}
+
+.col-btn {
+  padding: 5px;
+}
+
+.img-cont {
+  height: 205px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+/* end pag merong products */
+
+/* modal */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1055;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.modal.fade .modal-dialog {
+  transition: transform .3s ease-out;
+  transform: translate(0,100px);
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .3rem;
+  outline: 0;
+}
+
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.prod-details-col {
+  padding: 0 30px;
+}
+
+.center {
+  text-align: center;
+}
+
+.absolue {
+  position: absolute;
+}
+
+.absolue.center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0%);
+}
+
+div.alert {
+  width: 40%;
+}
+
+.alert-col > .alert {
+  padding: 10px;
+  border-radius: 0;
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+hr {
+  height: 2px;
+}
+
+.content-right > * {
+  float: right;
+}
+
+.form-btn {
+  min-width: 100px;
+  margin: 0 5px;
+  max-width: 200px;
+}
+
+div .avatar-bg {
+  background-color: rgb(245,240,240);
+  height: 250px;
+  width: 250px;
+  margin-left: calc(50% - 125px);
+}
+
+.form-group {
+  color: #6f7173;
+  text-align: left;
+}
+
+.avatar-bg.center {
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  border: none;
+  padding: 20px 30px;
+}
+
+.modal-footer .btn {
+  padding: 8px 40px;
+  background-color: #ffffff;
+  border: 1px solid #989191;
+  color: #3e3d3d;
+}
+
+.modal-footer .btn:hover {
+  background-color: #f5f0f0;
+}
+
+.modal-header {
+  display: flex;
+  padding: 1rem 1.5rem;
+}
+
+.modal-header .div {
+  padding: 20px;
+}
+
+.modal-header p {
+  margin: 0;
+  padding: 0;
+}
+
+.modal-header .p1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.modal-header .p2 {
+  font-size: 14px;
+  color: #262525;
+  letter-spacing: 1px;
+}
+
+/* end modal */
+

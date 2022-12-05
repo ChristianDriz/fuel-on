@@ -1,0 +1,80 @@
+/* table */
+
+.inventory-header {
+  font-size: 16px;
+  text-align: left;
+}
+
+.form-control:focus {
+  border-color: #25476a;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#trs-hd {
+  text-align: center;
+}
+
+.inventory-header.cs {
+  background-color: #f5f0f0;
+  color: #3e3d3d;
+}
+
+.counter {
+  padding: 8px;
+  color: #ccc;
+}
+
+.results tr[visible='false'],
+.no-result {
+  display: none;
+}
+
+.results tr[visible='false'],
+.no-result {
+  display: none;
+}
+
+.counter {
+  padding: 8px;
+  color: #ccc;
+}
+
+.fa.fa-warning {
+  font-size: 18px;
+  color: #ff0000;
+}
+
+.warning.no-result {
+  text-align: center;
+}
+
+.search.form-control {
+  border-radius: 0px !important;
+}
+
+.search-table-col {
+  margin-top: 30px;
+}
+
+.desc {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 20px;
+}
+
+.table-responsive .btn {
+  background-color: #ffffff;
+  border: 1px solid #515151;
+  color: #3e3d3d;
+  width: 90px;
+}
+
+/* end table */
+
+.sold-out {
+  color: maroon;
+  font-weight: bold;
+}

@@ -1,0 +1,133 @@
+body {
+  font-family: 'Source Sans Pro';
+  background-color: #f5f0f0;
+}
+
+/* transaction nav */
+
+#transaction-container {
+  padding-top: 20px;
+  max-width: 800px;
+}
+
+#transaction-row-header {
+  background-color: #ffffff;
+  border-radius: 2px;
+  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+  overflow: auto;
+}
+
+#transaction-row-header .col {
+  padding: 0;
+}
+
+#transaction-row-header .navbar {
+  padding: 0;
+}
+
+#transaction-row-header .container {
+  padding: 0;
+}
+
+#transaction-row-header .nav-link {
+  justify-content: center;
+  padding: 15px 0;
+  width: 129.33px;
+  text-align: center;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  #transaction-row-header .nav-link {
+    padding: 15px 0;
+    width: 117px;
+  }
+}
+
+#transaction-row-header .nav-item.active {
+  border-bottom: 3px solid #fea600;
+}
+
+#transaction-row-header .nav-link.active {
+  color: #3e3d3d;
+}
+
+/* end transaction nav */
+
+.print-container {
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+  border-radius: 2px;
+}
+
+.print-container h2 {
+  font-weight: 600;
+  color: #3e3d3d;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-details h6 {
+  font-weight: 700;
+  margin: 0;
+  padding: 10px 0 0 0;
+}
+
+.customer-seller-details {
+  padding: 40px 0 40px 0;
+}
+
+.customer-col h6, .station-col h6 {
+  font-weight: 700;
+  margin: 10px 0 0 0;
+}
+
+.customer-col p, .station-col p {
+  margin: 0;
+}
+
+.table thead th {
+  border-bottom: 2px solid #3e3d3d;
+}
+
+.total th {
+  padding-top: 40px;
+}
+
+.total-price {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.logo {
+  display: flex;
+}
+
+.logo img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid #f1ecec;
+}
+
+.station-dets {
+  margin-left: 10px;
+}
+
+.station-dets h5 {
+  font-weight: 600;
+  margin: 0;
+}
+
+.station-dets p {
+  margin: 0;
+}
+
+.station-dets .branch-name {
+  font-weight: 600;
+}

@@ -1,0 +1,151 @@
+/* notif */
+
+.notif-menu {
+    background-color: #ffffff;
+    border-radius: 8px;
+    font-family: 'Source Sans Pro';
+    box-shadow: 0 5px 20px #ded3d3;
+    width: 400px;
+    border: none;
+    margin-left: -200px;
+    padding: 0;
+    max-height: 87vh;
+    overflow: auto;
+  }
+  
+  @media (max-width: 599px) {
+    .dropdown-menu.notif-menu {
+      margin-left: -200px;
+      width: 340px;
+    }
+  }
+  
+  .notif-header {
+    padding: 10px 15px;
+    font-weight: 600;
+    border-bottom: 1px solid #f4efef;
+  }
+  
+  .notif-header p {
+    margin: 0;
+  }
+  
+  .notif-body {
+    overflow: auto;
+  }
+  
+  .notif-body .no-notif {
+    text-align: center;
+    padding: 50px 0;
+  }
+  
+  .no-notif p {
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  .with-notif {
+    padding: 0 15px;
+  }
+  
+  .with-notif:hover {
+    padding: 0 15px;
+    background-color: #f8f5f5;
+  }
+  
+  .asd {
+    display: flex;
+    border-bottom: 1px solid #f4efef;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .notif-link {
+    display: flex;
+    text-decoration: none;
+    padding: 10px 0;
+    border: none;
+    background-color: #ffffff00;
+    text-align: left;
+  }
+  
+  .notif-link img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #f4efef;
+  }
+  
+  .notif-details {
+    margin-left: 10px;
+  }
+  
+  .notif-details p {
+    margin: 0;
+    text-decoration: none;
+    color: #3e3d3d;
+    line-height: 1.2;
+  }
+  
+  .notif-details .name {
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  
+  .notif-details .order-id {
+    margin-bottom: 10px;
+  }
+  
+  .notif-details .notif-date {
+    color: rgb(67,149,255);
+    font-weight: 600;
+  }
+  
+  .view-all-div {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: end;
+  }
+  
+  .view-all-div a {
+    text-decoration: none;
+    color: #4395ff;
+    font-weight: 600;
+  }
+  
+  .view-all-div a:hover {
+    text-decoration: underline;
+  }
+  
+  .notif-dot .fas.fa-circle {
+    font-size: 14px;
+    color: #4395ff;
+  }
+  
+  /* scroll */
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    padding: 10px 0;
+    margin: 5px;
+  }
+  
+  /* Track */
+  
+  ::-webkit-scrollbar-track {
+    margin: 5px 0;
+    background-color: #ffffff;
+  }
+  
+  /* Handle */
+  
+  ::-webkit-scrollbar-thumb {
+    background: #f4efef;
+    border-radius: 50px;
+  }
+  
+  /* Handle on hover */
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #dad2d2;
+  }

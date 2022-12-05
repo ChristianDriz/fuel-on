@@ -1,0 +1,8 @@
+{
+    "name": "project/fuelon",
+    "description": "Fuel On",
+    "require": {
+        "knplabs/knp-snappy": "^1.4",
+        "dompdf/dompdf": "^2.0"
+    }
+}

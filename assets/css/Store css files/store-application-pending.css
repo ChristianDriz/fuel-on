@@ -1,0 +1,128 @@
+.background {
+  background-color: #fea600;
+  height: 100vh;
+  padding-top: 5rem;
+}
+
+.background-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  margin-top: 30px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.05);
+}
+
+h6 {
+  margin: 10px 0 20px 0;
+  text-align: center;
+  color: #3e3d3d;
+  font-family: 'Source Sans Pro';
+}
+
+.header {
+  padding: 10px 0 0 20px;
+}
+
+.header a {
+  font-size: 28px;
+  color: #3e3d3d;
+}
+
+.card-body {
+}
+
+.permit-n-loc {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-div .permit-col {
+  padding: 10px;
+}
+
+.input-div .permit-col .avatar-bg {
+  border: 1px solid #ebeef1;
+  background-color: #f8f5f5;
+  border-radius: 5px;
+  height: 500px;
+  width: 100%;
+}
+
+@media (max-width: 575px) {
+  .input-div .permit-col .avatar-bg {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    height: 400px;
+    width: 100%;
+  }
+}
+
+.input-div .permit-col input {
+  margin-top: 20px;
+}
+
+.input-div input:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+  border: 1px solid #ced4da;
+}
+
+.input-div .loc-col {
+  padding: 10px;
+}
+
+.input-div .loc-col .map-div {
+  height: 100%;
+  border: 1px solid #ebeef1;
+  background-color: #f8f5f5;
+  border-radius: 5px;
+}
+
+.input-div .loc-col .lat-long {
+  display: flex;
+  margin: 10px 0;
+  justify-content: center;
+}
+
+.input-div .loc-col .lat-long span {
+  color: #897b7b;
+  font-family: 'Source Sans Pro';
+}
+
+.input-div .loc-col .lat-long input {
+  width: 250px;
+  height: 30px;
+  text-align: center;
+}
+
+.input-div .loc-col .lat-long .lat-div, .long-div {
+  text-align: center;
+  margin: 0 10px;
+}
+
+.button-div {
+  margin: 20px 0 10px 0;
+  padding: 0 20px;
+}
+
+.button-div .btn {
+  color: #fff;
+  background-color: #fea600;
+  border-radius: 50px;
+  border: none;
+  padding: 10px 40px;
+  font-weight: 500;
+  font-family: 'Source Sans Pro';
+}
+
+.button-div .btn:hover {
+  background-color: #dc940d;
+}
+
+.foot {
+  /*min-height: 30vh;*/
+}

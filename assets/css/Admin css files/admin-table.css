@@ -1,0 +1,188 @@
+body {
+  background-color: #f5f0f0;
+  font-family: 'Source Sans Pro';
+}
+
+.container h4 {
+  color: #3e3d3d;
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .container h4 {
+    margin-top: 10px;
+    color: #3e3d3d;
+    font-family: 'Source Sans Pro';
+    font-weight: 600;
+  }
+}
+
+.table-div {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+}
+
+.table-div table {
+  width: 100%;
+}
+
+.profile-td img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}
+
+.image-td div {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e9e2e2;
+}
+
+.image-td div img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.action-td a {
+  text-decoration: none;
+}
+
+.action-td a:hover {
+  text-decoration: underline;
+}
+
+.permit-td a, .view-loc-td a {
+  text-decoration: none;
+}
+
+.permit-td a:hover, .view-loc-td a:hover {
+  text-decoration: underline;
+}
+
+.button-td .accept-btn, .decline-btn {
+  margin: 2px;
+  width: 42px;
+}
+
+.nothing h4 {
+  text-align: center;
+  padding: 50px;
+}
+
+.pricechange-td .btn {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+  border: none;
+  cursor: default;
+}
+
+.pricechange-td .down {
+  color: green;
+}
+
+.pricechange-td .up {
+  color: red;
+}
+
+.status-td .btn {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+  cursor: default;
+}
+
+.soldout-div {
+  padding: 50px 0 20px 0;
+}
+
+.soldout-div h5 {
+  text-align: center;
+  color: #3e3d3d;
+  position: relative;
+}
+
+.soldout-div h5:before {
+  content: "";
+  display: block;
+  width: 43%;
+  height: 1px;
+  position: absolute;
+  background: #c9c7c7;
+  top: 50%;
+  left: 0;
+}
+
+.soldout-div h5:after {
+  content: "";
+  display: block;
+  width: 43%;
+  height: 1px;
+  position: absolute;
+  background: #c9c7c7;
+  top: 50%;
+  right: 0;
+}
+
+/* modal */
+
+.modal-header {
+  border: none;
+}
+
+.modal-header .btn-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+#locationModal .modal-body {
+  padding: 0 20px 20px 20px;
+}
+
+#locationModal .modal-body .map {
+  height: 700px;
+  background-color: #f5f0f0;
+}
+
+.add-div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 15px 0;
+}
+
+.add-div .btn {
+  background-color: #fea600;
+  color: #ffffff;
+}
+
+.add-div .btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+}
+
+.modal .modal-content {
+  padding: 20px;
+}
+
+.modal-header h4 {
+  font-weight: 600;
+}
+
+.modal-footer {
+  border: none;
+}
+
+.modal-footer .add-btn {
+  background-color: #fea600;
+  color: #ffffff;
+}
+
+.modal-footer .add-btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+}

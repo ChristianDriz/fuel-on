@@ -1,0 +1,119 @@
+body {
+    font-family: 'Source Sans Pro';
+    background-color: #f8f5f5;
+  }
+  
+  .notif-container {
+    max-width: 700px;
+    background-color: #ffffff;
+    margin: 12px auto;
+    border-radius: 7px;
+    box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+    padding: 10px;
+    height: 100%;
+  }
+  
+  @media (max-width: 710px) {
+    .notif-container {
+      padding: 10px 0;
+    }
+  }
+  
+  .notif-container h3 {
+    font-weight: 600;
+    padding: 5px 10px;
+  }
+  
+  .filter-notif-div {
+    padding: 0 10px;
+    display: flex;
+  }
+  
+  .filter-notif-div .btn {
+    border-radius: 50px;
+    margin: 0 5px 0 0;
+    font-weight: 600;
+    border: none;
+  }
+  
+  .filter-notif-div .btn:hover {
+    background-color: #f8f5f5;
+    border: none;
+  }
+  
+  .filter-notif-div .btn:focus {
+    outline: none;
+    border: none;
+  }
+  
+  .filter-notif-div .btn.actives {
+    color: #267beb;
+    background-color: #d2e6ff;
+  }
+  
+  .notifs {
+    margin: 20px 0 0 0;
+  }
+  
+  .no-notifs-div p {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 50px;
+    margin: 0;
+  }
+  
+  .notifs-div {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .notifs-div:hover {
+    background-color: #f8f5f5;
+    border-radius: 7px;
+  }
+  
+  .box {
+    display: flex;
+    align-items: self-start;
+    width: 100%;
+    text-decoration: none;
+  }
+  
+  .notifs-div img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #f4efef;
+  }
+  
+  .notifs-details {
+    margin-left: 15px;
+  }
+  
+  .notifs-details p {
+    margin: 0;
+    text-decoration: none;
+    color: #3e3d3d;
+    line-height: 1.2;
+  }
+  
+  .notifs-details .name {
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  
+  .notifs-details .order-id {
+    margin-bottom: 10px;
+  }
+  
+  .notifs-details .notif-date.unread {
+    color: rgb(67,149,255);
+    font-weight: 600;
+  }
+  
+  .notis-dot .fas-fa-circle {
+    color: #d9910b;
+  }

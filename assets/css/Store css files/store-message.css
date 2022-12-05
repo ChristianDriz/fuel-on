@@ -1,0 +1,278 @@
+body {
+  background-color: #f5f0f0;
+  overflow: hidden;
+}
+
+.chat-container {
+  position: absolute;
+  top: 7.4rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.chat-container .chat-row {
+  height: 100%;
+}
+
+.no-message-yet {
+  padding: 40px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.no-message-yet svg {
+  font-size: 80px;
+  color: #3e3d3d;
+  margin: 10px;
+}
+
+/* for list ng chats */
+
+#chat-list {
+  border: none;
+  background-color: #ffffff;
+  padding: 0;
+  border-right: 1px solid #f5f0f0;
+}
+
+@media (max-width: 991px) {
+  #chat-list {
+    margin: 0;
+  }
+}
+
+#chat-list #head {
+  padding: 10px 20px;
+}
+
+#chat-list #head h2 {
+  margin: 0;
+}
+
+#chat-list #search-div {
+  padding: 10px 20px;
+}
+
+#chat-list #search-div .btn {
+  background-color: #fea600;
+}
+
+#chat-list #search-div .fa {
+  color: #ffffff;
+}
+
+#chat-list #list {
+  overflow: auto;
+  height: 100%;
+  position: relative;
+}
+
+#chat-list #list .list-div {
+  position: absolute;
+  top: 0;
+  bottom: 117px;
+  width: 100%;
+  overflow: auto;
+  padding: 10px;
+}
+
+#chat-list #list a {
+  text-decoration: none;
+}
+
+#chat-list #list .content {
+  display: flex;
+  padding: 20px;
+  align-items: center;
+}
+
+#chat-list #list .content:hover {
+  background-color: rgba(245,240,240,0.45);
+  border-radius: 10px;
+}
+
+.content img {
+  height: 50px;
+  width: 50px;
+  border: 1px solid #f5f0f0;
+  border-radius: 50%;
+}
+
+.details {
+  margin-left: 15px;
+  width: 100%;
+}
+
+.details .chat {
+  margin: 0;
+  text-decoration: none;
+  color: #3e3d3d;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.details .name {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.date {
+  margin-top: 30px;
+  width: 20%;
+}
+
+.date p {
+  margin: 0;
+  padding: 0 10px;
+  color: #3e3d3d;
+}
+
+.status .fas {
+  color: #0695FF;
+  font-size: 12px;
+}
+
+/* end for list ng chats */
+
+/* sa mismong convo */
+
+#convo {
+  border: none;
+  /*margin: 10px;*/
+  border-radius: 0;
+  background-color: #ffffff;
+  /*box-shadow: 2px 10px 10px rgba(109,101,101,0.36);*/
+}
+
+@media (max-width: 991px) {
+  #convo {
+    margin: 0;
+  }
+}
+
+#convo .head {
+  border-bottom: 1px solid #f5f0f0;
+  padding: 15px 10px;
+  align-items: center;
+}
+
+#convo .head .image-div {
+  height: 40px;
+  width: 40px;
+}
+
+#convo .head .image-div img {
+  border: 1px solid #f5f0f0;
+  border-radius: 50%;
+  width: 100%;
+}
+
+#convo .head .name-sender {
+  display: flex;
+  align-items: center;
+}
+
+#convo .head .name-sender p {
+  margin: 0;
+  padding: 0 15px;
+  font-weight: 700;
+}
+
+#convo .head .dot {
+  text-align: right;
+}
+
+#convo .head .dot a {
+  color: #3e3d3d;
+}
+
+#convo .body {
+  overflow: auto;
+  height: 100%;
+  position: relative;
+}
+
+#convo .body .col {
+  position: absolute;
+  top: 0;
+  bottom: 5.4rem;
+  overflow: auto;
+  padding: 20px;
+}
+
+#convo .body .message {
+  background-color: #f5f0f0;
+  width: fit-content;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  max-width: 30rem;
+  word-wrap: break-word;
+}
+
+#convo .body .user-chat {
+  margin-left: auto;
+  background-color: rgba(94,197,255,0.21);
+}
+
+#convo .body .send-date {
+  padding: 0 10px;
+  color: #a69a9a;
+  font-size: 14px;
+}
+
+#convo .body .outgoing-chat .send-date {
+  text-align: right;
+}
+
+#convo .foot {
+  border-top: 1px solid #f5f0f0;
+  background-color: #ffffff;
+  width: 100%;
+  bottom: 0;
+  padding: 10px 0;
+  position: absolute;
+}
+
+#convo .foot .col {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#convo .foot .col input {
+  border: 1px solid #ebe3e3;
+  background-color: rgba(245,240,240,0.5);
+  height: 45px;
+  width: calc(100% - 60px);
+  outline: none;
+  padding: 10px;
+}
+
+#convo .foot .col .btn {
+  background-color: rgba(245,240,240,0.5);
+  color: #3e3d3d;
+  border: 1px solid #ebe3e3;
+  width: 50px;
+}
+
+#convo .foot .col .btn:hover {
+  background-color: #d9d3d3;
+}
+
+#convo .foot .col .btn .icon {
+  font-size: 20px;
+  margin-top: 3px;
+}
+
+@media (max-width: 767px) {
+  #convo .body .message {
+    max-width: 15rem;
+  }
+}
+

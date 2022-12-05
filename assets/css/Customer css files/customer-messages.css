@@ -1,0 +1,414 @@
+body {
+  background-color: #f5f0f0;
+  overflow: hidden;
+}
+
+.chat-container {
+  position: absolute;
+  top: 4.5rem;
+  left: 0;
+  right: 0;
+  bottom: .8rem;
+}
+
+@media (max-width: 767px) {
+  .chat-container {
+    top: 3.5rem;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.chat-container .chat-row {
+  height: 100%;
+}
+
+.no-message-yet {
+  padding: 40px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.no-message-yet svg {
+  font-size: 80px;
+  color: #3e3d3d;
+  margin: 10px;
+}
+
+/* for list ng chats */
+
+#chat-list {
+  border: none;
+  border-radius: 3px;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0px 2px 20px rgba(211,211,211,0.26);
+}
+
+@media (max-width: 767px) {
+  #chat-list {
+    padding: 0;
+  }
+}
+
+#chat-list #head {
+  padding: 10px 10px 0 10px;
+}
+
+#chat-list #head h4 {
+  margin: 0;
+}
+
+#chat-list #search-div {
+  padding: 10px 10px;
+}
+
+.input-group .autocomplete {
+  border-radius: 50px;
+  padding: 10px 15px;
+}
+
+#chat-list #search-div .btn {
+  background-color: #fea600;
+  border-radius: 0 50px 50px 0;
+}
+
+#search-div .autocomplete:focus {
+  outline: none;
+  box-shadow: 0 0 #f5f0f0;
+  border-color: #fea600;
+}
+
+#chat-list #search-div .btn:focus {
+  outline: none;
+  box-shadow: 0 0 #f5f0f0;
+  border: none;
+}
+
+#chat-list #search-div .fa {
+  color: #ffffff;
+}
+
+#chat-list #list {
+  overflow: auto;
+  height: 100%;
+  position: relative;
+}
+
+#chat-list #list .list-div {
+  position: absolute;
+  top: 0;
+  bottom: 117px;
+  width: 100%;
+  overflow: auto;
+  /*padding: 10px;*/
+}
+
+#chat-list #list a {
+  text-decoration: none;
+}
+
+#chat-list #list .content {
+  display: flex;
+  padding: 15px 10px;
+  align-items: center;
+  /*border-bottom: 1px solid #f7f1f1;*/
+  /*background-color: rgba(211,211,211,0.26);*/
+}
+
+@media (max-width: 767px) {
+  #chat-list #list .content {
+    padding: 15px 10px;
+  }
+}
+
+#chat-list #list .content:hover {
+  background-color: #f8f5f5;
+  border-radius: 10px;
+}
+
+.chat-image {
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  display: flex;
+}
+
+.chat-image img {
+  height: 70px;
+  width: 70px;
+  border: 1px solid #f5f0f0;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+}
+
+.chat-image span {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #29c142;
+  width: 21px;
+  height: 21px;
+  border: 3px solid #ffffff;
+  border-radius: 50px;
+}
+
+.details {
+  margin-left: 10px;
+}
+
+.details .chat {
+  margin: 0;
+  text-decoration: none;
+  color: #3e3d3d;
+}
+
+.details .name {
+  font-weight: 600;
+  font-size: 16px;
+  /*max-width: 220px;*/
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.chat-div {
+  display: flex;
+}
+
+.chat-div .chat-message.unread, .chat-div .date.unread {
+  color: #2a7ae8;
+  font-weight: 600;
+}
+
+.chat-div .chat-message {
+  color: #3e3d3d;
+  margin: 0;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.chat-div .date {
+  margin: 0;
+  font-size: 15px;
+  color: #3e3d3d;
+  margin-left: 10px;
+  position: relative;
+}
+
+.chat-div .date .fas {
+  position: absolute;
+  font-size: 2px;
+  margin-top: 10px;
+  margin-left: -3px;
+}
+
+.status .fas {
+  color: #0695FF;
+  font-size: 12px;
+}
+
+/* end for list ng chats */
+
+/* sa mismong convo */
+
+#convo {
+  border: none;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 20px rgba(211,211,211,0.26);
+}
+
+@media (max-width: 991px) {
+  #convo {
+    margin: 0;
+  }
+}
+
+#convo .head {
+  border-bottom: 1px solid #f5f0f0;
+  padding: 15px 10px;
+  align-items: center;
+}
+
+#convo .head .back-button {
+  padding: 5px 8px;
+  margin: 0 2px;
+  border-radius: 10px;
+}
+
+#convo .head .back-button:hover {
+  background-color: #f5f0f0;
+}
+
+#convo .head .back-button a {
+  margin: 0;
+  padding: 0;
+}
+
+#convo .head .back-button .fas {
+  margin-top: 3px;
+  color: #3e3d3d;
+  font-size: 20px;
+}
+
+#convo .head .image-div {
+  height: 50px;
+  width: 50px;
+}
+
+#convo .head .image-div img {
+  border: 1px solid #f5f0f0;
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#convo .head .name-sender {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+#convo .head .name-sender a {
+  text-decoration: none;
+  color: #3e3d3d;
+}
+
+#convo .head .name-sender a:hover {
+  text-decoration: underline;
+}
+
+#convo .head .name-sender p {
+  margin: 0;
+  padding: 0 15px;
+  font-weight: 500;
+  font-size: 16px;
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+#convo .head .name-sender .active-status {
+  font-weight: 400;
+  color: #7a7171;
+  font-size: 14px;
+}
+
+#convo .head .dot {
+  text-align: right;
+}
+
+#convo .head .dot a {
+  color: #3e3d3d;
+}
+
+#convo .body {
+  overflow: auto;
+  height: 100%;
+  position: relative;
+}
+
+#convo .body .col {
+  position: absolute;
+  top: 0;
+  bottom: 5.4rem;
+  overflow: auto;
+  padding: 20px;
+}
+
+#convo .body .message {
+  background-color: #f5f0f0;
+  width: fit-content;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+  border-radius: 20px;
+  max-width: 30rem;
+  word-wrap: break-word;
+  color: #3e3d3d;
+}
+
+#convo .body .user-chat {
+  margin-left: auto;
+  background-color: rgba(94,197,255,0.21);
+}
+
+#convo .body .send-date {
+  padding: 0 10px;
+  color: #a69a9a;
+  font-size: 14px;
+}
+
+#convo .body .outgoing-chat .send-date {
+  text-align: right;
+}
+
+#convo .foot {
+  border-top: 1px solid #f5f0f0;
+  background-color: #ffffff;
+  width: 100%;
+  bottom: 0;
+  padding: 10px 0;
+  position: absolute;
+  border-radius: 0 0 10px 10px;
+}
+
+#convo .foot .col {
+  padding: 5px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#convo .foot .col input {
+  border: none;
+  border-radius: 50px;
+  background-color: rgba(245,240,240,0.5);
+  height: 45px;
+  width: calc(100% - 55px);
+  outline: none;
+  padding: 20px;
+}
+
+#convo .foot .col input:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+#convo .foot .col .btn {
+  background-color: #fea600;
+  color: #3e3d3d;
+  border: none;
+  border-radius: 50px;
+  width: 45px;
+}
+
+#convo .foot .col .btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+#convo .foot .col .btn .fa-send {
+  font-size: 20px;
+  margin-top: 3px;
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  #convo .body .message {
+    max-width: 15rem;
+  }
+}

@@ -1,0 +1,139 @@
+<?php
+session_start();
+
+if(isset($_SESSION['userID'])){
+
+    require '../classes/dbHandler.php';
+    require_once '../classes/Notifications.php';
+
+    $dbh = new Config();
+
+    if(isset($_GET['status'])){
+        $status = $_GET['status'];
+    }
+    else{
+        $status = '';
+    }
+
+    if(isset($_GET['orderID'])){
+        $orderID = $_GET['orderID'];
+    }
+
+    if(isset($_GET['transactionID'])){
+        $transactionID = $_GET['transactionID'];
+    }
+
+    if(isset($_GET['reason'])){
+        $reason = $_GET['reason'];
+    }
+
+    if(isset($_GET['customerID'])){
+        $customerID = $_GET['customerID'];
+    }
+
+    if(isset($_GET['shopID'])){
+        $shopID = $_GET['shopID'];
+    }
+
+    if($status == 'declined'){
+        //pang balik ng quantity if declined order
+        $prodQuant = $dbh->getProdQuantity($orderID);
+        $transQuant = $dbh->getTransQuantity($orderID);
+        $solver = $dbh->getOrdProducts($orderID);
+
+        foreach ($prodQuant as $prodq){
+            $id[] = $prodq['productID'];
+            $prod[] = $prodq['quantity'];    
+        }
+
+        foreach($transQuant as $transq){
+            $tran[] = $transq['quantity'];
+        }
+
+        $i = 0;
+
+        foreach($solver as $newq){
+            $newQ = $prod[$i] + $tran[$i].'<br>';
+            $prodID = $id[$i];
+            $dbh->updateQuantity($newQ, $prodID);
+            $i++;
+        }
+
+        $newStatus = 'Declined';
+        $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+
+    }
+    elseif($status == 'cancelled'){
+
+        //pang balik ng quantity if cancelled order
+        $prodQuant = $dbh->getProdQuantity($orderID);
+        $transQuant = $dbh->getTransQuantity($orderID);
+        $solver = $dbh->getOrdProducts($orderID);
+
+        foreach ($prodQuant as $prodq){
+            $id[] = $prodq['productID'];
+            $prod[] = $prodq['quantity'];    
+        }
+
+        foreach($transQuant as $transq){
+            $tran[] = $transq['quantity'];
+        }
+
+        $i = 0;
+
+        foreach($solver as $newq){
+            $newQ = $prod[$i] + $tran[$i].'<br>';
+
+            // echo $newQ;
+            $prodID = $id[$i];
+            // echo $prodID;
+            $dbh->updateQuantity($newQ, $prodID);
+            $i++;
+        }
+        
+        $newStatus = 'Cancelled';
+        $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+
+    }
+    elseif($status == 'approved'){
+
+        $newStatus = 'To Pickup';
+
+        $dbh->updateOrder($newStatus, $orderID);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+
+    }
+    elseif($status == 'received'){
+        $newStatus = 'Completed';
+        $prodQuant = $dbh->getProdQuantity($orderID);
+        $transQuant = $dbh->getTransQuantity($orderID);
+        $solver = $dbh->getOrdProducts($orderID);
+
+        foreach ($prodQuant as $prodq){
+            $id[] = $prodq['productID'];
+            $prod[] = $prodq['quantity'];    
+        }
+
+        foreach($transQuant as $transq){
+            $tran[] = $transq['quantity'];
+        }
+
+        $i = 0;
+
+        foreach($solver as $newq){
+            $newQ = $prod[$i] - $tran[$i].'<br>';
+            $prodID = $id[$i];
+            $dbh->updateQuantity($newQ, $prodID);
+            $i++;
+        }
+
+        $dbh->updateOrder($newStatus, $orderID);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+    }
+
+}
+else{
+    header('location: index.php');
+}

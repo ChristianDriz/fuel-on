@@ -1,0 +1,31 @@
+<?php
+
+if (isset($_POST["submit"])){
+    session_start();
+    $email = $_SESSION["email"];
+    $fname = $_SESSION["fname"];
+    $lname = $_SESSION["lname"];
+    $phone = $_SESSION["phone"];
+    $password = $_SESSION["password"];
+    $confirm = $_SESSION["confirm"];
+    $type = $_SESSION['type'];
+    $otp = $_SESSION['otp'];
+
+   
+    include "../classes/dbHandler.php";
+    include "../classes/signup-classes.php";
+    include "../classes/signup-contr.php";
+
+    $dbh = new Config();
+
+    $signup = new SignupContr($email, $fname, $lname, $phone, $password, $confirm, $type);
+
+    // if($_POST['otp'] == $otp){
+        $signup->signUp();
+        // echo "<script>alert('Account Registered Successfully!');document.location='../../login.php'</script>";
+        $dbh->success("../../login.php", "Account Registered Successfully! You can login now.");
+    // }else{
+        // echo "<script>alert('Incorrect OTP! Please re-enter.');document.location='../../registration-otp.php'</script>";
+        // $dbh->error("../../registration-otp.php", "Registration Code Incorrect! Please re-enter.");
+    // }
+}

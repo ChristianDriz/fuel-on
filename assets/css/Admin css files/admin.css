@@ -1,0 +1,83 @@
+body {
+  background-color: #f8f5f5;
+}
+
+#home {
+  padding-top: 20px;
+  max-width: 1100px;
+}
+
+#home .top h2 {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.dashboard .cols {
+  padding: 20px;
+}
+
+.dashboard .cont {
+  background-color: #ffffff;
+  min-height: 320px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 0px rgba(211,211,211,0.26);
+}
+
+.cont .row {
+  min-height: 320px;
+}
+
+.cols .right {
+  padding-left: 20px;
+  margin: auto;
+}
+
+.cols .right h3 {
+  color: #3e3d3d;
+  font-weight: 700;
+  letter-spacing: 2px;
+  width: 160px;
+  text-align: center;
+}
+
+.cols .right p {
+  font-size: 17px;
+  color: #898787;
+  font-family: 'DM', sans-serif;
+  letter-spacing: 1px;
+  width: 160px;
+  text-align: center;
+}
+
+.right .btn {
+  border: none;
+  background-color: #fea600;
+  font-weight: 500;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  padding: 8px 0;
+  width: 160px;
+}
+
+.cols .right .btn:hover {
+  background-color: #d9910b;
+}
+
+.cols .left .icon {
+  font-size: 120px;
+  color: #3e3d3d;
+}
+
+@media (max-width: 575px) {
+  .cols .right {
+    text-align: center;
+  }
+}
+
+@media (max-width: 575px) {
+  .cols .left .icon {
+    font-size: 100px;
+  }
+}
+

@@ -1,0 +1,132 @@
+body {
+  background-color: #f5f0f0;
+  font-family: 'Source Sans Pro';
+}
+
+.sales-container {
+  padding: 0 10px;
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.sales-container h4 {
+  font-weight: 600;
+  color: #3e3d3d;
+}
+
+.whole-sales-div {
+  background-color: #ffffff;
+  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 20px;
+}
+
+.sort-div {
+  margin-bottom: 10px;
+}
+
+.filter-date-div {
+  display: flex;
+  align-items: end;
+}
+
+.sort-div .btn {
+  padding: 5px 25px;
+  background-color: #f4eeee;
+  border-color: #ebe7e7;
+  color: black;
+}
+
+.sort-div .btn:hover {
+  background-color: #ebe7e7;
+  border-color: #ebe7e7;
+}
+
+.from-div, .to-div {
+  display: grid;
+  padding: 0 20px 0 0;
+}
+
+.from-div label, .to-div label {
+  margin: 0;
+}
+
+.from-div input, .to-div input {
+  padding: 5px 12px;
+  border: 1px solid #c1baba;
+  border-radius: 5px;
+}
+
+@media (min-width: 650px) {
+  .from-div input, .to-div input {
+    padding: 5px 12px;
+    border: 1px solid #c1baba;
+    width: 200px;
+    border-radius: 5px;
+  }
+}
+
+.from-div input:focus, .to-div input:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+.no-sales {
+  text-align: center;
+  color: #3e3d3d;
+  padding: 50px;
+}
+
+.no-sales img {
+  width: 60px;
+  height: 60px;
+  opacity: 80%;
+}
+
+.no-sales h5 {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.generate .btn {
+  background-color: #f4eeee;
+  border-color: #ebe7e7;
+  margin: 20px 0 0 0;
+}
+
+.generate .btn:hover {
+  background-color: #ebe7e7;
+  border-color: #ebe7e7;
+}
+
+/* Chart */
+
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+  height: 400px;
+  padding: 5px;
+}
+
+@media (max-width: 991px) {
+  .chart-container {
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+    height: 300px;
+    padding: 5px;
+    margin: 10px 0;
+  }
+}
+
+.chart-container .highcharts-figure {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-container .chart {
+  width: 100%;
+  height: 100%;
+}

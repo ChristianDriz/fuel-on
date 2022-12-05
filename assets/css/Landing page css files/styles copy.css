@@ -1,0 +1,257 @@
+body {
+  font-family: 'Source Sans Pro';
+}
+
+.navbar {
+  padding: 15px;
+  box-shadow: 0px 2px 5px rgba(154,151,151,0.28);
+}
+
+.nav-item {
+  padding: 0 30px 0 0;
+}
+
+.navbar .navbar-brand {
+  color: rgb(255,255,255);
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.navbar .navbar-nav .nav-link {
+  font-size: 18px;
+  color: rgb(255,255,255);
+}
+
+.navbar-toggler {
+  border: none;
+  font-size: 22px;
+}
+
+.navbar-light .navbar-toggler {
+  color: rgba(255,255,255,0.74);
+  border-color: rgba(156,156,156,0.1);
+}
+
+/* End Nav */
+
+.div {
+  min-height: 100vh;
+  align-items: center;
+}
+
+/* Home */
+
+#home {
+  background-image: url('../../../assets/img/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-content {
+  text-align: left;
+  color: white;
+  padding: 35px;
+  display: flex;
+}
+
+.home-content h1 {
+  font-weight: 800;
+  font-size: 42px;
+}
+
+.home-content p {
+  padding: 20px 0 20px 0;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.home-content .btn {
+  color: white;
+  border: none;
+  background-color: orangered;
+  border-radius: 50px;
+  padding: 15px 40px;
+  margin-bottom: 20px;
+}
+
+.home-content .btn:hover {
+  background-color: #e34004;
+}
+
+.home-content .fas.fa-map-marker-alt {
+  margin-left: 10px;
+}
+
+/* Services */
+
+#services .services {
+  background-color: #ffffff;
+}
+
+#services .text-muted {
+  color: #777;
+}
+
+section#services {
+  padding: 100px 0;
+}
+
+section#services h2.section-heading {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+section#services h3.section-subheading {
+  font-size: 16px;
+  text-transform: none;
+  font-weight: 400;
+  margin-bottom: 100px;
+}
+
+@media (max-width: 1024px) {
+  section#services h3.section-subheading {
+    margin-bottom: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  section#services h3.section-subheading {
+    margin-bottom: 50px;
+  }
+}
+
+#services .service-heading {
+  margin: 15px 0;
+  text-transform: none;
+}
+
+#services .col-md-3 {
+  padding-top: 10px;
+}
+
+/* End Services */
+
+/* About Us */
+
+#about-us {
+  background-color: rgba(248,246,246,0.4);
+}
+
+.team-boxed {
+  color: #313437;
+  background-color: #4e575c;
+}
+
+.team-boxed p {
+  color: #7d8285;
+}
+
+.team-boxed h2 {
+  font-weight: bold;
+  margin-bottom: 40px;
+  padding-top: 100px;
+  color: inherit;
+}
+
+@media (max-width:767px) {
+  .team-boxed h2 {
+    margin-bottom: 25px;
+    padding-top: 80px;
+    font-size: 24px;
+  }
+}
+
+.team-boxed h3 {
+  font-size: 18px;
+}
+
+.team-boxed .intro {
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.team-boxed .intro p {
+  margin-bottom: 0;
+}
+
+.team-boxed .people {
+  padding: 50px 0;
+}
+
+.team-boxed .item {
+  text-align: center;
+}
+
+.team-boxed .item .box {
+  text-align: center;
+  padding: 30px;
+  background-color: #fff;
+  margin-bottom: 30px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(197,195,195,0.6);
+}
+
+.team-boxed .item .name {
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: inherit;
+}
+
+.team-boxed .item .title {
+  color: #ada3a3;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.team-boxed .item img {
+  border: 1px solid #ddd;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  padding: 8px;
+  max-width: 160px;
+}
+
+.team-boxed .fab {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.team-boxed .fab:hover {
+  background: #ddd;
+  text-decoration: none;
+  color: #555;
+}
+
+.social {
+  padding: 20px 0px;
+}
+
+.team-boxed .social a {
+  text-decoration: none;
+  margin: 0 10px;
+  display: inline-block;
+}
+
+/* End About Us */
+
+#footerpad {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: #ffffff;
+  color: #3e3d3d;
+  box-shadow: 0px 0px 10px rgba(154,151,151,0.28);
+}
+

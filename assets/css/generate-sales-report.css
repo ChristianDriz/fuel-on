@@ -1,0 +1,194 @@
+body {
+	font-family: sans-serif;
+	/*font-size: 18px;*/
+  }
+  
+  .kontainer {
+	/*padding: 10px;*/
+	max-width: 1200px;
+	margin: 0 auto;
+  }
+  
+  .logo img {
+	border: 2px solid #f4f0f0;
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+  }
+  
+  .shop-details {
+	margin-top: -100px;
+	margin-left: 115px;
+  }
+  
+  .shop-details p {
+	margin: 0;
+	line-height: 25px;
+  }
+  
+  .shop-details .address {
+	font-weight: bold;
+	font-size: 20px;
+  }
+  
+  .invoice {
+	margin-top: -100px;
+  }
+  
+  .invoice p {
+	margin: 0;
+	text-align: right;
+  }
+  
+  .invoice-title {
+	font-weight: bolder;
+	font-size: 28px;
+  }
+  
+  .line {
+	margin-top: 85px;
+	width: 100%;
+	border-top-style: double;
+	border-bottom-style: double;
+  }
+  
+  .table-head {
+	width: 100%;
+	margin-top: 40px;
+  }
+  
+  .invoice-to, .to-details {
+	text-align: right;
+	width: 50%;
+  }
+  
+  .order-details, .order-id, .status {
+	text-align: left;
+	width: 50%;
+  }
+  
+  .prod-table {
+	width: 100%;
+	margin-top: 50px;
+	border: 1px solid black;
+  }
+  
+  .prod-table th {
+	background-color: #f5ecec;
+  }
+  
+  .prod-det {
+	text-align: left;
+	width: 40%;
+	padding: 8px;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+  }
+  
+  .date-cell {
+	width: 20%;
+	text-align: center;
+	padding: 8px;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+  }
+  
+  .cost {
+	text-align: center;
+	width: 15%;
+	padding: 8px;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+  }
+  
+  tbody .cost {
+	text-align: right;
+  }
+  
+  .qty {
+	text-align: center;
+	width: 11%;
+	padding: 8px;
+	border-right: 1px solid black;
+	border-left: 1px solid black;
+  }
+  
+  tbody .qty {
+	text-align: right;
+  }
+  
+  .amount {
+	text-align: center;
+	width: 15%;
+	padding: 8px;
+	border-right: 1px solid black;
+  }
+  
+  tbody .amount {
+	text-align: right;
+  }
+  
+  tfoot tr td {
+	padding: 8px;
+	border: 1px solid black;
+	text-align: right;
+	font-weight: bold;
+  }
+  
+  .above-signature {
+	margin-top: 70px;
+	padding: 10px;
+  }
+  
+  .prepaired span {
+	border-bottom: 1px solid black;
+	height: 20px;
+	padding: 0 75px;
+  }
+  
+  .received {
+	text-align: right;
+	margin-top: -40px;
+  }
+  
+  .received span {
+	border-bottom: 1px solid black;
+	height: 20px;
+	padding: 0 75px;
+  }
+
+  .received strong {
+	border-bottom: 1px solid black;
+	height: 20px;
+	padding: 0 20px;
+  }
+
+  
+  .signature-div {
+	margin-top: 30px;
+	float: right;
+	text-align: center;
+	border-top: 1px solid black;
+	width: 200px;
+	margin-right: 10px;
+  }
+  
+  .left-signature {
+	width: 200px;
+	border-top: 1px solid black;
+	text-align: center;
+  }
+  
+  .right-signature {
+	width: 200px;
+	border-top: 1px solid black;
+	text-align: center;
+  }
+  
+  .foot {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+  }

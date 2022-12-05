@@ -1,0 +1,84 @@
+body {
+  background-color: #f8f5f5;
+}
+
+.kolum {
+  padding: 10px;
+}
+
+@media (max-width: 575px) {
+  .kolum {
+    padding: 10px 0;
+  }
+}
+
+.kolum .product-div, .user-div, .store-div, .approval-div {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px rgba(190,181,181,0.26);
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 991px) {
+  .kolum .product-div, .user-div, .store-div, .approval-div {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+}
+
+.kolum .fas.fa-users, .kolum .fas.fa-store, .kolum .fas.fa-user-check {
+  font-size: 60px;
+  color: #3e3d3d;
+}
+
+.kolum .fas.fa-shopping-basket, .kolum .fas.fa-gas-pump {
+  font-size: 80px;
+  color: #3e3d3d;
+}
+
+@media (max-width: 575px) {
+  .kolum .fas {
+    font-size: 65px;
+    color: #3e3d3d;
+  }
+}
+
+.kolum .product-div div, .user-div div, .store-div div, .approval-div div {
+  text-align: center;
+}
+
+.kolum .product-div div h2, .user-div div h2, .store-div div h2, .approval-div div h2 {
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+  /*letter-spacing: 1px;*/
+}
+
+.kolum .product-div div p, .user-div div p, .store-div div p, .approval-div div p {
+  font-family: 'Source Sans Pro';
+  color: #7d7575;
+}
+
+.kolum .btn {
+  font-family: 'Source Sans Pro';
+  background-color: #fea600;
+  border-radius: 50px;
+  color: #ffffff;
+  padding: 8px 20px;
+}
+
+.kolum .btn:hover {
+  background-color: #ed9d08;
+}
+
+.kolum .btn:focus {
+  background-color: #ed9d08;
+  color: #ffffff;
+}
