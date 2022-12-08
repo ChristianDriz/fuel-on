@@ -111,7 +111,7 @@
 
             //to check the file extension
             if (!in_array($extension, ['pdf', 'docx', 'png', 'jpeg', 'jpg', 'doc'])) {
-                $dbh->info("../../store-account-settings.php", "You file extension must be .zip, .pdf or .docx");
+                $dbh->info("../../store-account-settings.php", "You file extension must be pdf, png, jpg, or jpeg");
                 die();
             } elseif ($filesize > 1000000) { // file shouldn't be larger than 1Megabyte
                 $dbh->info("../../store-account-settings.php", "Your file is too large.");
@@ -125,7 +125,7 @@
                 $destination = '../../uploads/'.$permit;
                 move_uploaded_file($temp, $destination);
 
-                $dbh->updateShopDetailsWithPermit($permit, $filesize, $station_name, $branch, $address, $tin_num, $opening, $closing, $userID);
+                $dbh->updateShopDetailsWithPermit($permit, $station_name, $branch, $address, $tin_num, $opening, $closing, $userID);
             }
                 $dbh->success("../../store-account-settings.php", "Permit Updated Successfully!");
         }

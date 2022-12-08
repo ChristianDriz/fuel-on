@@ -14,8 +14,8 @@ function updateMarkerPosition(latlng) {
 
 function initialize_map() {
 
-    var lat_value=document.getElementById('mapLat').value; 
-    var long_value=document.getElementById('mapLng').value;
+    var lat_value = document.getElementById('mapLat').value; 
+    var long_value = document.getElementById('mapLng').value;
 
     if(lat_value == '0' || lat_value == "" ){
         lat_value = 14.65473282485934;

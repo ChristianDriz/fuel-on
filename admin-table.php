@@ -43,8 +43,9 @@ session_start();
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-table.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -92,11 +93,11 @@ session_start();
                     <h4>Admins</h4><a class="btn" role="button" data-bs-toggle="modal" href="#add-admin">Add Admin</a>
                 </div>
                 <div class="table-div">
-                    <div>
-                        <table class="datatable row-border">
+                    <div class="table-responsive">
+                        <table class="datatable table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>#</th>
                                     <th>Firstname</th>
                                     <th>Lastname</th>
@@ -109,7 +110,7 @@ session_start();
                                     foreach($acc as $admin){
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td><?php echo $admin['userID']?></td>
                                     <td><?php echo $admin['firstname']?></td>
                                     <td><?php echo $admin['lastname']?></td>
@@ -171,7 +172,8 @@ session_start();
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/table.js"></script>
     <script src="assets/js/sweetalert2.js"></script>

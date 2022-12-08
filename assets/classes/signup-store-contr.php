@@ -43,12 +43,11 @@ class SignupStoreContr extends SignupStore{
         $this->filename = $filename;
         $this->filesize = $filesize;
         $this->tmp = $tmp;
-
     }
     
 
     public function signUp(){
-        $this->registerStore($this->email, $this->firstname, $this->lastname, $this->station_name, $this->branch, $this->address, $this->phone, $this->password, $this->type, $this->tin_num, $this->mapLat, $this->mapLng, $this->filename, $this->filesize, $this->tmp, $this->opening, $this->closing);
+        $this->registerStore($this->email, $this->firstname, $this->lastname, $this->station_name, $this->branch, $this->address, $this->phone, $this->password, $this->type, $this->tin_num, $this->mapLat, $this->mapLng, $this->filename, $this->tmp, $this->opening, $this->closing);
     }
 
     public function checkInput(){
@@ -73,12 +72,12 @@ class SignupStoreContr extends SignupStore{
         }
 
         if($this->invalidFName() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid name format.");
+            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid first name format.");
             exit();
         }
 
         if($this->invalidLName() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid name format.");
+            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid last name format.");
             exit();
         }
 
@@ -105,11 +104,11 @@ class SignupStoreContr extends SignupStore{
         // get the file extension
         $extension = pathinfo($this->filename, PATHINFO_EXTENSION);
 
-        if (!in_array($extension, ['pdf', 'docx', 'png', 'jpeg', 'jpg', 'doc'])) {
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "File extension must be .pdf, .docx, .png or .jpeg");
+        if (!in_array($extension, ['pdf', 'png', 'jpeg', 'jpg'])) {
+            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "File type must be pdf, png, jpg, or jpeg");
             die();
-        } elseif ($this->filesize > 1000000) { // file shouldn't be larger than 1Megabyte
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "File too large");
+        } elseif ($this->filesize > 2000000) { // file shouldn't be larger than 2Megabyte
+            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "File size too large");
             die();
         } else {
             if (file_exists($this->filename)) {
@@ -142,6 +141,7 @@ class SignupStoreContr extends SignupStore{
         }
         return $result;
     }
+
 
     private function invalidFName(){
         $result;

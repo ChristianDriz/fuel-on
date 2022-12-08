@@ -43,8 +43,10 @@ $nonverifiedcustomers = $dbh->superAdminUsersnonVerified();
 <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
 <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
 <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-table.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+
 </head>
 
 <body>
@@ -90,11 +92,11 @@ $nonverifiedcustomers = $dbh->superAdminUsersnonVerified();
         <div class="container">
             <h4>Normal Users</h4>
             <div class="table-div">
-                <div>
-                    <table class="datatable row-border">
+                <div class="table-responsive">
+                    <table class="datatable table">
                         <thead>
                             <tr>
-                                <th></th>
+                                <!-- <th></th> -->
                                 <th>Image</th>
                                 <th>Firstname</th>
                                 <th>Lastname</th>
@@ -107,7 +109,7 @@ $nonverifiedcustomers = $dbh->superAdminUsersnonVerified();
                         <tbody>
                         <?php foreach($customers as $users){ ?>
                             <tr>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td class="profile-td">
                                     <div><img src="assets/img/profiles/<?php echo $users['user_image']?>" style="border-radius: 50px;"></div>
                                 </td>
@@ -124,7 +126,9 @@ $nonverifiedcustomers = $dbh->superAdminUsersnonVerified();
                                         }
                                    ?>    
                                 </td>
-                                <td class="action-td"><a href="admin-viewmore-customer-allratings.php?userID=<?=$users['userID']?>">View more...</a></td>
+                                <td class="action-td">
+                                    <a class="btn btn-light" href="admin-viewmore-customer-allratings.php?userID=<?=$users['userID']?>">View</a>
+                                </td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -138,7 +142,8 @@ $nonverifiedcustomers = $dbh->superAdminUsersnonVerified();
 <script src="assets/js/bs-init.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
 <script src="assets/js/Sidebar-Menu.js"></script>
 <script src="assets/js/table.js"></script>
 <script>

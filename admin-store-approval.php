@@ -47,8 +47,9 @@ session_start();
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-table.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -103,24 +104,22 @@ session_start();
                     }else{
                 ?>
                 <div class="table-div">
-                    <div>
-                        <table class="datatable display nowrap">
+                    <div class="table-responsive">
+                        <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>#</th>
-                                    <th>First name</th>
-                                    <th>Last name</th>
-                                    <th>Station name</th>
-                                    <th>Branch name</th>
-                                    <th>Business Permit</th>
-                                    <th>Map Location</th>
-                                    <th>Action</th>
+                            
+                                    <th>Station</th>
+                                    <th>Branch</th>
                                     <th>Address</th>
-                                    <th>TIN</th>
-                                    <th>Phone</th>
+                                    <th>Owner</th>
                                     <th>Email</th>
+                                    <th>Permit</th>
+                                    <th>Location</th>
+                                    <th>TIN</th>
+                                    <th>Phone</th>     
                                     <th>Schedule</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,30 +127,35 @@ session_start();
                                     foreach ($stations as $station) { 
                                 ?>
                                 <tr>
-                                    <td></td>
-                                    <td><?= $station['stationID'] ?></td>
-                                    <td><?= $station['firstname'] ?></td>
-                                    <td><?= $station['lastname'] ?></td>
+                                    
                                     <td><?= $station['station_name'] ?></td>
                                     <td><?= $station['branch_name'] ?></td>
-                                    <td class="permit-td">
-                                        <a href="assets/includes/downloadFiles-inc.php?stationID=<?= $station['shopID'] ?>">Download</a>
-                                    </td>
-                                    <td class="view-loc-td">
-                                        <a class="view-map" href="#locationModal" data-bs-toggle="modal">View Location</a>
-                                    </td>
-                                    <td class="button-td">
-                                        <button data-type="1" href="assets/includes/approveAction-inc.php?storeId=<?= $station['userID'] ?>&type=1" class="btn btn-success accept-btn approval-btns" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Approve">
-                                            <i class="fa fa-check"></i>
-                                        </button>
-                                        <button data-type="2" href="assets/includes/approveAction-inc.php?storeId=<?= $station['userID'] ?>&type=2" class="btn btn-danger decline-btn approval-btns" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Decline">
-                                            <i class="fa fa-close"></i>
-                                        </button>
-                                    </td>
                                     <td><?= $station['station_address'] ?></td>
+                                    <td><?= $station['firstname'].' '.$station['lastname']?></td>
+                                    <td><?= $station['email'] ?></td>
+                                    <td class="permit-td">
+                                        <?php
+                                            $filetype = pathinfo($station['permit_name'], PATHINFO_EXTENSION);
+                                            if($filetype == "pdf"){
+                                        ?>                                        
+                                        <a class="btn btn-light" role="button" target="_blank" href="uploads/<?php echo $station['permit_name']?>">View</a>
+                                        <?php
+                                            }else{
+                                        ?>
+                                        <button class="btn btn-light view-permit" value="<?php echo $station['permit_name']?>">View</button>
+                                        <?php
+                                            }
+                                        ?>
+                                    </td>
+                                    <td class="permit-td">
+                                        <a class="btn btn-light view-map" 
+                                        data-lat = "<?= $station['map_lat'] ?>" 
+                                        data-lng = "<?= $station['map_lang'] ?>" 
+                                        data-name = "<?= $station['station_name'] . ' ' . $station['branch_name']?>"
+                                        href="#locationModal" data-bs-toggle="modal">View</a>
+                                    </td>                               
                                     <td><?= $station['tin_number'] ?></td>
                                     <td><?= $station['phone_num'] ?></td>
-                                    <td><?= $station['email'] ?></td>
                                     <td>
                                     <?php
                                         //open hour
@@ -172,6 +176,14 @@ session_start();
                                         }
                                     ?>
                                     </td>
+                                    <td class="button-td">
+                                        <button data-type="1" href="assets/includes/approveAction-inc.php?storeId=<?= $station['userID'] ?>&type=1" class="btn btn-success accept-btn approval-btns" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Approve">
+                                            <i class="fa fa-check"></i>
+                                        </button>
+                                        <button data-type="2" href="assets/includes/approveAction-inc.php?storeId=<?= $station['userID'] ?>&type=2" class="btn btn-danger decline-btn approval-btns" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Decline">
+                                            <i class="fa fa-close"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 <?php
                                     }
@@ -188,14 +200,8 @@ session_start();
                 <div class="modal fade" role="dialog" tabindex="-1" id="locationModal">
                     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
                             <div class="modal-body">
                                 <div id="maps" class="map"></div>
-                                <input type="hidden" id="mapLat" value="<?= $station['map_lat'] ?>">
-                                <input type="hidden" id="mapLng" value="<?= $station['map_lang'] ?>">
-                                <input type="hidden" id="name" value="<?= $station['station_name'] . ' ' . $station['branch_name']?>">
                             </div>
                         </div>
                     </div>
@@ -209,11 +215,11 @@ session_start();
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznw3cpC9HWF3r7VOvfpTpFaC_3s2lPMY"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/map-admin.js"></script>
     <script type="text/javascript">
-
         let admintable = new DataTable('.datatable', {
             responsive: {
                 details: {
@@ -223,9 +229,9 @@ session_start();
             columnDefs: [ {
                 className: 'dtr-control',
                 orderable: false,
-                targets:   0
+                targets: 0
             } ],
-            order: [ 1, 'asc' ]
+            order: [1, 'asc']
         });
 
 
@@ -286,7 +292,25 @@ session_start();
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+
+        //modal view permit
+        $('.view-permit').click(function () { 
+            var img = $(this).val();
+
+            Swal.fire({
+                heightAuto: true,
+                imageUrl: 'uploads/' + img,
+                imageWidth: '100%',
+                imageAlt: 'Custom image',
+                showConfirmButton: false,
+                padding: '0 10px',
+                width: '35%',
+            })
+        });
+
     </script>
+ 
 </body>
 
 </html>

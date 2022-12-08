@@ -8,9 +8,9 @@ $sName = "localhost";
 $uName = "u887826340_db_fuelon";
 # password
 $pass = "Schuzoo.1227";
-
 # database name
 $db_name = "u887826340_db_fuelon";
+
 
 // # server name
 // $sName = "localhost";
@@ -18,7 +18,6 @@ $db_name = "u887826340_db_fuelon";
 // $uName = "root";
 // # password
 // $pass = "";
-
 // # database name
 // $db_name = "db_fuelon";
 

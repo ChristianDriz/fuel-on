@@ -356,20 +356,20 @@ body {
 }
 
 .add-prod-div .btn {
-  border-color: #dddcdc;
-  background-color: #ffffff;
-  color: #3e3d3d;
+  background-color: #fea600;
+  color: #ffffff;
   font-weight: 600;
   border-radius: 5px;
 }
 
 .add-prod-div .btn:focus {
-  border-color: #dddcdc;
-  background-color: #ffffff;
-  color: #3e3d3d;
+  background-color: #fea600;
+  color: #ffffff;
   font-weight: 600;
   border-radius: 5px;
 }
+
+
 
 .add-prod-div .btn .fa-plus {
   color: #3e3d3d;

@@ -1,14 +1,14 @@
 <?php
 class SignupStore extends DBHandler{
 
-    protected function registerStore($email, $firstname, $lastname, $station_name, $branch, $address, $phone, $password, $type, $tin_num, $mapLat, $mapLng, $filename, $filesize, $tmp, $opening, $closing){
+    protected function registerStore($email, $firstname, $lastname, $station_name, $branch, $address, $phone, $password, $type, $tin_num, $mapLat, $mapLng, $filename, $tmp, $opening, $closing){
 
         $conn = $this->connect();
         try {
             $stmt = $conn->prepare('INSERT INTO tbl_users (email, firstname, lastname, phone_num, password, user_type, map_lat, map_lang) VALUES (?, ?, ?, ?, ?, ?, ?, ?);');
             $hashedPass = password_hash($password, PASSWORD_DEFAULT);
             $stmt->execute(array($email, $firstname, $lastname, $phone, $hashedPass, $type, $mapLat, $mapLng));
-            $this->insertStoreDetails($conn->lastInsertId(), $filename, $filesize, $tmp, $station_name, $branch, $address, $tin_num, $opening, $closing);
+            $this->insertStoreDetails($conn->lastInsertId(), $filename, $tmp, $station_name, $branch, $address, $tin_num, $opening, $closing);
             return  $conn->lastInsertId();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -16,7 +16,7 @@ class SignupStore extends DBHandler{
         }
     }
 
-    protected function insertStoreDetails($shopID, $filename, $filesize, $tmp, $station_name, $branch, $address, $tin_num, $opening, $closing)
+    protected function insertStoreDetails($shopID, $filename, $tmp, $station_name, $branch, $address, $tin_num, $opening, $closing)
     {
         // connect to the database
         $conn = $this->connect();
@@ -27,9 +27,9 @@ class SignupStore extends DBHandler{
         // move the uploaded (temporary) file to the specified destination
         if (move_uploaded_file($tmp, $destination)) {
             try {
-                $stmt = $conn->prepare('INSERT INTO tbl_station (shopID, file_name, file_size, station_name, branch_name, station_address, tin_number, opening, closing) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);');
-                $stmt->execute(array($shopID, $filename, $filesize, $station_name, $branch, $address, $tin_num, $opening, $closing));
+                $stmt = $conn->prepare('INSERT INTO tbl_station (shopID, permit_name, station_name, branch_name, station_address, tin_number, opening, closing) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?);');
+                $stmt->execute(array($shopID, $filename, $station_name, $branch, $address, $tin_num, $opening, $closing));
                 return  $conn->lastInsertId();
             } catch (\PDOException $e) {
                 print "Error!: " . $e->getMessage() . "<br/>";

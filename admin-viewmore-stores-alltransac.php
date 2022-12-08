@@ -186,8 +186,18 @@ $orders = $dbh->shopAllOrders($shopID);
                         <li class="nav-item"><a class="nav-link" href="admin-viewmore-store-location.php?shopID=<?=$user['userID']?>">Store Location</a></li>
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Store Permit</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="assets/includes/downloadFiles-inc.php?stationID=<?= $user['shopID'] ?>">Download Permit</a>
-                                
+                                <?php
+                                    $filetype = pathinfo($user['permit_name'], PATHINFO_EXTENSION);
+                                    if($filetype == "pdf"){
+                                ?>
+                                <a class="dropdown-item" target="_blank" href="uploads/<?php echo $user['permit_name']?>">View Permit</a>
+                                <?php
+                                    }else{
+                                ?>
+                                <a class="dropdown-item show-modal-img">View Permit</a>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </li>
                     </ul>
@@ -390,6 +400,19 @@ $orders = $dbh->shopAllOrders($shopID);
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+
+        $('.show-modal-img').click(function () { 
+            Swal.fire({
+                heightAuto: true,
+                imageUrl: 'uploads/<?php echo $user['permit_name'] ?>',
+                imageWidth: '100%',
+                imageAlt: 'Custom image',
+                showConfirmButton: false,
+                padding: '0 10px',
+                width: '40%',
+            })
+        });
     </script>
 </body>
 

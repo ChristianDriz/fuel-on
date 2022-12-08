@@ -33,7 +33,7 @@ session_start();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Fuel ON (Admin)</title>
-    <link rel="icon" href="assets/img/fuelon_logo.png">
+    <link rel="icon" type="image" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -42,8 +42,9 @@ session_start();
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-table.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -89,19 +90,18 @@ session_start();
             <div class="container">
                 <h4>Products Listed</h4>
                 <div class="table-div">
-                    <div>
-                        <table class="datatable row-border nowrap">
+                    <div class="table-responsive">
+                        <table class="datatable table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>Image</th>
                                     <th>Product name</th>
                                     <th>Price</th>
                                     <th>Sold</th>
                                     <th>Stock</th>
-                                    <th>Status</th>
                                     <th>Sold by</th>
-              
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -112,7 +112,7 @@ session_start();
                                         $sold = $dbh->countShopSold($prods['productID']);
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td class="image-td">
                                         <div><img src="assets/img/products/<?=$prods['prod_image']?>"></div>
                                     </td>
@@ -121,6 +121,7 @@ session_start();
                                     <td>₱<?=$prods['price']?></td>
                                     <td><?=$sold?></td>
                                     <td><?=$prods['quantity']?></td>
+                                    <td><?=$stationDetails['station_name'].' '.$stationDetails['branch_name']?></td>
                                     <td class="status-td">
                                     <?php 
                                         if ($prods['quantity'] >= 10) { ?>
@@ -136,8 +137,7 @@ session_start();
                                     <?php 
                                         } 
                                     ?>    
-                                    </td>
-                                    <td><?=$stationDetails['station_name'].' '.$stationDetails['branch_name']?></td>
+                                    </td>     
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -151,23 +151,25 @@ session_start();
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
-    <script src="assets/js/table.js"></script>
+    <!-- <script src="assets/js/table.js"></script> -->
     <script>
-        // let admintable = new DataTable('.datatable', {
-        //     responsive: {
-        //         details: {
-        //             type: 'column',
-        //         }
-        //     },
-        //     columnDefs: [ {
-        //         className: 'dtr-control',
-        //         orderable: false,
-        //         targets:   0
-        //     } ],
-        //     order: [ 1, 'asc' ]
-        // });
+        let admintable = new DataTable('.datatable', {
+            responsive: {
+                details: {
+                    type: 'column',
+                    target: 'tr'
+                }
+            },
+            columnDefs: [ {
+                className: 'dtr-control',
+                orderable: false,
+                targets:   0
+            } ],
+            order: [ 1, 'asc' ]
+        });
 
         
         //for last seen update

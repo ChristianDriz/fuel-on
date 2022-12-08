@@ -41,7 +41,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e9e2e2;
+  border: 1px solid #ddd1d1;
 }
 
 .image-td div img {
@@ -60,10 +60,6 @@ body {
 
 .permit-td a, .view-loc-td a {
   text-decoration: none;
-}
-
-.permit-td a:hover, .view-loc-td a:hover {
-  text-decoration: underline;
 }
 
 .button-td .accept-btn, .decline-btn {
@@ -91,45 +87,15 @@ body {
   color: red;
 }
 
+.pricechange-td .btn i {
+  margin-right: 3px;
+}
+
 .status-td .btn {
   outline: none;
   box-shadow: 0 0 0 #ffffff;
   cursor: default;
 }
-
-.soldout-div {
-  padding: 50px 0 20px 0;
-}
-
-.soldout-div h5 {
-  text-align: center;
-  color: #3e3d3d;
-  position: relative;
-}
-
-.soldout-div h5:before {
-  content: "";
-  display: block;
-  width: 43%;
-  height: 1px;
-  position: absolute;
-  background: #c9c7c7;
-  top: 50%;
-  left: 0;
-}
-
-.soldout-div h5:after {
-  content: "";
-  display: block;
-  width: 43%;
-  height: 1px;
-  position: absolute;
-  background: #c9c7c7;
-  top: 50%;
-  right: 0;
-}
-
-/* modal */
 
 .modal-header {
   border: none;
@@ -141,10 +107,10 @@ body {
 }
 
 #locationModal .modal-body {
-  padding: 0 20px 20px 20px;
+  padding: 10px;
 }
 
-#locationModal .modal-body .map {
+.map {
   height: 700px;
   background-color: #f5f0f0;
 }
@@ -185,4 +151,25 @@ body {
 .modal-footer .add-btn:focus {
   background-color: #fea600;
   color: #ffffff;
+}
+
+.permit-td .btn {
+  background-color: #f5f0f0;
+  color: #3e3d3d;
+  font-weight: 600;
+  border-color: #efe8e8;
+}
+
+.permit-td .btn:focus {
+  color: #3e3d3d;
+  font-weight: 600;
+  border-color: #efe8e8;
+}
+
+#permitModal .modal-body {
+  padding: 0;
+}
+
+#permitModal img {
+  width: 100%;
 }

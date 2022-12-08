@@ -180,6 +180,7 @@ body {
 
 .chat-div {
   display: flex;
+  /* justify-content: space-between; */
 }
 
 .chat-div .chat-message.unread, .chat-div .date.unread {

@@ -182,7 +182,18 @@ $shaps = $shop[0];
                         <li class="nav-item"><a class="nav-link active" href="admin-viewmore-store-location.php?shopID=<?=$user['userID']?>">Store Location</a></li>
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Store Permit</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="assets/includes/downloadFiles-inc.php?stationID=<?= $user['shopID'] ?>">Download Permit</a>
+                                <?php
+                                    $filetype = pathinfo($user['permit_name'], PATHINFO_EXTENSION);
+                                    if($filetype == "pdf"){
+                                ?>
+                                <a class="dropdown-item" target="_blank" href="uploads/<?php echo $user['permit_name']?>">View Permit</a>
+                                <?php
+                                    }else{
+                                ?>
+                                <a class="dropdown-item show-modal-img">View Permit</a>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </li>
                     </ul>
@@ -192,6 +203,7 @@ $shaps = $shop[0];
                     <input type="hidden" id="mapLat" value="<?= $user['map_lat'] ?>">
                     <input type="hidden" id="mapLng" value="<?= $user['map_lang'] ?>">
                     <input type="hidden" id="name" value="<?= $user['station_name'] . ' ' . $user['branch_name']?>">
+                    <input type="hidden" id="address" value="<?= $user['station_address']?>">
                 </div>
                 <?php
                     }
@@ -207,7 +219,7 @@ $shaps = $shop[0];
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznw3cpC9HWF3r7VOvfpTpFaC_3s2lPMY"></script>
     <script src="https://cdn.jsdelivr.net/gh/denissellu/routeboxer@master/src/RouteBoxer.js" type="text/javascript"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/map-admin.js"></script>
+    <script src="assets/js/admin-view-store-location.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script>
         //for last seen update
@@ -232,6 +244,19 @@ $shaps = $shop[0];
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+
+        $('.show-modal-img').click(function () { 
+            Swal.fire({
+                heightAuto: true,
+                imageUrl: 'uploads/<?php echo $user['permit_name'] ?>',
+                imageWidth: '100%',
+                imageAlt: 'Custom image',
+                showConfirmButton: false,
+                padding: '0 10px',
+                width: '40%',
+            })
+        });
     </script>
 </body>
 

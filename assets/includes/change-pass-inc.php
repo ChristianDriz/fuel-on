@@ -28,7 +28,7 @@
         }
 
         //to check if the input fields are empty
-        if(empty($old_pass) && empty($new_pass) && empty($confirm_pass)){
+        if(empty($old_pass) || empty($new_pass) || empty($confirm_pass)){
             //1 is customer, 2 is store, 3 is admin
             if ($userType == 1) {
                 $dbh->info("../../customer-account-settings.php", "Input fields are empty");

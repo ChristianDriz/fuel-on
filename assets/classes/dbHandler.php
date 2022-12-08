@@ -1,4 +1,6 @@
 <?php
+
+
 require_once('Notifications.php');
 
 class DBHandler extends Notifications
@@ -17,7 +19,7 @@ class DBHandler extends Notifications
             // $username = "root";
             // $password = "";
             // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
-            // return $dbh;
+            return $dbh;
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -1407,7 +1409,11 @@ class Config extends DBHandler
     public function divideShopsCheckout($userID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_carts WHERE customerID = ? AND checked = ? AND quantity != 0 GROUP BY shopID;');
+            $stmt = $this->connect()->prepare('SELECT * FROM tbl_carts 
+            WHERE customerID = ? 
+            AND checked = ? 
+            AND quantity != 0 
+            GROUP BY shopID;');
 
             $stmt->execute(array($userID, true));
 
@@ -1686,11 +1692,12 @@ class Config extends DBHandler
         }
     }
 
-    public function insertRating($userID, $shopID, $rating, $feedback)
+    public function insertRating($userID, $shopID, $rating, $feedback, $ratingDate)
     {
         try {
-            $stmt = $this->connect()->prepare('INSERT INTO tbl_shop_ratings(customerID, shopID, rating, feedback) VALUES (?, ?, ?, ?)');
-            $stmt->execute(array($userID, $shopID, $rating, $feedback));
+            $stmt = $this->connect()->prepare('INSERT INTO tbl_shop_ratings(customerID, shopID, rating, feedback, rating_date) 
+            VALUES (?, ?, ?, ?, ?)');
+            $stmt->execute(array($userID, $shopID, $rating, $feedback, $ratingDate));
             // return $stmt->fetchAll();            
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -1698,12 +1705,15 @@ class Config extends DBHandler
         }
     }
 
-    public function updateRating($rating, $feedback, $userID, $shopID)
+    public function updateRating($rating, $feedback, $ratingDate, $userID, $shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_shop_ratings SET rating = ?, feedback = ?, rating_date = NOW()  WHERE customerID = ? AND shopID = ?;');
+            $stmt = $this->connect()->prepare('UPDATE tbl_shop_ratings 
+            SET rating = ?, feedback = ?, rating_date = ?
+            WHERE customerID = ? 
+            AND shopID = ?;');
 
-            $stmt->execute(array($rating, $feedback, $userID, $shopID));
+            $stmt->execute(array($rating, $feedback, $ratingDate, $userID, $shopID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -2249,13 +2259,13 @@ class Config extends DBHandler
         }
     }
 
-    public function updateShopDetailsWithPermit($filename, $size, $station, $branch, $address, $tin, $opening, $closing, $shopID)
+    public function updateShopDetailsWithPermit($filename, $station, $branch, $address, $tin, $opening, $closing, $shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_station SET file_name = ?, file_size = ?, station_name = ?, branch_name = ?,
+            $stmt = $this->connect()->prepare('UPDATE tbl_station SET permit_name = ?, station_name = ?, branch_name = ?,
             station_address = ?, tin_number = ?, opening = ?, closing = ?
             WHERE shopID = ?');
-            $stmt->execute(array($filename, $size, $station, $branch, $address, $tin, $opening, $closing, $shopID));
+            $stmt->execute(array($filename, $station, $branch, $address, $tin, $opening, $closing, $shopID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -2344,7 +2354,9 @@ class Config extends DBHandler
     public function superAdminUsers()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_users WHERE user_type = 1');
+            $stmt = $this->connect()->prepare('SELECT * FROM tbl_users 
+            WHERE user_type = 1
+             ORDER BY firstname ASC');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -2385,7 +2397,12 @@ class Config extends DBHandler
     public function superAdminShops()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_users WHERE user_type = 2 AND verified = 1');
+            $stmt = $this->connect()->prepare('SELECT tbl_users.*, tbl_station.* 
+            FROM tbl_users, tbl_station 
+            WHERE tbl_users.userID = tbl_station.shopID 
+            AND user_type = 2 
+            AND verified = 1 
+            ORDER BY tbl_station.station_name ASC');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (\PDOException $e) {

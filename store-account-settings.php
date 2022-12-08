@@ -91,10 +91,10 @@ $shopDetails = $shop[0];
                                         <div class="avatar-bg">
                                             <img class="imeds" src="assets/img/profiles/<?php echo $shopDetails['user_image']?>">
                                         </div>
-                                            <input class="form-control file-input image-input" type="file" name="image">
+                                            <input class="form-control file-input image-input" type="file" name="image" accept="image/*">
                                         <div class="leybel">
                                             <p>Maximum size: 1MB</p>
-                                            <p>File extension: JPEG, PNG</p>
+                                            <p>File extension: PNG, JPG, JPEG</p>
                                         </div>
                                     </div>
                                 </div>
@@ -203,22 +203,33 @@ $shopDetails = $shop[0];
                                     <div class="input-div bisnes">
                                         <label class="form-label">Business Permit</label>
                                         <div class="drop-down-div">
-                                            <input class="form-control permit-input" type="text" readonly value="<?php echo $shopDetails['file_name']?>">
+                                            <input class="form-control permit-input" type="text" readonly value="<?php echo $shopDetails['permit_name']?>">
                                             <div class="dropdown">
                                                 <a class="btn dropdown-toggle drapdawn" aria-expanded="false" data-bs-toggle="dropdown" role="button"></a>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="assets/includes/downloadFiles-inc.php?stationID=<?= $shopDetails['shopID']?>">Download Permit</a>
+                                                    <?php
+                                                        $filetype = pathinfo($shopDetails['permit_name'], PATHINFO_EXTENSION);
+                                                        if($filetype == "pdf"){
+                                                    ?>
+                                                    <a class="dropdown-item" target="_blank" href="uploads/<?php echo $shopDetails['permit_name']?>">View Permit</a>
+                                                    <?php
+                                                        }else{
+                                                    ?>
+                                                    <a class="dropdown-item show-modal-img">View Permit</a>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="input-div">
-                                    <label class="form-label">Update permit (Accepts:&nbsp;PDF, DOC, PNG, JPG, JPEG)</label>
-                                    <input class="form-control" type="file" name="permit">
+                                    <label class="form-label">Update permit (Accepts: PDF, PNG, JPG, JPEG)</label>
+                                    <input class="form-control" type="file" name="permit" accept=".pdf, .png, .jpg, .jpeg">
                                 </div>
                                 <div class="button-div">
-                                    <a class="btn change-pass" role="button" data-bs-toggle="modal" href="#myModal">Change Password</a>
+                                    <a class="btn change-pass" role="button" data-bs-toggle="modal" href="#">Change Password</a>
                                     <button class="btn update-btn" type="submit" name="save">Update Profile</button>
                                 </div>
                             </div>
@@ -256,13 +267,11 @@ $shopDetails = $shop[0];
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script>    
-
         //for dyanmic form in sched
         function showForm() {
             var withClosing = document.getElementById("closing");
             var form = document.getElementById("hiddenForm");
             form.style.display = withClosing.checked ? "block" : "none";
-
         }
 
         <?php 
@@ -272,25 +281,41 @@ $shopDetails = $shop[0];
             title: 'Successfully!',
             text: '<?php echo $_SESSION['message']?>',
             icon: 'success',
-            button: true
+            button: true,
+            confirmButtonColor: '#fea600',
         });
         <?php 
         unset($_SESSION['message']);
         }
   
         if(isset($_SESSION['info_message'])) 
-            { ?>
-            
+        { ?>
         //NOTIFY 
         Swal.fire({
             title: 'Oops!',
             text: '<?php echo $_SESSION['info_message']?>',
             icon: 'info',
-            button: true
+            button: true,
+            confirmButtonColor: '#fea600',
         });
         <?php 
         unset($_SESSION['info_message']);
-        }?>
+        }
+
+
+        if(isset($_SESSION['error_message'])) 
+        { ?>
+        //Error 
+        Swal.fire({
+            title: '<?php echo $_SESSION['error_message']?>',
+            icon: 'error',
+            button: true,
+            confirmButtonColor: '#fea600',
+        });
+        <?php 
+        unset($_SESSION['error_message']);
+        }
+        ?>
 
         //for last seen update
         let lastSeenUpdate = function(){
@@ -314,6 +339,40 @@ $shopDetails = $shop[0];
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+        $('.show-modal-img').click(function () { 
+            Swal.fire({
+                heightAuto: true,
+                imageUrl: 'uploads/<?php echo $shopDetails['permit_name'] ?>',
+                imageWidth: '100%',
+                imageAlt: 'Custom image',
+                showConfirmButton: false,
+                padding: '0 10px',
+                width: '40%',
+            })
+        });
+
+        $('.change-pass').click(function () { 
+            const { value: formValues } = Swal.fire({
+            title: 'Change password',
+            showConfirmButton: false,
+            html:
+            '<form action="assets/includes/change-pass-inc.php?userID=<?php echo $shopDetails['userID']?>" method="post" enctype="multipart/form-data">'+
+                '<div class="password-div">'+
+                    '<div class="input-group">'+
+                        '<input type="password" name="old_pass" class="form-control" placeholder="Old password">' +
+                    '</div>'+
+                    '<div class="input-group">'+
+                        '<input type="password" name="new_pass" class="form-control" placeholder="New password">' +
+                    '</div>'+
+                    '<div class="input-group">'+
+                        '<input type="password" name="confirm_pass" class="form-control" placeholder="Confirm new password">' +
+                    '</div>'+
+                '</div>'+
+                '<div class="change-pass-div"><button style="background-color:#fea600;" class="swal2-confirm swal2-styled swal2-default-outline" type="submit" name="changePass">Change Password</button></div>'+
+            '</form>', 
+            });
+        });
     </script>
 </body>
 

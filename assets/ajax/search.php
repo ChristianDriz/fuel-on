@@ -26,13 +26,17 @@ if (isset($_SESSION['userID'])) {
         }
         elseif($type == 2){
         $sql = "SELECT * FROM tbl_users
-        WHERE (user_type = 1 OR user_type = 0) AND CONCAT(firstname, ' ', lastname) LIKE ?";
+        WHERE (user_type = 1 OR user_type = 0) 
+        AND verified = 1
+        AND CONCAT(firstname, ' ', lastname) LIKE ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$key]);
        }
        elseif($type == 0){
         $sql = "SELECT * FROM tbl_users
-	        WHERE (user_type = 1 OR user_type = 2) AND firstname LIKE ?";
+        WHERE (user_type = 1 OR user_type = 2) 
+        AND verified = 1
+        AND firstname LIKE ?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$key]);
        }

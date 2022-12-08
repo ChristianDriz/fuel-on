@@ -98,10 +98,10 @@
                             <p class="para">Profile Image</p>
                             <div class="avatar-bg">
                                 <img class="imeds" src="<?php echo 'assets/img/profiles/'.$data['user_image'] ?>" alt="Profile Photo"></div>
-                                <input class="form-control file-input image-input" type="file" name="image">
+                                <input class="form-control file-input image-input" type="file" name="image" accept="image/*">
                             <div class="leybel">
                                 <p>Maximum size: 1MB</p>
-                                <p>File extension: JPEG, PNG</p>
+                                <p>File extension: PNG, JPG, JPEG</p>
                             </div>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                                 <input class="form-control" type="number" name="phone" value="<?php echo $data['phone_num']; ?>">
                             </div>
                             <div class="button-div">
-                                <a class="btn change-pass" role="button" data-bs-toggle="modal" href="#myModal">Change Password</a>
+                                <a class="btn change-pass" role="button" data-bs-toggle="modal" href="#">Change Password</a>
                                 <button class="btn update-btn" type="submit" name="save">Update Profile</button>
                             </div>
                         </div>
@@ -170,7 +170,8 @@
             title: 'Successfully!',
             text: '<?php echo $_SESSION['message']?>',
             icon: 'success',
-            button: true
+            button: true,
+            confirmButtonColor: '#fea600',
         });
         <?php 
         unset($_SESSION['message']);
@@ -184,7 +185,8 @@
             title: 'Oops!',
             text: '<?php echo $_SESSION['info_message']?>',
             icon: 'info',
-            button: true
+            button: true,
+            confirmButtonColor: '#fea600',
         });
         <?php 
         unset($_SESSION['info_message']);
@@ -197,7 +199,8 @@
         Swal.fire({
             title: '<?php echo $_SESSION['error_message']?>',
             icon: 'error',
-            button: true
+            button: true,
+            confirmButtonColor: '#fea600',
         });
         <?php 
         unset($_SESSION['error_message']);
@@ -226,6 +229,28 @@
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+        $('.change-pass').click(function () { 
+            const { value: formValues } = Swal.fire({
+            title: 'Change password',
+            showConfirmButton: false,
+            html:
+            '<form action="assets/includes/change-pass-inc.php?userID=<?php echo $data['userID']?>" method="post" enctype="multipart/form-data">'+
+                '<div class="password-div">'+
+                    '<div class="input-group">'+
+                        '<input type="password" name="old_pass" class="form-control" placeholder="Old password">' +
+                    '</div>'+
+                    '<div class="input-group">'+
+                        '<input type="password" name="new_pass" class="form-control" placeholder="New password">' +
+                    '</div>'+
+                    '<div class="input-group">'+
+                        '<input type="password" name="confirm_pass" class="form-control" placeholder="Confirm new password">' +
+                    '</div>'+
+                '</div>'+
+                '<div class="change-pass-div"><button style="background-color:#fea600;" class="swal2-confirm swal2-styled swal2-default-outline" type="submit" name="changePass">Change Password</button></div>'+
+            '</form>', 
+            });
+        });
     </script>
 </body>
 

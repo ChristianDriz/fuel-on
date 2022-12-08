@@ -57,8 +57,9 @@ $shopDetails = $shop[0];
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Store%20css%20files/store-myproducts.css">
     <link rel="stylesheet" href="assets/css/Store%20css%20files/store-navigation.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -100,7 +101,7 @@ $shopDetails = $shop[0];
         <div class="container products-container">
             <div class="add-prod-div">
                 <h4>My Products</h4>
-                <a class="btn" role="button" href="store-add-products.php"><i class="fas fa-plus"></i>Add Product</a>
+                <a class="btn" role="button" href="store-add-products.php">Add Product</a>
             </div>
             <div class="products-div">
                 <!-- <div class="add-prod-div">
@@ -116,11 +117,11 @@ $shopDetails = $shop[0];
                 <?php
                 } else {
                 ?>
-                    <div>
-                        <table class="product-table row-border">
+                    <div class="table-responsive">
+                        <table class="product-table table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>Image</th>
                                     <th>Product Name</th>
                                     <th>Price</th>
@@ -139,7 +140,7 @@ $shopDetails = $shop[0];
                                         // $benta = $sold[];
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td class="image-td">
                                         <img src="assets/img/products/<?php echo $val['prod_image'] ?>">
                                     </td>
@@ -206,7 +207,8 @@ $shopDetails = $shop[0];
     <script src="assets/js/Table-With-Search.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script>    
 
         let table = new DataTable('.product-table', {

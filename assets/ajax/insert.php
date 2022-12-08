@@ -1,6 +1,13 @@
 <?php 
 session_start();
 
+// setting up the time Zone
+// It Depends on your location or your P.c settings
+define('TIMEZONE', 'Asia/Manila');
+date_default_timezone_set(TIMEZONE);
+
+$date = date("Y-m-d H:i:s");
+
 # check if the user is logged in
 if (isset($_SESSION['userID'])) {
 
@@ -20,10 +27,10 @@ if (isset($_SESSION['userID'])) {
 	$from_id = $_SESSION['userID'];
 
 	$sql = "INSERT INTO 
-	       tbl_chat_contents (senderID, receiverID, message) 
-	       VALUES (?, ?, ?)";
+	       tbl_chat_contents (senderID, receiverID, message, created_at) 
+	       VALUES (?, ?, ?, ?)";
 	$stmt = $conn->prepare($sql);
-	$res  = $stmt->execute([$from_id, $to_id, $message]);
+	$res  = $stmt->execute([$from_id, $to_id, $message, $date]);
     
     # if the message inserted
     if ($res) {
@@ -37,18 +44,13 @@ if (isset($_SESSION['userID'])) {
        $stmt2 = $conn->prepare($sql2);
 	   $stmt2->execute([$from_id, $to_id, $from_id, $to_id]);
 
-	    // setting up the time Zone
-		// It Depends on your location or your P.c settings
-		define('TIMEZONE', 'Asia/Manila');
-		date_default_timezone_set(TIMEZONE);
-
 		$time = date("h:i A");
 
 		if ($stmt2->rowCount() == 0 ) {
 			# insert them into conversations table 
 			$sql3 = "INSERT INTO 
-			         tbl_chats(user_1, user_2)
-			         VALUES (?,?)";
+			        tbl_chats(user_1, user_2)
+			        VALUES (?,?)";
 			$stmt3 = $conn->prepare($sql3); 
 			$stmt3->execute([$from_id, $to_id]);
 		}

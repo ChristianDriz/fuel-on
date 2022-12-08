@@ -46,6 +46,10 @@ $shop = $dbh->shopDetails($shopID);
 $allProds = $dbh->allProductsStore($shopID);
 $alltransac = $dbh->countPerShopTransac($shopID);
 
+// date_default_timezone_set('Asia/Manila');
+
+// echo date("M/d/Y H:i:s a");
+
 ?>
 
 <!DOCTYPE html>
@@ -66,8 +70,9 @@ $alltransac = $dbh->countPerShopTransac($shopID);
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-viewmore-stores-allratings.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -185,7 +190,18 @@ $alltransac = $dbh->countPerShopTransac($shopID);
                         <li class="nav-item"><a class="nav-link" href="admin-viewmore-store-location.php?shopID=<?=$user['userID']?>">Store Location</a></li>
                         <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Store Permit</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="assets/includes/downloadFiles-inc.php?stationID=<?= $shopDetails['shopID'] ?>">Download Permit</a>
+                                <?php
+                                    $filetype = pathinfo($user['permit_name'], PATHINFO_EXTENSION);
+                                    if($filetype == "pdf"){
+                                ?>
+                                <a class="dropdown-item" target="_blank" href="uploads/<?php echo $user['permit_name']?>">View Permit</a>
+                                <?php
+                                    }else{
+                                ?>
+                                <a class="dropdown-item show-modal-img">View Permit</a>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </li>
                     </ul>
@@ -199,18 +215,18 @@ $alltransac = $dbh->countPerShopTransac($shopID);
                     }else{
                 ?>
                 <div class="table-div">
-                    <div>
-                        <table class="datatable row-border">
+                    <div class="table-responsive">
+                        <table class="datatable table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>Image</th>
                                     <th>Product name</th>
                                     <th>Description</th>
                                     <th>Price</th>
                                     <th>Sold</th>
                                     <th>Stock</th>
-                                    <th>Status</th>
+                                    <th style="width: 9%;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -221,7 +237,7 @@ $alltransac = $dbh->countPerShopTransac($shopID);
                                         $sold = $dbh->countShopSold($prods['productID']);
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td class="image-td">
                                         <div><img src="assets/img/products/<?=$prods['prod_image']?>"></div>
                                     </td>
@@ -263,7 +279,8 @@ $alltransac = $dbh->countPerShopTransac($shopID);
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script src="assets/js/table.js"></script>
@@ -290,6 +307,19 @@ $alltransac = $dbh->countPerShopTransac($shopID);
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+
+        $('.show-modal-img').click(function () { 
+            Swal.fire({
+                heightAuto: true,
+                imageUrl: 'uploads/<?php echo $user['permit_name'] ?>',
+                imageWidth: '100%',
+                imageAlt: 'Custom image',
+                showConfirmButton: false,
+                padding: '0 10px',
+                width: '40%',
+            })
+        });
     </script>
 </body>
 

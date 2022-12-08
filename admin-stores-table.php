@@ -42,8 +42,9 @@ session_start();
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-table.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -89,16 +90,16 @@ session_start();
             <div class="container">
                 <h4>Station Owners</h4>
                 <div class="table-div">
-                    <div>
-                        <table class="datatable row-border nowrap">
+                    <div class="table-responsive">
+                        <table class="datatable table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>Image</th>
-                                    <th>Station Name</th>
-                                    <th>Branch Name</th>
-                                    <th>Address</th>
-                                    <th>Owned By</th>
+                                    <th>Station</th>
+                                    <th>Branch</th>
+                                    <th>Station Address</th>
+                                    <th>Owner</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>TIN</th>
@@ -109,34 +110,32 @@ session_start();
                             <tbody>
                                 <?php 
                                     foreach($stations as $shops){ 
-                                       $details = $dbh->shopDetails($shops['userID']);
-                                       $stationDetails = $details[0];
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td class="image-td">
                                         <div><img src="assets/img/profiles/<?php echo $shops['user_image']?>"></div>
                                     </td>
-                                    <td><?=$stationDetails['station_name']?></td>
-                                    <td><?=$stationDetails['branch_name']?></td>
-                                    <td><?=$stationDetails['station_address']?></td>
+                                    <td><?=$shops['station_name']?></td>
+                                    <td><?=$shops['branch_name']?></td>
+                                    <td><?=$shops['station_address']?></td>
                                     <td><?=$shops['firstname']. ' ' . $shops['lastname']?></td>
                                     <td><?=$shops['email']?></td>
                                     <td><?=$shops['phone_num']?></td>
-                                    <td><?=$stationDetails['tin_number']?></td>
+                                    <td><?=$shops['tin_number']?></td>
                                     <td>
                                     <?php
                                         //open hour
-                                        $openTime = $stationDetails['opening'];
+                                        $openTime = $shops['opening'];
                                         $createdate = date_create($openTime);
                                         $Timeopen = date_format($createdate, "h:i a");
 
                                         //close hour
-                                        $closeTime = $stationDetails['closing'];
+                                        $closeTime = $shops['closing'];
                                         $createdate = date_create($closeTime);
                                         $Timeclose = date_format($createdate, "h:i a");
 
-                                        if ($stationDetails['opening'] && $stationDetails['closing'] == "00:00:00"){
+                                        if ($shops['opening'] && $shops['closing'] == "00:00:00"){
                                             echo "24 Hours Open";
                                         }
                                         else{
@@ -144,7 +143,9 @@ session_start();
                                         }
                                     ?>
                                     </td>
-                                    <td class="action-td"><a href="admin-viewmore-stores-allratings.php?shopID=<?=$shops['userID']?>">View more...</a></td>
+                                    <td class="action-td">
+                                        <a class="btn btn-light" href="admin-viewmore-stores-allratings.php?shopID=<?=$shops['userID']?>">View</a>
+                                    </td>
                                 </tr>
                                 <?php } ?>
                             </tbody>
@@ -158,7 +159,8 @@ session_start();
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script>
 

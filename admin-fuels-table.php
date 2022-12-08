@@ -43,8 +43,9 @@ session_start();
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-table.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -90,11 +91,11 @@ session_start();
             <div class="container">
                 <h4>Fuels Listed</h4>
                 <div class="table-div">
-                    <div>
-                        <table class="datatable row-border nowrap">
+                    <div class="table-responsive">
+                        <table class="datatable table">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <!-- <th></th> -->
                                     <th>Image</th>
                                     <th>Fuel name</th>
                                     <th>Fuel category</th>
@@ -117,7 +118,7 @@ session_start();
                                         // $new_date = date_format($createdate, "M d, Y");
                                 ?>
                                 <tr>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td class="image-td">
                                         <div><img src="assets/img/products/<?=$fuel['fuel_image']?>"></div>
                                     </td>
@@ -170,7 +171,8 @@ session_start();
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <!-- <script src="assets/js/table.js"></script> -->
     <script>
