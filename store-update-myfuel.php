@@ -88,7 +88,7 @@ $shopDetails = $shop[0];
                         <div class="col-12 col-lg-6 col-xl-5 kolum image-kol">
                             <p class="para">Fuel Image</p>
                             <div class="avatar-bg"><img src="assets/img/products/<?php echo $val['fuel_image'] ?>"/></div>
-                                <input class="form-control file-input image-input" type="file" name="image">
+                                <input class="form-control file-input image-input" type="file" name="image" accept="image/*">
                             <div class="leybel">
                                 <p>Maximum size: 1MB</p>
                                 <p>File extension: JPEG, PNG</p>

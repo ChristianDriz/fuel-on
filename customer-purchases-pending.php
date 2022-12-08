@@ -194,8 +194,7 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                             <p><?php echo $new_date ?></p>
                         </div>
                         <div class="cancel-div">
-                        <button class="btn cancel-order" 
-                        href="assets/includes/updateOrder-inc.php?status=cancelled&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['userID']?>&customerID=<?= $userID?>">Cancel Order</button>
+                        <button class="btn cancel-order" href="assets/includes/updateOrder-inc.php?status=cancelled&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
                         </div>
                     </div>
                     <div class="right-div">

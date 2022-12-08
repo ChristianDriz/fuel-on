@@ -110,15 +110,15 @@
                         $shopID = $station['shopID'];
                         $records = $data->sortCartCheckOut($userID, $shopID);
                         $sellers = $data->cartGetShop($shopID, $userID);
-                        $shops = !empty($sellers) ? $sellers[0] : null;
+                        $shops = $sellers[0];
                         $count = $data->countCartProductsCheckout($shopID, $userID);
                         $ordtotal = 0;
                     ?>
                     <div class="prodak">
                         <div class="seller-name">
-                            <a href="customer-viewstore-timeline.php?stationID=<?php echo $shops['userID'] ?>">
+                            <a href="customer-viewstore-timeline.php?stationID=<?php echo $shops['shopID'] ?>">
                                 <i class="fas fa-store"></i>
-                                <span style="color: rgb(33, 37, 41);">&nbsp;<?=$shops['firstname'].' '.$shops['lastname'];?></span><br>
+                                <?=$shops['station_name'].' '.$shops['branch_name'];?>
                             </a>
                         </div>
                         <?php

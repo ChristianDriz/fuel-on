@@ -52,8 +52,11 @@ $dbh = new Config();
           {   
               $path = '../img/products/'.$image;
               move_uploaded_file($tmp_name, $path); 
+
+              date_default_timezone_set('Asia/Manila');
+              $date = date("Y-m-d H:i:s");
               
-              $dbh->insertFuel($prodName, $category, $image, $price, $fuel_status, $userID);
+              $dbh->insertFuel($prodName, $category, $image, $price, $fuel_status, $date, $userID);
               $dbh->success("../../store-mytimeline.php", "Fuel added successfully!");  
           }
       }

@@ -6,7 +6,8 @@ if(isset($_SESSION['userID'])){
     $userID = $_SESSION['userID'];
 }
 
-$date = date('Y-m-d');
+date_default_timezone_set('Asia/Manila');
+$date = date("Y-m-d H:i:s");
 
 require_once("../classes/dbHandler.php");
 $dbh = new Config();
@@ -103,7 +104,7 @@ if(isset($_POST['save'])){
                 }
             }
         }
-        $dbh->updateFuelPrice($fuelID, $newPrice, $oldPrice, $date);
+        $dbh->updateFuelPrice($newPrice, $oldPrice, $date, $fuelID);
         $dbh->updateFuelStatus($fuelID, $fuel_status);
     }       
     $dbh->success("../../store-mytimeline.php", "Fuel updated successfully!");

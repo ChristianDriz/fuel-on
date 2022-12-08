@@ -201,7 +201,7 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                         ?>
                         <div class="cancel-div">
                         <button class="btn cancel-order" 
-                        href="assets/includes/updateOrder-inc.php?status=cancelled&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['userID']?>&customerID=<?= $userID?>">Cancel Order</button>
+                        href="assets/includes/updateOrder-inc.php?status=cancelled&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
                         </div>
                         <?php
                         }else if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined"){

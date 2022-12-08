@@ -52,10 +52,12 @@
 
             $type = "Ordered";
         
+            date_default_timezone_set('Asia/Manila');
+            $date = date("Y-m-d H:i:s");
 
-        $dbh->checkOut($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment);
+        $dbh->checkOut($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $date);
 
-        $dbh->createNotif($shopID, $customerID, $orderID, $type);
+        $dbh->createNotif($shopID, $customerID, $orderID, $type, $date);
         $dbh->updateProdStock($updatedStock, $prodID);
 
         $dbh->removeProdAftrChkout($customerID);

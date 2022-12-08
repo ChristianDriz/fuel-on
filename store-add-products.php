@@ -86,7 +86,7 @@ $shopDetails = $shop[0];
                         <div class="col-12 col-lg-6 col-xl-5 kolum image-kol">
                             <p class="para">Product Image</p>
                             <div class="avatar-bg"></div>
-                                <input class="form-control file-input image-input" type="file" name="image">
+                                <input class="form-control file-input image-input" type="file" name="image" accept="image/*">
                             <div class="leybel">
                                 <p>Maximum size: 1MB</p>
                                 <p>File extension: JPEG, PNG</p>

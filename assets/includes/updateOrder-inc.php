@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+date_default_timezone_set('Asia/Manila');
+$date = date("Y-m-d H:i:s");
+
 if(isset($_SESSION['userID'])){
 
     require '../classes/dbHandler.php';
@@ -61,7 +64,7 @@ if(isset($_SESSION['userID'])){
 
         $newStatus = 'Declined';
         $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
-        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
     elseif($status == 'cancelled'){
@@ -94,7 +97,7 @@ if(isset($_SESSION['userID'])){
         
         $newStatus = 'Cancelled';
         $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
-        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
     elseif($status == 'approved'){
@@ -102,7 +105,7 @@ if(isset($_SESSION['userID'])){
         $newStatus = 'To Pickup';
 
         $dbh->updateOrder($newStatus, $orderID);
-        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
     elseif($status == 'received'){
@@ -130,7 +133,7 @@ if(isset($_SESSION['userID'])){
         }
 
         $dbh->updateOrder($newStatus, $orderID);
-        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus);
+        $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
     }
 
 }

@@ -19,7 +19,7 @@ class DBHandler extends Notifications
             // $username = "root";
             // $password = "";
             // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
-            return $dbh;
+            // return $dbh;
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -123,12 +123,14 @@ class Config extends DBHandler
     //     }
     // }
 
-    public function checkOut($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment)
+    public function checkOut($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $date)
     {
         try {
-            $stmt = $this->connect()->prepare('INSERT INTO tbl_transactions(shopID, customerID, productID, product_name, price, quantity, total, orderID, payment_method, transac_date) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now());');
-            $stmt->execute(array($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment));
+            $stmt = $this->connect()->prepare('INSERT INTO tbl_transactions(shopID, customerID, 
+            productID, product_name, price, quantity, total, 
+            orderID, payment_method, transac_date) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
+            $stmt->execute(array($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $date));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -136,12 +138,12 @@ class Config extends DBHandler
     }
 
     //creating notif 
-    public function createNotif($shopID, $customerID, $orderID, $type)
+    public function createNotif($shopID, $customerID, $orderID, $type, $date)
     {
         try {
             $stmt = $this->connect()->prepare('INSERT INTO tbl_notif (shopID, customerID, orderID, notif_type, notif_date) 
-            VALUES (?, ?, ?, ?, NOW());');
-            $stmt->execute(array($shopID, $customerID, $orderID, $type));
+            VALUES (?, ?, ?, ?, ?);');
+            $stmt->execute(array($shopID, $customerID, $orderID, $type, $date));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -1093,32 +1095,32 @@ class Config extends DBHandler
         }
     }
 
-    public function getInvoiceDate($orderID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT * 
-            FROM tbl_transactions 
-            WHERE orderID = ?;');
-            $stmt->execute(array($orderID));
+    // public function getInvoiceDate($orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT * 
+    //         FROM tbl_transactions 
+    //         WHERE orderID = ?;');
+    //         $stmt->execute(array($orderID));
 
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
     
-    public function insertInvoiceDate($orderID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET invoice_date = now() WHERE orderID = ?');
-            $stmt->execute(array($orderID));
+    // public function insertInvoiceDate($orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET invoice_date = now() WHERE orderID = ?');
+    //         $stmt->execute(array($orderID));
 
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
 
     // //pang kuha ng all orders ni customer
@@ -2036,12 +2038,13 @@ class Config extends DBHandler
     //     }
     // }
 
-    public function insertFuel($fuel_type, $fuel_category, $image, $price, $fuel_status, $userID)
+    public function insertFuel($fuel_type, $fuel_category, $image, $price, $fuel_status, $date, $userID)
     {
         try {
-            $stmt = $this->connect()->prepare("INSERT INTO tbl_fuel(fuel_type, fuel_category, fuel_image, new_price, fuel_status, date_updated, shopID) VALUES(?, ?, ?, ?, ?, NOW(), ?);");
+            $stmt = $this->connect()->prepare("INSERT INTO tbl_fuel(fuel_type, fuel_category, fuel_image, new_price, fuel_status, date_updated, shopID) 
+            VALUES(?, ?, ?, ?, ?, ?, ?);");
 
-            $stmt->execute(array($fuel_type, $fuel_category, $image, $price, $fuel_status, $userID));
+            $stmt->execute(array($fuel_type, $fuel_category, $image, $price, $fuel_status, $date, $userID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -2096,11 +2099,12 @@ class Config extends DBHandler
         }
     }
 
-    public function updateFuelPrice($fuelID, $newPrice, $oldPrice, $date)
+    public function updateFuelPrice($newPrice, $oldPrice, $date, $fuelID)
     {
         try {
-            $stmt = $this->connect()->prepare("UPDATE tbl_fuel SET new_price = ?, old_price = ?, date_updated = CURRENT_DATE WHERE fuelID = ?");
-            $stmt->execute(array($newPrice, $oldPrice, $fuelID));
+            $stmt = $this->connect()->prepare("UPDATE tbl_fuel SET new_price = ?, old_price = ?, date_updated = ? 
+            WHERE fuelID = ?");
+            $stmt->execute(array($newPrice, $oldPrice, $date, $fuelID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
