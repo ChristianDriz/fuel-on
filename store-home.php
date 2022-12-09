@@ -103,10 +103,11 @@ $nostock = $data->countNoStock($userID);
                                 <h2>
                                 <?php 
                                 if (!empty($feedback)) {
-                                    echo $feedback . ' reviews';
+                                    echo $feedback;
                                 } else {
                                     echo '0';
                                 } ?>
+                                    reviews
                                 </h2>
                                 <p>about your station</p>
                                 <a class="btn" href="store-view-feedback.php">View Reviews</a>

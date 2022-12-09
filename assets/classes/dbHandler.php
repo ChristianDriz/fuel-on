@@ -2974,4 +2974,20 @@ class Config extends DBHandler
     //         die();
     //     }
     // }
+
+    //Updating the read status of the notification
+    public function updateChatTime($date, $user1, $user2)
+    {
+        try {
+            $stmt = $this->connect()->prepare('UPDATE tbl_chats
+            SET chat_date = ?
+            WHERE (user_1 = ? AND user_2 = ?)
+            OR   (user_2 = ? AND user_1 = ?)');
+
+            $stmt->execute(array($date, $user1, $user2, $user1, $user2));
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
 }

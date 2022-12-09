@@ -16,8 +16,9 @@ if (isset($_SESSION['userID'])) {
 	
 	# database connection file
 	include '../db.conn.php';
-	// include '../classes/dbHandler.php';
+	include '../classes/dbHandler.php';
 	// $conn = new DBHandler();
+	$dbh = new Config();
 
 	# get data from XHR request and store them in var
 	$message = $_POST['message'];
@@ -31,6 +32,10 @@ if (isset($_SESSION['userID'])) {
 	       VALUES (?, ?, ?, ?)";
 	$stmt = $conn->prepare($sql);
 	$res  = $stmt->execute([$from_id, $to_id, $message, $date]);
+
+	//to update chat time sa tbl_chats
+	$dbh->updateChatTime($date, $from_id, $to_id);
+
     
     # if the message inserted
     if ($res) {
@@ -53,6 +58,7 @@ if (isset($_SESSION['userID'])) {
 			        VALUES (?,?)";
 			$stmt3 = $conn->prepare($sql3); 
 			$stmt3->execute([$from_id, $to_id]);
+			$dbh->updateChatTime($date, $from_id, $to_id);
 		}
 		?>
         <link rel="stylesheet" href="assets/css/Customer%20css%20files/customer-messages.css">

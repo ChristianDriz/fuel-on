@@ -7,7 +7,7 @@ function getConversation($userid, $conn){
     **/
     $sql = "SELECT * FROM tbl_chats
             WHERE user_1 = ? OR user_2 = ?
-            ORDER BY chatID DESC";
+            ORDER BY chat_date DESC";
 
     $stmt = $conn->prepare($sql);
     $stmt->execute([$userid, $userid]);
