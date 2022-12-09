@@ -93,14 +93,9 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
             ?>
                 <div class="container" id="no-items-in-cart">
                     <div class="divv">
-                        <div class="d-flex justify-content-center">
-                            <div class="image-div">
-                                <img src="assets/img/shopping-bag.png"/>
-                            </div>
-                        </div>
-                            <p>Your cart is empty</p>
-                            <a class="btn" href="customer-products.php">View Products</a>
-                        </div>
+                        <img src="assets/img/cart2.png"/>
+                        <p>Your cart is empty</p>
+                        <a class="btn" href="customer-products.php">View Products</a>
                     </div>
                 </div>
             <?php

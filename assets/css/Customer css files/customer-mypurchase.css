@@ -62,6 +62,11 @@ body {
   text-align: center;
 }
 
+#transaction-no-order-row img {
+  width: 200px;
+  margin-left: 25px;
+}
+
 #transaction-no-order-row p {
   color: #3e3d3d;
   font-size: 18px;

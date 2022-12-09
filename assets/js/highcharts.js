@@ -30,7 +30,7 @@ $(function () {
                 type: 'category',
                 labels: {
                     formatter: function () {
-                         return 'Month ' + this.axis.defaultLabelFormatter.call(this);
+                        return 'Month ' + this.axis.defaultLabelFormatter.call(this);
                     }            
                 },
             },

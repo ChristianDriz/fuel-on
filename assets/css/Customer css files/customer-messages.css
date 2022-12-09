@@ -159,6 +159,7 @@ body {
 
 .details {
   margin-left: 10px;
+  width: 100%;
 }
 
 .details .chat {
@@ -180,12 +181,19 @@ body {
 
 .chat-div {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
 }
 
-.chat-div .chat-message.unread, .chat-div .date.unread {
+.chat-div .chat-message.unread {
   color: #2a7ae8;
   font-weight: 600;
+  margin: 0;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .chat-div .chat-message {
@@ -200,11 +208,18 @@ body {
 }
 
 .chat-div .date {
+  text-align: right;
+  min-width: 82px;
   margin: 0;
   font-size: 15px;
   color: #3e3d3d;
   margin-left: 10px;
   position: relative;
+}
+
+.chat-div .date.unread {
+  color: #2a7ae8;
+  font-weight: 600;
 }
 
 .chat-div .date .fas {

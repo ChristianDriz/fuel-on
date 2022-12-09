@@ -70,7 +70,7 @@ $nonverifiedcustomers = $dbh->superAdminUsersnonVerified();
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand"> <a href="admin-home-panel.php"><i class="fas fa-home"></i><span class="icon-name">Dashboard</span></a></li>
-            <li class="sidebar-brand"> <a class="actives" href="admin-normal-user-table.php"><i class="fas fa-user-tag"></i><span class="icon-name">Normal Users</span></a></li>
+            <li class="sidebar-brand"> <a class="actives" href="admin-normal-user-table.php"><i class="fas fa-users"></i><span class="icon-name">Normal Users</span></a></li>
             <li class="sidebar-brand"> <a href="admin-stores-table.php"><i class="fas fa-store"></i><span class="icon-name">Station Owners</span></a></li>
             <li class="sidebar-brand"> <a href="admin-table.php"><i class="fas fa-user-tie"></i><span class="icon-name">Admins</span></a></li>
             <li class="sidebar-brand"> <a href="admin-products-table.php"><i class="fas fa-shopping-basket"></i><span class="icon-name">Products</span></a></li>

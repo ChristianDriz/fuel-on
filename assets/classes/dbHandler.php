@@ -1240,12 +1240,27 @@ class Config extends DBHandler
     public function countCritical($shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_products WHERE quantity < 10 AND shopID = ?');
-
+            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_products 
+            WHERE quantity < 10 
+            AND quantity != 0 
+            AND shopID = ?');
             $stmt->execute(array($shopID));
-
             return $stmt->fetchColumn();
+            //return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
 
+    public function countNoStock($shopID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_products 
+            WHERE quantity = 0
+            AND shopID = ?');
+            $stmt->execute(array($shopID));
+            return $stmt->fetchColumn();
             //return $stmt->fetchAll();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";

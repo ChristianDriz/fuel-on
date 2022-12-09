@@ -41,8 +41,9 @@ $shopDetails = $shop[0];
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Store%20css%20files/store-navigation.css">
     <link rel="stylesheet" href="assets/css/Store%20css%20files/store-view-sales.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -106,14 +107,14 @@ $shopDetails = $shop[0];
                         <?php
                             }else{
                         ?>
-                        <div>
-                            <table class="mydatatable row-border">
+                        <div class="table-responsive">
+                            <table class="mydatatable table">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <!-- <th></th> -->
                                         <th>Product Details</th>
                                         <th class="text-center" style="width: 12%;">Date</th>
-                                        <th class="text-center">Unit Cost</th>
+                                        <th class="text-center" style="width: 10%;">Unit Cost</th>
                                         <th class="text-center">Qty</th>
                                         <th class="text-center">Amount</th>
                                     </tr>
@@ -129,7 +130,7 @@ $shopDetails = $shop[0];
                                             $new_date = date_format($createdate, "M d, Y");
                                     ?>
                                     <tr>
-                                        <td></td>
+                                        <!-- <td></td> -->
                                         <td><?php echo $row['product_name']?></td>
                                         <td class="text-end"><?php echo $new_date?></td>
                                         <td class="text-end">₱<?php echo number_format($row['price'], 2)?></td>
@@ -142,7 +143,7 @@ $shopDetails = $shop[0];
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th></th>
+                                        <!-- <th></th> -->
                                         <th class="generate"><a class="btn" target="_blank" href="generate-sales-report.php">Generate Report</a></th>
                                         <th class="text-end" colspan="3">TOTAL</th>
                                         <th class="text-end">₱<?php echo number_format($grandtotal, 2)?></th>
@@ -179,7 +180,8 @@ $shopDetails = $shop[0];
     <script src="assets/js/sort-sales.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script> -->
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script>
         let table = new DataTable('.mydatatable', {
             scrollY: 450,
