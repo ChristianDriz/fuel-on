@@ -40,27 +40,27 @@ if(isset($_SESSION['userID'])){
 
     if($status == 'declined'){
         //pang balik ng quantity if declined order
-        $prodQuant = $dbh->getProdQuantity($orderID);
-        $transQuant = $dbh->getTransQuantity($orderID);
-        $solver = $dbh->getOrdProducts($orderID);
+        // $prodQuant = $dbh->getProdQuantity($orderID);
+        // $transQuant = $dbh->getTransQuantity($orderID);
+        // $solver = $dbh->getOrdProducts($orderID);
 
-        foreach ($prodQuant as $prodq){
-            $id[] = $prodq['productID'];
-            $prod[] = $prodq['quantity'];    
-        }
+        // foreach ($prodQuant as $prodq){
+        //     $id[] = $prodq['productID'];
+        //     $prod[] = $prodq['quantity'];    
+        // }
 
-        foreach($transQuant as $transq){
-            $tran[] = $transq['quantity'];
-        }
+        // foreach($transQuant as $transq){
+        //     $tran[] = $transq['quantity'];
+        // }
 
-        $i = 0;
+        // $i = 0;
 
-        foreach($solver as $newq){
-            $newQ = $prod[$i] + $tran[$i].'<br>';
-            $prodID = $id[$i];
-            $dbh->updateQuantity($newQ, $prodID);
-            $i++;
-        }
+        // foreach($solver as $newq){
+        //     $newQ = $prod[$i] + $tran[$i].'<br>';
+        //     $prodID = $id[$i];
+        //     $dbh->updateQuantity($newQ, $prodID);
+        //     $i++;
+        // }
 
         $newStatus = 'Declined';
         $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
@@ -110,27 +110,27 @@ if(isset($_SESSION['userID'])){
     }
     elseif($status == 'received'){
         $newStatus = 'Completed';
-        $prodQuant = $dbh->getProdQuantity($orderID);
-        $transQuant = $dbh->getTransQuantity($orderID);
-        $solver = $dbh->getOrdProducts($orderID);
+        // $prodQuant = $dbh->getProdQuantity($orderID);
+        // $transQuant = $dbh->getTransQuantity($orderID);
+        // $solver = $dbh->getOrdProducts($orderID);
 
-        foreach ($prodQuant as $prodq){
-            $id[] = $prodq['productID'];
-            $prod[] = $prodq['quantity'];    
-        }
+        // foreach ($prodQuant as $prodq){
+        //     $id[] = $prodq['productID'];
+        //     $prod[] = $prodq['quantity'];    
+        // }
 
-        foreach($transQuant as $transq){
-            $tran[] = $transq['quantity'];
-        }
+        // foreach($transQuant as $transq){
+        //     $tran[] = $transq['quantity'];
+        // }
 
-        $i = 0;
+        // $i = 0;
 
-        foreach($solver as $newq){
-            $newQ = $prod[$i] - $tran[$i].'<br>';
-            $prodID = $id[$i];
-            $dbh->updateQuantity($newQ, $prodID);
-            $i++;
-        }
+        // foreach($solver as $newq){
+        //     $newQ = $prod[$i] - $tran[$i].'<br>';
+        //     $prodID = $id[$i];
+        //     $dbh->updateQuantity($newQ, $prodID);
+        //     $i++;
+        // }
 
         $dbh->updateOrder($newStatus, $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
