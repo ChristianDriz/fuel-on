@@ -181,7 +181,7 @@ body {
 
 .chat-div {
   display: flex;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
 }
 
 .chat-div .chat-message.unread {
@@ -208,8 +208,8 @@ body {
 }
 
 .chat-div .date {
-  text-align: right;
-  min-width: 82px;
+  /*text-align: right;*/
+  /*min-width: 40px;*/
   margin: 0;
   font-size: 15px;
   color: #3e3d3d;
@@ -232,6 +232,7 @@ body {
 .status .fas {
   color: #0695FF;
   font-size: 12px;
+  margin-left: 10px;
 }
 
 /* end for list ng chats */
@@ -427,4 +428,36 @@ body {
   #convo .body .message {
     max-width: 15rem;
   }
+}
+
+.date-hover-div {
+  position: relative;
+}
+
+.date-hover {
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px #c1bbbb;
+  padding: 5px 10px;
+  border-radius: 8px;
+  position: absolute;
+  color: #3e3d3d;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transition-delay: 0.5s;
+}
+
+.date-hover.sender {
+  right: 0;
+}
+
+.date-hover.receiver {
+  left: 0;
+}
+
+.date-hover-div:hover .date-hover {
+  top: -15px;
+  visibility: visible;
+  opacity: 1;
 }

@@ -18,6 +18,35 @@ function getChats($id_1, $id_2, $conn){
     }
 }
 
+// function time_elapsed_string($datetime)
+// {
+//     date_default_timezone_set('Asia/Manila');
+//     $time_ago = strtotime($datetime);  
+//     $current_time = time();  
+//     $time_difference = $current_time - $time_ago;  
+//     $seconds = $time_difference;  
+//     $minutes = round($seconds / 60 ); // value 60 is seconds  
+//     $hours = round($seconds / 3600); //value 3600 is 60 minutes * 60 sec  
+//     $days = round($seconds / 86400); //86400 = 24 * 60 * 60;  
+//     $weeks = round($seconds / 604800); // 7*24*60*60;  
+//     $months = round($seconds / 2629440); //((365+365+365+365+366)/5/12)*24*60*60  
+//     $years = round($seconds / 31553280); //(365+365+365+365+366)/5 * 24 * 60 * 60  
+
+
+//     if ($hours <= 24){
+//         $createdate = date_create($datetime);
+//         $new_date = date_format($createdate, "h:i A");
+
+//         return $new_date;
+//     }
+//     else {
+//         $createdate = date_create($datetime);
+//         $new_date = date_format($createdate, "F d, Y h:i A");
+
+//         return $new_date;
+//     }
+// }
+
 function time_elapsed_string($datetime)
 {
     date_default_timezone_set('Asia/Manila');

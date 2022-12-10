@@ -29,14 +29,14 @@
     <?php
         }else{
     ?>
-        <div>
-            <table class="mydatatable row-border">
+        <div class="table-responsive">
+            <table class="mydatatable table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <!-- <th></th> -->
                         <th>Product Details</th>
                         <th class="text-center" style="width: 12%;">Date&nbsp;</th>
-                        <th class="text-center">Unit Cost</th>
+                        <th class="text-center" style="width: 10%;">Unit Cost</th>
                         <th class="text-center">Qty</th>
                         <th class="text-center">Amount</th>
                     </tr>
@@ -52,7 +52,7 @@
                             $new_date = date_format($createdate, "M d, Y");
                     ?>
                     <tr>
-                        <td></td>
+                        <!-- <td></td> -->
                         <td><?php echo $row['product_name']?></td>
                         <td class="text-center"><?php echo $new_date?></td>
                         <td class="text-end">₱<?php echo number_format($row['price'], 2)?></td>
@@ -65,7 +65,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th></th>
+                        <!-- <th></th> -->
                         <th class="generate"><a class="btn" target="_blank" href="generate-sales-report.php?from_date=<?=$from_date?>&to_date=<?=$to_date?>">Generate Report</a></th>
                         <th class="text-end" colspan="3">TOTAL</th>
                         <th class="text-end">₱<?php echo number_format($grandtotal, 2)?></th>

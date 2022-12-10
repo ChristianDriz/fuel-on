@@ -147,6 +147,7 @@
                 <li class="sidebar-brand"> <a href="admin-table.php"><i class="fas fa-user-tie"></i><span class="icon-name">Admins</span></a></li>
                 <li class="sidebar-brand"> <a href="admin-products-table.php"><i class="fas fa-shopping-basket"></i><span class="icon-name">Products</span></a></li>
                 <li class="sidebar-brand"> <a href="admin-fuels-table.php"><i class="fas fa-gas-pump"></i><span class="icon-name">Fuels</span></a></li>
+                <li class="sidebar-brand"> <a href="admin-store-locations.php"><i class="fas fa-map-marked-alt"></i><span class="icon-name">Station Locations</span></a></li>
                 <li class="sidebar-brand"> 
                     <a href="admin-store-approval.php"><i class="fas fa-user-check"></i><span class="icon-name">Pending Approval</span></a>
                     <?php 
@@ -204,12 +205,14 @@
 
                                 if($chat['senderID'] == $_SESSION['userID'])
                                 { ?>
-                                    <div class="outgoing-chat">
+                                    <div class="outgoing-chat date-hover-div">
+                                        <!-- <span class="date-hover sender"><?=$time?></span> -->
                                         <p class="message user-chat"><?=$chat['message']?> </p>
-                                        <p class="send-date"><?=$time?><br></p>  
+                                        <p class="send-date"><?=$time?></p>  
                                     </div>
                                 <?php }else{ ?>
-                                    <div class="incoming-chat">
+                                    <div class="incoming-chat date-hover-div">
+                                        <!-- <span class="date-hover receiver"><?=$time?></span> -->
                                         <p class="message"><?=$chat['message']?></p>
                                         <p class="send-date"><?=$time?></p>
                                     </div>

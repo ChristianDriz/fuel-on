@@ -157,9 +157,9 @@ $shopDetails = $shop[0];
                     </div>
                 </div>           
                 <div class="chart-container">
-                    <figure class="figure highcharts-figure">
-                        <div id="chart" class="chart"></div>
-                    </figure>
+                    <!-- <figure class="figure highcharts-figure"> -->
+                        <canvas id="chart" class="chart"></canvas>
+                    <!-- </figure> -->
                 </div>     
             </div>
         </div>
@@ -173,10 +173,11 @@ $shopDetails = $shop[0];
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
-    <script src="assets/js/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="assets/js/charttt.js"></script>
+    <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
     <script src="assets/js/sort-sales.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.1/datatables.min.js"></script>

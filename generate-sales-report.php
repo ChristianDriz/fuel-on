@@ -176,9 +176,6 @@ $html = '
             </div>
         </div>
         <div class="above-signature">
-            <div class="prepaired">
-                <p>Prepaired by:&nbsp;<span> </span></p>
-            </div>
             <div class="received">
                 <p>Received by: <strong>'.$shopdetails['firstname'].' '. $shopdetails['lastname'].'</strong></p>
             </div>

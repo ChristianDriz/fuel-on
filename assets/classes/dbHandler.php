@@ -11,15 +11,15 @@ class DBHandler extends Notifications
         try {
             //CHANGE THIS BEFORE UPLOADING IN HOSTING
 
-            $username = "u887826340_db_fuelon";
-            $password = "Schuzoo.1227";
-            $dbh = new PDO('mysql:host=localhost;dbname=u887826340_db_fuelon', $username, $password);
-            return $dbh;
-
-            // $username = "root";
-            // $password = "";
-            // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
+            // $username = "u887826340_db_fuelon";
+            // $password = "Schuzoo.1227";
+            // $dbh = new PDO('mysql:host=localhost;dbname=u887826340_db_fuelon', $username, $password);
             // return $dbh;
+
+            $username = "root";
+            $password = "";
+            $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
+            return $dbh;
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -2537,24 +2537,25 @@ class Config extends DBHandler
     public function getchartData($shopID, $status, $frequency = 'Monthly')
     {
         try {
-            $stmt = $this->connect()->prepare("SELECT MONTH(transac_date) as frequency, SUM(total) as averageSale 
+            $stmt = $this->connect()->prepare("SELECT 
+            MONTHNAME(transac_date) as Month, SUM(total) as amount
             FROM tbl_transactions 
-            WHERE shopID = ? 
+            WHERE shopID = ?
             AND order_status = ?
-            GROUP BY MONTH(transac_date)
-            ORDER BY MONTH(transac_date) ASC");
+            GROUP BY MONTH(transac_date)");
             $stmt->execute(array($shopID, $status));
-            $results = $stmt->fetchAll();
-            $data = [];
+            return $stmt->fetchAll();
+            
+            // $data = [];
 
-            $rData = [];
-            foreach ($results as $result) {
-                $data['categories'][] = $result['frequency'];
-                $rData[] = [$result['frequency'], (int)$result['averageSale']];
-            }
-            $data['series'][] = ['name' => 'Month', 'data' => $rData];
+            // $rData = [];
+            // foreach ($results as $result) {
+            //     $data['categories'][] = $result['frequency'];
+            //     $rData[] = [$result['frequency'], (int)$result['averageSale']];
+            // }
+            // $data['series'][] = ['name' => 'Month', 'data' => $rData];
 
-            return json_encode($data);
+            // return json_encode($data);
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();

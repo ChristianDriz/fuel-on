@@ -20,4 +20,4 @@
     }
 
     $dbh->setUserLocation($mapLat, $mapLang, $userID);
-    $dbh->success("../../customer-setlocation.php", "Location has been updated.");
+    $dbh->success("../../customer-map.php", "Location has been updated.");

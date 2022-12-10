@@ -99,6 +99,15 @@ $data = new Config();
 					?>
 				</div>
 			</div>
+			<?php
+				if($chat['opened'] == 0 && $chat['senderID'] != $userID){
+			?>
+			<div class="status">
+				<i class="fas fa-circle"></i>
+			</div>
+			<?php
+				}	
+			?>
 		</div>
 	</a>
 	<?php 

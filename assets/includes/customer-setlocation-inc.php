@@ -20,4 +20,4 @@
     }
 
     $dbh->setUserLocation($mapLat, $mapLang, $userID);
-    $dbh->success("../../customer-map.php", "Location has been set.");
+    $dbh->success('../../customer-map.php', 'Location has been set. You can now see the nearest station by clicking the button "Show Nearest Station"');

@@ -148,7 +148,7 @@ body {
   
   .received {
 	text-align: right;
-	margin-top: -40px;
+	/* margin-top: -40px; */
   }
   
   .received span {
