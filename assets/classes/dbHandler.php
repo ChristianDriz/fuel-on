@@ -11,15 +11,15 @@ class DBHandler extends Notifications
         try {
             //CHANGE THIS BEFORE UPLOADING IN HOSTING
 
-            // $username = "u887826340_db_fuelon";
-            // $password = "Schuzoo.1227";
-            // $dbh = new PDO('mysql:host=localhost;dbname=u887826340_db_fuelon', $username, $password);
-            // return $dbh;
-
-            $username = "root";
-            $password = "";
-            $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
+            $username = "u887826340_db_fuelon";
+            $password = "Schuzoo.1227";
+            $dbh = new PDO('mysql:host=localhost;dbname=u887826340_db_fuelon', $username, $password);
             return $dbh;
+
+            // $username = "root";
+            // $password = "";
+            // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
+            // return $dbh;
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
