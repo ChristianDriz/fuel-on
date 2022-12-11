@@ -8,38 +8,44 @@ if (isset($_SESSION['userID'])) {
 
     # check if the key is submitted
     if(isset($_POST['key'])){
-       # database connection file
-	   include '../db.conn.php';
+        # database connection file
+	    include '../db.conn.php';
+        
+        require_once("../classes/dbHandler.php");
+        $dbh = new Config();
 
-	   # creating simple search algorithm :) 
-	   $key = "%{$_POST['key']}%";
+	    # creating simple search algorithm :) 
+	    $key = "%{$_POST['key']}%";
 
-       if($type == 1){
-        $sql = "SELECT tbl_users.*, tbl_station.*
-        FROM tbl_users, tbl_station
-        WHERE tbl_users.userID = tbl_station.shopID
-        AND user_type = 2
-        AND verified = 1
-        AND CONCAT(tbl_station.station_name, ' ', tbl_station.branch_name) LIKE ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$key]);
+        //normal user
+        if($type == 1){
+            $sql = "SELECT tbl_users.*, tbl_station.*
+            FROM tbl_users, tbl_station
+            WHERE tbl_users.userID = tbl_station.shopID
+            AND user_type = 2
+            AND verified = 1
+            AND CONCAT(tbl_station.station_name, ' ', tbl_station.branch_name) LIKE ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$key]);
         }
+        //stations
         elseif($type == 2){
-        $sql = "SELECT * FROM tbl_users
-        WHERE (user_type = 1 OR user_type = 0) 
-        AND verified = 1
-        AND CONCAT(firstname, ' ', lastname) LIKE ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$key]);
-       }
-       elseif($type == 0){
-        $sql = "SELECT * FROM tbl_users
-        WHERE (user_type = 1 OR user_type = 2) 
-        AND verified = 1
-        AND firstname LIKE ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$key]);
-       }
+            $sql = "SELECT * FROM tbl_users
+            WHERE user_type = 1 
+            AND verified = 1
+            AND CONCAT(firstname, ' ', lastname) LIKE ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$key]);
+        }
+        //admin
+        elseif($type == 0){
+            $sql = "SELECT * FROM tbl_users
+            WHERE (user_type = 1 OR user_type = 2) 
+            AND verified = 1
+            AND firstname LIKE ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([$key]);
+        }
      
        if($stmt->rowCount() > 0){ 
          $users = $stmt->fetchAll();
@@ -55,18 +61,37 @@ if (isset($_SESSION['userID'])) {
                     </div>
                     <div class="details">
                         <?php
-                            if($user['user_type'] == 0 ){
+                            if($type == 0){
+                                if($user['user_type'] == 0 ){
                         ?>
-                        <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
+                            <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
                         <?php
-                            }elseif($user['user_type'] == 1){
+                                }elseif($user['user_type'] == 1){
                         ?>
-                        <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
+                            <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
                         <?php
-                            }elseif($user['user_type'] == 2){
+                                }elseif($user['user_type'] == 2){
+                                $shopDetails = $dbh->shopDetails($user['userID']);
+                                $shop = $shopDetails[0];
                         ?>
-                        <p class="chat name"><?=$user['station_name'].' '.$user['branch_name']?></p>
+                            <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
+                            <p style="color: black;">(<?=$shop['station_name'].' '.$shop['branch_name']?>)</p>
                         <?php
+                                }
+                            }else{
+                                if($user['user_type'] == 0 ){
+                        ?>
+                            <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
+                        <?php
+                                }elseif($user['user_type'] == 1){
+                        ?>
+                            <p class="chat name"><?=$user['firstname'].' '.$user['lastname']?></p>
+                        <?php
+                                }elseif($user['user_type'] == 2){
+                        ?>
+                            <p class="chat name"><?=$user['station_name'].' '.$user['branch_name']?></p>
+                        <?php
+                                }
                             }
                         ?>
                     </div>

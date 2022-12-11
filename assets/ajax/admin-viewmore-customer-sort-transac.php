@@ -16,24 +16,22 @@
 
 
     if($filter == "ordered"){
-        $statusOne = 'Ordered';
-        $statusTwo = 'Pending';
-        $orders = $dbh->customerOrderCount($customerID, $statusOne, $statusTwo);
+        $status = 'Ordered';
+        $orders = $dbh->customerOrderCount($customerID, $status);
         
     }elseif($filter == "pickup"){
-        $statusOne = 'To Pickup';
-        $statusTwo = 'Unreceived';
-        $orders = $dbh->customerOrderCount($customerID, $statusOne, $statusTwo);
+        $status = 'To Pickup';
+        $orders = $dbh->customerOrderCount($customerID, $status);
 
     }elseif($filter == "completed"){
-        $statusOne = 'Completed';
-        $statusTwo = 'Successful';
-        $orders = $dbh->customerOrderCount($customerID, $statusOne, $statusTwo);
+        $status = 'Completed';
+        $orders = $dbh->customerOrderCount($customerID, $status);
 
     }elseif($filter == "cancelled"){
         $statusOne = 'Cancelled';
         $statusTwo = 'Declined';
-        $orders = $dbh->customerOrderCount($customerID, $statusOne, $statusTwo);
+        $statusThree = 'Pickup Failed';
+        $orders = $dbh->customerOrderCountCancelled($customerID, $statusOne, $statusTwo, $statusThree);
 
     }elseif($filter == "all"){
         $orders = $dbh->CustomerAllOrder($customerID);
@@ -93,6 +91,7 @@
                 $reason2 = 'Found something else cheaper';
                 $reason3 = 'Others / Change of mind';
                 $reason4 = 'Out of stock';
+                $reason5 = 'Did not picked up the order';
             ?>
             <div class="summary">
                 <div class="left-div">
@@ -103,7 +102,7 @@
                         <p><?php echo $new_date ?></p>
                     </div>  
                     <?php
-                    if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined"){
+                    if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined" || $val['order_status'] == "Pickup Failed"){
                     ?>
                     <div class="cancel-div">
                         <span>Cancellation Details:</span>
@@ -123,6 +122,10 @@
                         }elseif($val['cancel_reason'] == "reason4"){
                         ?>  
                             <p>Reason: <?php echo $reason4?></p>
+                        <?php
+                        }elseif($val['cancel_reason'] == "reason5"){
+                        ?>
+                            <p>Reason: <?php echo $reason5?></p>
                         <?php
                         }?>
                     </div>

@@ -52,7 +52,7 @@ if (isset($_SESSION['userID'])) {
                         <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-pickup.php">
                             <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                             <div class="notif-details">
-                                <p class="name"><?php echo $DetailsNotif['name']?> Approved your order</p>
+                                <p class="name"><?php echo $DetailsNotif['name']?> Approved your order and ready to pickup</p>
                                 <p class="order-id"><?php echo $notifs['orderID']?></p>
                                 <p class="notif-date"><?php echo $notifTime?></p>
                             </div>
@@ -75,6 +75,17 @@ if (isset($_SESSION['userID'])) {
                             <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                             <div class="notif-details">
                                 <p class="name">Your order is completed</p>
+                                <p class="order-id"><?php echo $notifs['orderID']?></p>
+                                <p class="notif-date"><?php echo $notifTime?></p>
+                            </div>
+                        </button>
+                        <?php
+                            //When the order of the customer is cancelled bec not picked up
+                            }elseif($notifs['notif_type'] == "Pickup Failed"){?>
+                        <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-cancelled.php">
+                            <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
+                            <div class="notif-details">
+                                <p class="name">Your order has been cancelled because it was not picked up</p>
                                 <p class="order-id"><?php echo $notifs['orderID']?></p>
                                 <p class="notif-date"><?php echo $notifTime?></p>
                             </div>

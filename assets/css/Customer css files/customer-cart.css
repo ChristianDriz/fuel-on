@@ -127,6 +127,12 @@ body {
   color: #3e3d3d;
 }
 
+.message-icon svg {
+  margin-left: 5px;
+  color: #fea600;
+  font-size: 18px;
+}
+
 .sa-products {
   padding-left: 20px;
   display: flex;

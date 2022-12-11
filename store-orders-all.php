@@ -69,7 +69,17 @@ $shopDetails = $shop[0];
             <ul class="sidebar-nav">
                 <li class="sidebar-brand"> <a href="store-home.php"><i class="fas fa-home"></i><span class="icon-name">Dashboard</span></a></li>
                 <li class="sidebar-brand"> <a href="store-location.php"><i class="fas fa-map-marked-alt"></i><span class="icon-name">Location</span></a></li>
-                <li class="sidebar-brand"> <a class="actives" href="store-orders-all.php"><i class="fas fa-shopping-basket"></i><span class="icon-name">Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a class="actives" href="store-orders-all.php">
+                        <i class="fas fa-shopping-basket"></i><span class="icon-name">Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountShop($userID);
+                    if($orderCounter != 0){?>
+                        <sup><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="store-mytimeline.php"><i class="fas fa-store"></i><span class="icon-name">Profile</span></a></li>
                 <li class="sidebar-brand"> <a href="store-myproducts.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">Products</span></a></li>
                 <li class="sidebar-brand"> <a href="store-view-sales.php"><i class="fas fa-chart-bar"></i><span class="icon-name">View Sales</span></a></li>
@@ -177,56 +187,83 @@ $shopDetails = $shop[0];
                 $reason2 = 'Found something else cheaper';
                 $reason3 = 'Others / Change of mind';
                 $reason4 = 'Out of stock';
+                $reason5 = 'Did not picked up the order';
             ?>
             <div class="summary">
                 <div class="left-div">
                     <div class="payment-div"><span>Payment:</span>
                         <p><?php echo $val['payment_method']?></p>
                     </div>
+                    <?php
+                        if($val['order_status'] == "To Pickup"){
+                    ?>                   
+                    <div class="order-date-div"><span>Order Date:</span>
+                        <p><?php echo $new_date ?></p>
+                    </div>
+                    <div class="order-date-div"><span>Date Approved:</span>
+                        <p><?php echo $new_date ?></p>
+                    </div>
+                    <?php
+                        }else{
+                    ?>
                     <div class="order-date-div"><span>Order Date:</span>
                         <p><?php echo $new_date ?></p>
                     </div>
                     <?php
+                        }
+                        
                         if($val['order_status'] == "Ordered")
                         {
                     ?>
                     <div class="cancel-div">
-                    <button class="btn decline-btn" 
-                    href="assets/includes/updateOrder-inc.php?status=declined&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">Decline</button>
-                    <button class="btn accept-btn" 
-                    href="assets/includes/updateOrder-inc.php?status=approved&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">Accept</button>
+                        <button class="btn decline-btn" href="assets/includes/updateOrder-inc.php?status=declined&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">
+                            Decline
+                        </button>
+                        <button class="btn accept-btn" href="assets/includes/updateOrder-inc.php?status=approved&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">
+                            Accept
+                        </button>
                     </div>
                     <?php
                         }elseif($val['order_status'] == "To Pickup"){
                     ?>
                     <div class="cancel-div">
-                    <button class="btn complete-btn" 
-                    href="assets/includes/updateOrder-inc.php?status=received&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">Order Completed</button>
+                        <!--PANG CANCEN NG ORDER IF NOT PICKED UP-->
+                        <button class="btn decline-btn cancel-btn" href="assets/includes/updateOrder-inc.php?status=pickup_failed&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">
+                            Cancel
+                        </button>
+                        <!--PANG COMPLETE NG ORDER-->
+                        <button class="btn complete-btn" href="assets/includes/updateOrder-inc.php?status=received&orderID=<?=$row['orderID']?>&shopID=<?=$userID?>&customerID=<?= $buyer['userID']?>">
+                            Completed
+                        </button>
                     </div>
                     <?php
-                    }else{
+                        }else if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined" || $val['order_status'] == "Pickup Failed"){
                     ?>
-                    <div class="cancel-div">
-                        <span>Cancellation Details:</span>
-                    <?php 
-                    if($val['cancel_reason'] == "reason1"){
-                    ?>
-                        <p>Reason: <?php echo $reason1?></p>
-                    <?php
-                    }elseif($val['cancel_reason'] == "reason2"){
-                    ?>
-                        <p>Reason: <?php echo $reason2?></p>
-                    <?php
-                    }elseif($val['cancel_reason'] == "reason3"){
-                    ?>
-                        <p>Reason: <?php echo $reason3?></p>
-                    <?php
-                    }elseif($val['cancel_reason'] == "reason4"){
-                    ?>  
-                        <p>Reason: <?php echo $reason4?></p>
-                    <?php
-                    }?>
-                    </div>
+                        <div class="cancel-div">
+                            <span>Cancellation Details:</span>
+                            <?php 
+                            if($val['cancel_reason'] == "reason1"){
+                            ?>
+                                <p>Reason: <?php echo $reason1?></p>
+                            <?php
+                            }elseif($val['cancel_reason'] == "reason2"){
+                            ?>
+                                <p>Reason: <?php echo $reason2?></p>
+                            <?php
+                            }elseif($val['cancel_reason'] == "reason3"){
+                            ?>
+                                <p>Reason: <?php echo $reason3?></p>
+                            <?php
+                            }elseif($val['cancel_reason'] == "reason4"){
+                            ?>  
+                                <p>Reason: <?php echo $reason4?></p>
+                            <?php
+                            }elseif($val['cancel_reason'] == "reason5"){
+                            ?>
+                                <p>Reason: <?php echo $reason5?></p>
+                            <?php
+                            }?>
+                        </div>
                     <?php
                     }
                     ?>
@@ -241,12 +278,24 @@ $shopDetails = $shop[0];
                     <?php
                         if($val['order_status'] == "To Pickup"){
                     ?>
-                    <a class="btn print" target="_blank" href="generate-invoice.php?orderId=<?= $row['orderID'] ?>&shopID=<?= $userID?>&customerID=<?= $row['customerID']?>">Generate Bill</a>
+                    <a class="btn print" target="_blank" href="generate-invoice.php?orderId=<?= $row['orderID'] ?>&shopID=<?= $userID?>&customerID=<?= $row['customerID']?>">
+                        <i class="fas fa-print"></i>
+                        Print Invoice
+                    </a>
                     <?php
                         }
                     ?>
                 </div>
             </div>
+            <?php
+                if($val['order_status'] == "To Pickup"){
+            ?>
+            <div class="note-div">
+                <p>Note: Customer must pickup the order within 7 days upon approval.</p>
+            </div>
+            <?php
+                }
+            ?>
         </div>
         <?php 
             } 
@@ -410,6 +459,59 @@ $shopDetails = $shop[0];
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+
+        //CONFIRMATION TO CANCEL THE ORDER THAT IS NOT PICKED UP
+        $('.cancel-btn').click(function (e) { 
+            e.preventDefault();
+            const url = $(this).attr('href');
+
+            Swal.fire({
+                title: 'Confirmation',
+                text: "Are you sure that this order will be cancelled?",
+                icon: 'question',
+                showCancelButton: true,
+                cancelButtonText: 'No',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const { value: reason } = Swal.fire({
+                        title: 'Please select a reason',
+                        input: 'select',
+                        inputPlaceholder: 'Select reason',
+                        showCancelButton: true,
+                        inputOptions: {
+                            reason4: 'Did not pick up the order'
+                        },
+                        inputValidator: (value) => {
+                            return new Promise((resolve) => {
+                                if (value) {
+                                    resolve()
+                                        $.ajax({
+                                            type: "GET",
+                                            url,
+                                            data: "reason=" + value,
+                                            success: function (data) {
+                                                Swal.fire({
+                                                    title: 'Order has been cancelled',
+                                                    icon: 'success',
+                                                    button: true,
+                                                }).then(() => {
+                                                    location.reload();
+                                                });
+                                            }
+                                        });
+                                }else{
+                                    resolve('You need to select reason')
+                                }
+                            })
+                        }
+                    })
+                }
+            }) 
+        });  
     </script>
 </body>
 

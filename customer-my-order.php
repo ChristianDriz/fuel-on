@@ -85,7 +85,17 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                     <?php
                     }?>
                 </li>
-                <li class="sidebar-brand"> <a class="actives" href="customer-my-order.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a class="actives" href="customer-my-order.php">
+                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountCustomer($userID);
+                    if($orderCounter != 0){?>
+                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
             </ul>
         </div>
@@ -145,7 +155,18 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
         <div class="prodak">
             <div class="seller-name">
                 <div class="seller-div">
-                    <a><i class="fas fa-store"></i><span>&nbsp;<?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?> Branch</span><br></a>
+                    <a>
+                        <i class="fas fa-store"></i>
+                        <?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?>
+                    </a>
+                    <a class="message-icon" href="chat-box.php?userID=<?=$shopDetails['shopID']?>&userType=<?=$shopDetails['user_type']?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-message">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4"></path>
+                            <line x1="8" y1="9" x2="16" y2="9"></line>
+                            <line x1="8" y1="13" x2="14" y2="13"></line>
+                        </svg>
+                    </a>
                 </div>
                 <div class="order-id-div">
                     <p><?php echo $row['orderID']?></p>
@@ -160,6 +181,15 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                         $date = $row['transac_date'];
                         $createdate = date_create($date);
                         $new_date = date_format($createdate, "M d, Y h:i:s A");
+
+                        
+                        // to get the order approval date 
+                        $orderDate = $data->getOrderDate($row['orderID'], $row['order_status']);
+                        $ordDate = $orderDate[0];
+
+                        $date = $ordDate['notif_date'];
+                        $createdate = date_create($date);
+                        $date_approved = date_format($createdate, "M d, Y h:i:s A");
                 ?>
                 <div class="sa-products">
                     <div class="product-col">
@@ -186,25 +216,40 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                     $reason2 = 'Found something else cheaper';
                     $reason3 = 'Others / Change of mind';
                     $reason4 = 'Out of stock';
+                    $reason5 = 'Did not picked up the order';
                 ?>
                 <div class="summary">
                     <div class="left-div">
                         <div class="payment-div"><span>Payment:</span>
                             <p><?php echo $val['payment_method']?></p>
                         </div>
+                        <?php
+                        if($val['order_status'] == "To Pickup"){
+                        ?>
+                        <div class="order-date-div"><span>Order Date:</span>
+                            <p><?php echo $new_date?></p>
+                        </div>
+                        <div class="order-date-div"><span>Date Approved:</span>
+                            <p><?php echo $date_approved?></p>
+                        </div>
+                        <?php
+                        }else{
+                        ?>
                         <div class="order-date-div"><span>Order Date:</span>
                             <p><?php echo $new_date?></p>
                         </div>
                         <?php
+                        }
+                        
                         if($val['order_status'] == "Ordered")
                         {
                         ?>
                         <div class="cancel-div">
                         <button class="btn cancel-order" 
-                        href="assets/includes/updateOrder-inc.php?status=cancelled&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
+                        href="assets/includes/updateOrder-inc.php?status=cancelled&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
                         </div>
                         <?php
-                        }else if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined"){
+                        }else if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined" || $val['order_status'] == "Pickup Failed"){
                         ?>
                         <div class="cancel-div">
                             <span>Cancellation Details:</span>
@@ -225,6 +270,10 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                             ?>  
                                 <p>Reason: <?php echo $reason4?></p>
                             <?php
+                            }elseif($val['cancel_reason'] == "reason5"){
+                            ?>
+                                <p>Reason: <?php echo $reason5?></p>
+                            <?php
                             }?>
                         </div>
                         <?php
@@ -234,25 +283,37 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                     <div class="right-div">
                         <div class="order-total-div"><span>Order Total:</span>
                             <p>₱<?php echo number_format($grandtotal, 2) ?></p>
+                        </div>
+                        <div class="status-div"><span>Status:</span>
+                            <p><?php echo $val['order_status']?></p>
+                        </div>
+                        <?php
+                            if($val['order_status'] == "To Pickup"){
+                        ?>
+                        <a class="btn print" target="_blank" href="generate-invoice.php?orderId=<?= $row['orderID'] ?>&shopID=<?= $row['shopID']?>&customerID=<?= $userID?>">
+                            <i class="fas fa-print"></i>
+                            Print Invoice
+                        </a>
+                        <?php
+                        }
+                        ?>
                     </div>
-                    <div class="status-div"><span>Status:</span>
-                        <p><?php echo $val['order_status']?></p>
-                    </div>
-                    <?php
-                        if($val['order_status'] == "To Pickup"){
-                    ?>
-                    <a class="btn print" target="_blank" href="generate-invoice.php?orderId=<?= $row['orderID'] ?>&shopID=<?= $row['shopID']?>&customerID=<?= $userID?>">Generate Bill</a>
-                    <?php
-                    }
-                    ?>
                 </div>
-            </div>
-        </div>
-        <?php
+                <?php
+                if($val['order_status'] == "To Pickup"){
+                ?>
+                <div class="note-div">
+                    <p>Note: Please pick up the order within 7 days upon approval or it will be cancelled</p>
+                </div>
+                <?php
                 }
-            }
-        ?>
-    </div>
+                ?>
+            </div>
+            <?php
+                    }
+                }
+            ?>
+        </div>
     </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

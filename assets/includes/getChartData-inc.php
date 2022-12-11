@@ -6,7 +6,7 @@ require_once('../classes/dbHandler.php');
 $dbh = new Config();
 
 
-$results = $dbh->getchartData(5, "completed");
+$results = $dbh->getchartData($_POST['shopId'], $_POST['status']);
 
 // $month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 

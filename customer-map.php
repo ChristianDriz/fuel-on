@@ -91,7 +91,17 @@ if(empty($loc['map_lat']) && empty($loc['map_lang'])){
                     <?php
                     }?>
                 </li>
-                <li class="sidebar-brand"> <a href="customer-my-order.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a href="customer-my-order.php">
+                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountCustomer($userID);
+                    if($orderCounter != 0){?>
+                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
             </ul>
         </div>
@@ -127,7 +137,7 @@ if(empty($loc['map_lat']) && empty($loc['map_lang'])){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznw3cpC9HWF3r7VOvfpTpFaC_3s2lPMY"></script>
-    <script src="https://cdn.jsdelivr.net/gh/denissellu/routeboxer@master/src/RouteBoxer.js" type="text/javascript"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/denissellu/routeboxer@master/src/RouteBoxer.js" type="text/javascript"></script> -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="assets/js/map.js"></script> 
     <script src="assets/js/bs-init.js"></script>

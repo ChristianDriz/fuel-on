@@ -78,6 +78,18 @@ if (isset($_SESSION['userID'])) {
                             <p class="notif-date unread"><?php echo $notifTime ?></p>
                         </div>
                     </button>
+                    <?php
+                        //When the order of the customer is completed
+                        }elseif($notifs['notif_type'] == "Pickup Failed"){
+                    ?>
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-cancelled.php">
+                        <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
+                        <div class="notifs-details">
+                            <p class="name">Your order has been cancelled because it was not picked up</p>
+                            <p class="order-id"><?php echo $notifs['orderID']?></p>
+                            <p class="notif-date unread"><?php echo $notifTime ?></p>
+                        </div>
+                    </button>
                 <?php
                         }
                     //for shop

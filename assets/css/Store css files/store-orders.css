@@ -131,7 +131,7 @@ body {
   margin: 0 0 0 7px;
   text-decoration: none;
   color: #3e3d3d;
-  font-weight: 500;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -268,17 +268,27 @@ body {
 }
 
 .right-div .btn {
-  text-decoration: none;
   margin: 10px 0;
-  background-color: #f8f5f5;
-  color: #3e3d3d;
-  border: 1px solid #ded6d6;
+  background-color: #fea600;
+  color: #ffffff;
 }
 
 .right-div .btn:hover {
-  background-color: #f1eaea;
-  color: #3e3d3d;
-  border: 1px solid #f1ebeb;
+  margin: 10px 0;
+  background-color: #fea600;
+  color: #ffffff;
+}
+
+.right-div .print {
+  margin-top: 58px;
+}
+
+.right-div .print:hover {
+  margin-top: 58px;
+}
+
+.print .fa-print {
+  margin-right: 5px;
 }
 
 .payment-div {
@@ -331,20 +341,27 @@ body {
 }
 
 .cancel-div .btn {
-  border: 1px solid #ded6d6;
-  background-color: #f5f0f0;
-  padding: 6px 8px;
-  color: #3e3d3d;
+  background-color: #fea600;
+  color: #ffffff;
 }
 
 .cancel-div .btn:hover {
-  background-color: #f1eaea;
-  color: #3e3d3d;
-  border: 1px solid #f1ebeb;
+  background-color: #fea600;
+  color: #ffffff;
 }
 
-.cancel-div .accept-btn {
-  margin-left: 10px;
+.cancel-div .decline-btn {
+  margin-right: 10px;
+  background-color: #ffffff;
+  color: #606060;
+  border-color: #d6c5c5;
+}
+
+.cancel-div .decline-btn:hover {
+  margin-right: 10px;
+  background-color: #ffffff;
+  color: #606060;
+  /*border-color: #d6c5c5;*/
 }
 
 .cancel-div span {
@@ -355,7 +372,16 @@ body {
   margin: 0;
 }
 
-.print .fa-print {
-  color: var(--bs-primary);
-  margin-right: 5px;
+.note-div p {
+  padding: 0 15px 15px 15px;
+  margin: 0;
+  line-height: 16px;
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .note-div p {
+    padding: 0 25px 15px 25px;
+    margin: 0;
+  }
 }

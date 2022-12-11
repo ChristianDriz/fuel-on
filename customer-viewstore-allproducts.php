@@ -104,7 +104,17 @@ else{
                     <?php
                     }?>
                 </li>
-                <li class="sidebar-brand"> <a href="customer-my-order.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a href="customer-my-order.php">
+                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountCustomer($userID);
+                    if($orderCounter != 0){?>
+                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
             </ul>
         </div>
@@ -168,22 +178,15 @@ else{
                             $transac = $data->checkTransacUser($station, $userID); 
                             $ratings = $data->checkRatings($userID, $station);
                             
-                            if($transac == 0){
-                        ?>
-                            <a class="btn rate-btn check-rate" role="button">Rate Store</a>
-                        <?php
-                            }
-                            else{
-                                if(empty($ratings)){
+                            if(empty($ratings)){
                         ?>
                             <a class="btn rate-btn" role="button" href="#ratestoremodal" data-bs-toggle="modal">Rate Store</a>
                         <?php
-                                }else{
+                            }else{
                         ?>
                             <a class="btn rate-btn" role="button" data-bs-toggle="modal" data-bs-target="#editratestoremodal<?php echo $fidback['ratingID']?>">Edit rating</a>
                         <?php
                             include 'customer-edit-feedback.php';
-                                }
                             }
                         ?>
                     </div>

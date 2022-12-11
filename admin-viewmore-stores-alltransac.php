@@ -275,6 +275,7 @@ $orders = $dbh->shopAllOrders($shopID);
                             $reason2 = 'Found something else cheaper';
                             $reason3 = 'Others / Change of mind';
                             $reason4 = 'Out of stock';
+                            $reason5 = 'Did not picked up the order';
                         ?>
                         <div class="summary">
                             <div class="left-div">
@@ -285,7 +286,7 @@ $orders = $dbh->shopAllOrders($shopID);
                                     <p><?php echo $new_date ?></p>
                                 </div>
                                 <?php
-                                if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined"){
+                                if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined" || $val['order_status'] == "Pickup Failed"){
                                 ?>
                                 <div class="cancel-div">
                                     <span>Cancellation Details:</span>
@@ -305,6 +306,10 @@ $orders = $dbh->shopAllOrders($shopID);
                                     }elseif($val['cancel_reason'] == "reason4"){
                                     ?>  
                                         <p>Reason: <?php echo $reason4?></p>
+                                    <?php
+                                    }elseif($val['cancel_reason'] == "reason5"){
+                                    ?>
+                                        <p>Reason: <?php echo $reason5?></p>
                                     <?php
                                     }?>
                                 </div>

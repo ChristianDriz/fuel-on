@@ -112,7 +112,17 @@ $countFive = $data->countFiveStar($station);
                     <?php
                     }?>
                 </li>
-                <li class="sidebar-brand"> <a href="customer-my-order.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a href="customer-my-order.php">
+                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountCustomer($userID);
+                    if($orderCounter != 0){?>
+                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
             </ul>
         </div>

@@ -107,24 +107,38 @@ body {
 }
 
 .seller-name .seller-div {
-  width: 250px;
-}
-
-@media (max-width: 449px) {
-  .seller-name .seller-div {
-    width: 170px;
-  }
+  /*width: 300px;*/
+  display: flex;
 }
 
 .seller-name .seller-div a {
   text-decoration: none;
   color: #3e3d3d;
-  font-weight: 500;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+.seller-div i {
+  margin-right: 5px;
+}
+
+.message-icon {
+  margin: 0 5px;
+  min-width: 18px;
+}
+
+.message-icon svg {
+  /*margin-left: 5px;*/
+  color: #fea600;
+  font-size: 18px;
+}
+
+.seller-name .order-id-div {
+  min-width: 115px;
 }
 
 .seller-name .order-id-div p {
@@ -244,17 +258,15 @@ body {
 }
 
 .right-div .btn {
-  text-decoration: none;
+  background-color: #fea600;
+  color: #ffffff;
   margin: 10px 0;
-  background-color: #f8f5f5;
-  color: #3e3d3d;
-  border: 1px solid #ded6d6;
 }
 
 .right-div .btn:hover {
-  background-color: #f1eaea;
-  color: #3e3d3d;
-  border: 1px solid #f1ebeb;
+  background-color: #fea600;
+  color: #ffffff;
+  margin: 10px 0;
 }
 
 .payment-div {
@@ -307,16 +319,15 @@ body {
 }
 
 .cancel-div .btn {
-  border: 1px solid #ded6d6;
-  background-color: #f5f0f0;
-  padding: 6px 8px;
-  color: #3e3d3d;
+  /*border: 1px solid #ded6d6;*/
+  background-color: #fea600;
+  /*padding: 7px 8px;*/
+  color: #ffffff;
 }
 
 .cancel-div .btn:hover {
-  background-color: #f1eaea;
-  color: #3e3d3d;
-  border: 1px solid #f1ebeb;
+  background-color: #fea600;
+  color: #ffffff;
 }
 
 .cancel-div span {
@@ -328,7 +339,20 @@ body {
 }
 
 .print .fa-print {
-  color: var(--bs-primary);
+  /*color: var(--bs-primary);*/
   margin-right: 5px;
 }
 
+.note-div p {
+  padding: 0 15px 15px 15px;
+  margin: 0;
+  line-height: 16px;
+  font-size: 15px;
+}
+
+@media (min-width: 768px) {
+  .note-div p {
+    padding: 0 25px 15px 25px;
+    margin: 0;
+  }
+}

@@ -82,7 +82,17 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
                     <?php
                     } ?>
                 </li>
-                <li class="sidebar-brand"> <a href="customer-my-order.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a href="customer-my-order.php">
+                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountCustomer($userID);
+                    if($orderCounter != 0){?>
+                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
             </ul>
         </div>
@@ -155,6 +165,14 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
                             <a href="customer-viewstore-timeline.php?stationID=<?php echo $shops['shopID']?>">
                                 <i class="fas fa-store"></i>
                                 <?php echo $shops['station_name'] . ' ' . $shops['branch_name']; ?>
+                            </a>
+                            <a class="message-icon" href="chat-box.php?userID=<?=$shops['shopID']?>&userType=<?=$shops['user_type']?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-message">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4"></path>
+                                    <line x1="8" y1="9" x2="16" y2="9"></line>
+                                    <line x1="8" y1="13" x2="14" y2="13"></line>
+                                </svg>
                             </a>
                         </div>  
                     </form>

@@ -50,7 +50,7 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs nav-fill card-header-tabs">
                                 <li class="nav-item"><a class="nav-link" href="register-customer.php">Customer</a></li>
-                                <li class="nav-item"><a class="nav-link active" href="register-store.php">Store</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="register-store.php">Station</a></li>
                             </ul>
                         </div>
                         <div class="card-body">

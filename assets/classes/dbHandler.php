@@ -159,7 +159,7 @@ class Config extends DBHandler
                     $stmt = $this->connect()->prepare('SELECT * 
                     FROM tbl_notif 
                     WHERE customerID = ?
-                    AND notif_type IN ("To Pickup", "Declined", "Completed")
+                    AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
@@ -175,7 +175,7 @@ class Config extends DBHandler
                     $stmt = $this->connect()->prepare('SELECT * 
                     FROM tbl_notif 
                     WHERE shopID = ?
-                    AND notif_type IN ("Ordered", "Cancelled", "Completed")
+                    AND notif_type IN ("Ordered", "Cancelled", "Completed", "Pickup Failed")
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
@@ -248,14 +248,14 @@ class Config extends DBHandler
                     FROM tbl_notif 
                     WHERE customerID = ?
                     AND read_status = 0
-                    AND notif_type IN ("To Pickup", "Declined", "Completed")
+                    AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
                     return $stmt->fetchAll();
                 } catch (\PDOException $e) {
                     print "Error!: " . $e->getMessage() . "<br/>";
-                    die();
+                    die(); 
                 }
                 break;
 
@@ -291,7 +291,7 @@ class Config extends DBHandler
                     FROM tbl_notif 
                     WHERE customerID = ? 
                     AND read_status = 0
-                    AND notif_type IN ("To Pickup", "Declined", "Completed")');
+                    AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")');
 
                     $stmt->execute(array($userID));
                     return $stmt->fetchColumn();
@@ -646,7 +646,8 @@ class Config extends DBHandler
             FROM tbl_users, tbl_station
             WHERE tbl_users.userID = tbl_station.shopID
             AND user_type = 2 
-            AND verified = 1');
+            AND verified = 1
+            ORDER BY station_name ASC');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -916,18 +917,37 @@ class Config extends DBHandler
     }
 
     //pang get ng order ni customer based on order status
-    public function customerOrderCount($customerID, $statusOne, $statusTwo)
+    public function customerOrderCount($customerID, $status)
     {
         try {
             $stmt = $this->connect()->prepare("SELECT * FROM tbl_transactions 
             WHERE customerID = ? 
             AND order_status = ? 
-            OR customerID = ? 
-            AND order_status = ? 
             GROUP BY orderID
             ORDER BY transacID DESC;");
 
-            $stmt->execute(array($customerID, $statusOne, $customerID, $statusTwo));
+            $stmt->execute(array($customerID, $status));
+
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function customerOrderCountCancelled($customerID, $statusOne, $statusTwo, $statusThree)
+    {
+        try {
+            $stmt = $this->connect()->prepare("SELECT *
+            FROM tbl_transactions 
+            WHERE customerID = ?
+            AND (order_status = ? 
+            OR order_status = ? 
+            OR order_status = ?)
+            GROUP BY orderID
+            ORDER BY transac_date DESC;");
+
+            $stmt->execute(array($customerID, $statusOne, $statusTwo, $statusThree));
 
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -981,15 +1001,60 @@ class Config extends DBHandler
         }
     }
 
+    
+    // pang count ng orders na pending saka to pickup ni customer
+    public function AllOrdersCountCustomer($customerID)
+    {
+        try {
+            $stmt = $this->connect()->prepare("SELECT COUNT(*)
+            FROM ( 
+                SELECT COUNT(*)
+                FROM tbl_transactions 
+                WHERE (order_status = 'Ordered' OR order_status = 'To Pickup')
+                AND customerID = ? 
+                GROUP BY orderID 
+            ) tbl_transactions;");
+
+            $stmt->execute(array($customerID));
+
+            return $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    // pang count ng orders na pending saka to pickup ni shop
+    public function AllOrdersCountShop($shopID)
+    {
+        try {
+            $stmt = $this->connect()->prepare("SELECT COUNT(*)
+            FROM ( 
+                SELECT COUNT(*)
+                FROM tbl_transactions 
+                WHERE (order_status = 'Ordered' OR order_status = 'To Pickup')
+                AND shopID = ? 
+                GROUP BY orderID 
+            ) tbl_transactions;");
+
+            $stmt->execute(array($shopID ));
+
+            return $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
     //pangkuha ng station details sa transac
     public function customerGetShop($orderID)
     {
         try {
-            $stmt = $this->connect()->prepare("SELECT tbl_station.shopID, tbl_station.station_name, 
-            tbl_station.branch_name
-            FROM tbl_station, tbl_transactions 
-            WHERE tbl_station.shopID = tbl_transactions.shopID 
-            AND tbl_transactions.orderID = ?;");
+            $stmt = $this->connect()->prepare("SELECT tbl_station.*, tbl_users.user_type
+            FROM tbl_station, tbl_users, tbl_transactions 
+            WHERE tbl_users.userID = tbl_station.shopID 
+            AND tbl_station.shopID = tbl_transactions.shopID 
+            AND tbl_transactions.orderID = ?");
 
             $stmt->execute(array($orderID));
 
@@ -1023,12 +1088,12 @@ class Config extends DBHandler
     public function cartGetShop($shopID, $userID)
     {
         try {
-            $stmt = $this->connect()->prepare("SELECT tbl_station.shopID, tbl_station.station_name, 
-            tbl_station.branch_name
-            FROM tbl_station, tbl_carts 
-            WHERE tbl_station.shopID = tbl_carts.shopID 
+            $stmt = $this->connect()->prepare("SELECT tbl_station.shopID, tbl_station.station_name, tbl_station.branch_name, tbl_users.user_type
+            FROM tbl_station, tbl_carts, tbl_users
+            WHERE tbl_users.userID = tbl_station.shopID 
+            AND tbl_station.shopID = tbl_carts.shopID 
             AND tbl_carts.shopID = ?
-            AND tbl_carts.customerID = ?;");
+            AND tbl_carts.customerID = ?");
 
             $stmt->execute(array($shopID, $userID));
 
@@ -1088,6 +1153,21 @@ class Config extends DBHandler
 
             $stmt->execute(array($orderID));
 
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function getOrderDate($orderID, $status)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT tbl_notif.notif_date 
+            FROM tbl_notif 
+            WHERE orderID = ?
+            AND notif_type = ?');
+            $stmt->execute(array($orderID, $status));
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -1369,19 +1449,38 @@ class Config extends DBHandler
     }
 
     //pangbilang ng station sa order
-    public function shopOrderCount($shopID, $statusOne, $statusTwo)
+    public function shopOrderCount($shopID, $status)
     {
         try {
             $stmt = $this->connect()->prepare('SELECT *
             FROM tbl_transactions 
             WHERE shopID = ? 
             AND order_status = ? 
-            OR shopID = ? 
-            AND order_status = ? 
             GROUP BY orderID
             ORDER BY transac_date DESC;');
 
-            $stmt->execute(array($shopID, $statusOne, $shopID, $statusTwo));
+            $stmt->execute(array($shopID, $status));
+
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function shopOrderCountCancelled($shopID, $statusOne, $statusTwo, $statusThree)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT *
+            FROM tbl_transactions 
+            WHERE shopID = ?
+            AND (order_status = ? 
+            OR order_status = ? 
+            OR order_status = ?)
+            GROUP BY orderID
+            ORDER BY transac_date DESC;');
+
+            $stmt->execute(array($shopID, $statusOne, $statusTwo, $statusThree));
 
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -2534,7 +2633,7 @@ class Config extends DBHandler
         }
     }
 
-    public function getchartData($shopID, $status, $frequency = 'Monthly')
+    public function getchartData($shopID, $status)
     {
         try {
             $stmt = $this->connect()->prepare("SELECT 

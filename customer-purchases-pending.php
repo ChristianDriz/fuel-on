@@ -15,9 +15,6 @@ else{
     header('location: index.php');
 }
 
-$statusOne = 'Ordered';
-$statusTwo = 'Pending';
-
 require_once("assets/classes/dbHandler.php");
 $data = new Config();
 
@@ -88,7 +85,17 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                     <?php
                     }?>
                 </li>
-                <li class="sidebar-brand"> <a class="actives" href="customer-my-order.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a class="actives" href="customer-my-order.php">
+                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountCustomer($userID);
+                    if($orderCounter != 0){?>
+                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
             </ul>
         </div>
@@ -127,7 +134,8 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
             </div>
         </div>
         <?php
-        $orders = $data->customerOrderCount($userID, $statusOne, $statusTwo);
+        $status = 'Ordered';
+        $orders = $data->customerOrderCount($userID, $status);
             if(empty($orders)){
         ?>
         <div class="row" id="transaction-no-order-row">
@@ -149,7 +157,18 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
         <div class="prodak">
             <div class="seller-name">
                 <div class="seller-div">
-                    <a><i class="fas fa-store"></i><span>&nbsp;<?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?> Branch</span><br></a>
+                    <a>
+                        <i class="fas fa-store"></i>
+                        <?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?>
+                    </a>
+                    <a class="message-icon" href="chat-box.php?userID=<?=$shopDetails['shopID']?>&userType=<?=$shopDetails['user_type']?>">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-message">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4"></path>
+                            <line x1="8" y1="9" x2="16" y2="9"></line>
+                            <line x1="8" y1="13" x2="14" y2="13"></line>
+                        </svg>
+                    </a>
                 </div>
                 <div class="order-id-div">
                     <?php echo $row['orderID']?>
@@ -194,7 +213,7 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                             <p><?php echo $new_date ?></p>
                         </div>
                         <div class="cancel-div">
-                        <button class="btn cancel-order" href="assets/includes/updateOrder-inc.php?status=cancelled&transactionID=<?=$row['transacID']?>&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
+                        <button class="btn cancel-order" href="assets/includes/updateOrder-inc.php?status=cancelled&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
                         </div>
                     </div>
                     <div class="right-div">
@@ -277,6 +296,7 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                                                     button: true,
                                                 }).then(() => {
                                                     location.reload();
+                                                    
                                                 });
                                             }
                                         });

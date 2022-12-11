@@ -66,7 +66,17 @@ $shopDetails = $shop[0];
             <ul class="sidebar-nav">
                 <li class="sidebar-brand"> <a href="store-home.php"><i class="fas fa-home"></i><span class="icon-name">Dashboard</span></a></li>
                 <li class="sidebar-brand"> <a class="actives" href="store-location.php"><i class="fas fa-map-marked-alt"></i><span class="icon-name">Location</span></a></li>
-                <li class="sidebar-brand"> <a href="store-orders-all.php"><i class="fas fa-shopping-basket"></i><span class="icon-name">Orders</span></a></li>
+                <li class="sidebar-brand"> 
+                    <a href="store-orders-all.php">
+                        <i class="fas fa-shopping-basket"></i><span class="icon-name">Orders</span>
+                    </a>
+                    <?php
+                    $orderCounter = $data->AllOrdersCountShop($userID);
+                    if($orderCounter != 0){?>
+                        <sup><?php echo $orderCounter ?></sup>
+                    <?php
+                    }?>
+                </li>
                 <li class="sidebar-brand"> <a href="store-mytimeline.php"><i class="fas fa-store"></i><span class="icon-name">Profile</span></a></li>
                 <li class="sidebar-brand"> <a href="store-myproducts.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">Products</span></a></li>
                 <li class="sidebar-brand"> <a href="store-view-sales.php"><i class="fas fa-chart-bar"></i><span class="icon-name">View Sales</span></a></li>

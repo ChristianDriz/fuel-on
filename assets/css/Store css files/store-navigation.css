@@ -2,6 +2,16 @@ body {
   overflow-x: hidden;
   font-family: 'Source Sans Pro';
 }
+sup {
+	position: absolute;
+	background-color: #f13d3d;
+	color: #ffffff;
+	padding: 9px 6px;
+	border-radius: 50px;
+	margin-top: 22px;
+	margin-left: 55px;
+	font-size: 15px;
+}
 
 .badge {
   margin: 0;
@@ -213,12 +223,12 @@ body {
 }
 
 .sidebar-nav li {
-  text-indent: 30px;
   line-height: 60px;
 }
 
 .sidebar-brand {
   padding: 2px 15px;
+  position: relative;
 }
 
 .sidebar-brand a:hover {

@@ -26,6 +26,19 @@ function initMap(mapLong, mapLat) {
 			});
     	},
   	});
+
+	// const xhr = new XMLHttpRequest();
+	// xhr.open('POST', 'assets/includes/getStoreLocations-inc.php', true);
+	// xhr.responseType = 'json';
+	// xhr.onload = function() {
+	// 	if (xhr.status === 200) {
+	// 		const data = xhr.response;
+	// 		data.forEach(function(val) {
+	// 			createMarkerAjax(val);
+	// 		});
+	// 	}
+	// };
+	// xhr.send();
 }
 
 function createMarkerAjax(location) {
