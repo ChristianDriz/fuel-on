@@ -164,6 +164,14 @@ $shopDetails = $shop[0];
                         $date = $row['transac_date'];
                         $createdate = date_create($date);
                         $new_date = date_format($createdate, "M d, Y h:i:s A");
+
+                        // to get the order approval date 
+                        $orderDate = $data->getOrderDate($row['orderID'], $row['order_status']);
+                        $ordDate = $orderDate[0];
+
+                        $date = $ordDate['notif_date'];
+                        $createdate = date_create($date);
+                        $date_approved = date_format($createdate, "M d, Y h:i:s A");
                         
             ?>
             <div class="sa-products">
@@ -201,7 +209,7 @@ $shopDetails = $shop[0];
                         <p><?php echo $new_date ?></p>
                     </div>
                     <div class="order-date-div"><span>Date Approved:</span>
-                        <p><?php echo $new_date ?></p>
+                        <p><?php echo $date_approved ?></p>
                     </div>
                     <?php
                         }else{
