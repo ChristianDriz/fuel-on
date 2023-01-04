@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 
 class SignupContr extends Signup{
 
@@ -29,83 +29,56 @@ class SignupContr extends Signup{
 
     public function signUp(){
         $this->setUser($this->email, $this->fname, $this->lname, $this->phone, $this->password, $this->type);
-        // if($this->emptyInput() == false){
-        //     echo "<script>alert('Empty Input!');document.location='../../register-customer.php'</script>";
-        //     exit();
-        // }
-
-        // if($this->invalidEmail() == false){
-        //     echo "<script>alert('Invalid Email!');document.location='../../register-customer.php'</script>";
-        //     exit();
-        // }
-
-        // if($this->invalidFName() == false){
-        //     echo "<script>alert('Invalid Name Input!');document.location='../../register-customer.php'</script>";
-        //     exit();
-        // }
-
-        // if($this->invalidLName() == false){
-        //     echo "<script>alert('Invalid Name Input!');document.location='../../register-customer.php'</script>";
-        //     exit();
-        // }
-
-        // if($this->passwordMatch() == false){
-        //     echo "<script>alert('Passwords doesn't match!');document.location='../../register-customer.php'</script>";
-        //     exit();
-        // }
-
-        // if($this->userTaken() == false){
-        //     echo "<script>alert('Account already taken! Use another email or phone number.');document.location='../../register-customer.php'</script>";
-        //     exit();
-        // }
     }
 
     public function checkInput(){
 
-        $email = $_SESSION['email'];
-        $fname = $_SESSION['fname'];
-        $lname = $_SESSION['lname'];
-        $phone = $_SESSION['phone'];
+        $email = $_POST['email'];
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $phone = $_POST['phone'];
+
+        $data = 'email=' .$email. '&fname=' .$fname. '&lname=' .$lname. '&phone=' .$phone;
 
         if($this->emptyInput() == false){
             // echo "<script>alert('Empty Input!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php", "Input fields are empty and must be filled out.");
+            $this->info("../../register-customer.php?$data", "All fields must be filled out.");
             exit();
         }
 
         if($this->invalidEmail() == false){
             // echo "<script>alert('Invalid Email!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?email=$email&fname=$fname&lname=$lname&phone=$phone", "Invalid email format.");
+            $this->info("../../register-customer.php?$data", "Invalid email format.");
             exit();
         }
 
-        if($this->invalidFName() == false){
+        if($this->invalidName() == false){
             // echo "<script>alert('Invalid Name Input!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?email=$email&fname=$fname&lname=$lname&phone=$phone", "Invalid name format.");
-            exit();
-        }
-
-        if($this->invalidLName() == false){
-            // echo "<script>alert('Invalid Name Input!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?email=$email&fname=$fname&lname=$lname&phone=$phone", "Invalid name format.");
+            $this->info("../../register-customer.php?$data", "Invalid name format.");
             exit();
         }
 
         if($this->invalidPhone() == false){
             // echo "<script>alert('Invalid Name Input!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?email=$email&fname=$fname&lname=$lname&phone=$phone", "Invalid phone number format.");
+            $this->info("../../register-customer.php?$data", "Invalid phone number format.");
             exit();
         }
 
         if($this->passwordMatch() == false){
             // echo "<script>alert('Passwords don't match!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?email=$email&fname=$fname&lname=$lname&phone=$phone", "Password does not match.");
+            $this->info("../../register-customer.php?$data", "Password does not match.");
+            exit();
+        }
+
+        if($this->passwordLength() == false){
+            // echo "<script>alert('Passwords don't match!');document.location='../../register-customer.php'</script>";
+            $this->info("../../register-customer.php?$data", "Password must be 8 characters in length.");
             exit();
         }
 
         if($this->userTaken() == false){
             // echo "<script>alert('Account already taken! Use another email and phone number.');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?email=$email&fname=$fname&lname=$lname&phone=$phone", "Account already taken. Please use another email or phone number.");
+            $this->info("../../register-customer.php?$data", "Account already taken. Please use another email or phone number.");
             exit();
         }
     }
@@ -121,20 +94,9 @@ class SignupContr extends Signup{
         return $result;
     }
 
-    private function invalidFName(){
+    private function invalidName(){
         $result;
-        if(!preg_match("/^[a-zA-Z0-9_ -]*$/", $this->fname)){
-            $result = false;
-        }
-        else{
-            $result = true;
-        }
-        return $result;
-    }
-
-    private function invalidLName(){
-        $result;
-        if(!preg_match("/^[a-zA-Z0-9_ -]*$/", $this->lname)){
+        if(!preg_match("/^[a-zA-Z0-9_ -]*$/", $this->fname) || !preg_match("/^[a-zA-Z0-9_ -]*$/", $this->lname)){
             $result = false;
         }
         else{
@@ -176,9 +138,20 @@ class SignupContr extends Signup{
         return $result;
     }
 
+    private function passwordLength(){
+        $result;
+        if(strlen($this->password) < 8){
+            $result = false;
+        }
+        else{
+            $result = true;
+        }
+        return $result;
+    }
+
     private function userTaken(){
         $result;
-        if(!$this->checkUser($this->email, $this->phone)){
+        if(!$this->checkUser($this->email)){
             $result = false;
         }
         else{

@@ -1,60 +1,59 @@
-
+var marker = null;
 var map;
 var infoWindow = new google.maps.InfoWindow({ map: map });
+var lat = 14.65473282485934;
+var lng = 120.45639026706307;
 const user = "assets/img/marker-station.png";
 
 $(function(){
     initialize_map();
 });
 
+//to update the lat and lng position (hidden input)
 function updateMarkerPosition(latlng) {
     $('#mapLat').val(latlng.lat());
     $('#mapLng').val(latlng.lng());
 }
 
 function initialize_map() {
-
-    var lat_value = document.getElementById('mapLat').value; 
-    var long_value = document.getElementById('mapLng').value;
-
-    if(lat_value == '0' || lat_value == "" ){
-        lat_value = 14.65473282485934;
-    }
-    if(long_value == '0' || long_value == ""){  
-        long_value = 120.45639026706307;
-    }
-    var latlng = new google.maps.LatLng(lat_value, long_value);
-
-
     var myOptions = {
         zoom: 10,
-        center: latlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        center: {lat, lng},
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        clickableIcons: false
     }
-
     map = new google.maps.Map(document.getElementById("maps"), myOptions);
 
-    marker = new google.maps.Marker({
-        position: latlng,
-        title: 'My location',
-        map: map,
-        icon: user
-    });
-
-    google.maps.event.addListener(map, 'center_changed', function() {
+    // Configure the click listener.
+    map.addListener("click", (mapsMouseEvent) => {
+        if (marker) {
+            marker.setPosition(mapsMouseEvent.latLng);
+        } else {
+            marker = new google.maps.Marker({
+                position: mapsMouseEvent.latLng,
+                title: 'My location',
+                map: map,
+                icon: user,
+                draggable: true
+            });
+            map.panTo(mapsMouseEvent.latLng);
+        }
         updateMarkerPosition(marker.getPosition());
-        window.setTimeout(function() {
-            var center = map.getCenter();
-            marker.setPosition(center);
-        }, 0);
-    });
+        map.panTo(mapsMouseEvent.latLng);
 
-    const content = '<h6 style="text-align: center;">My location</h6>' 
-    //to show the station details
-    google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.setContent(content);
-        infoWindow.open(map, this);
-    });
+        //marker can be dragged
+        google.maps.event.addListener(marker, 'dragend', function() {
+            updateMarkerPosition(marker.getPosition());
+            map.panTo(marker.getPosition());
+        });
 
-    google.maps.event.addDomListener(window, 'load', initialize);
+        const content = '<h6 style="text-align: center;">My location</h6>' 
+
+        //clicking the marker will show content
+        google.maps.event.addListener(marker, 'click', function () {
+            infoWindow.setContent(content);
+            infoWindow.open(map, this);
+        });
+
+    });
 }

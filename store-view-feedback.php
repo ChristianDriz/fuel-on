@@ -6,8 +6,8 @@ if(isset($_SESSION['userID'])){
     $userpic = $_SESSION["userPic"];
     $userType = $_SESSION["userType"];
 
-    if($userType == 1)
-    { 
+    if ($userType == 1 || $userType == 0) 
+    {
         header('location: index.php');
     }
 }
@@ -16,7 +16,7 @@ else{
 }
 
 require_once("assets/classes/dbHandler.php");
-$data = new Config();
+$dbh = new Config();
 
 if(isset($_GET['stationID'])){
     $station = $_GET['stationID'];
@@ -25,9 +25,9 @@ else{
     $station = $userID;
 }
 
-$feedback = $data->viewRatings($userID);
-$get = $data->getFeedback($station);
-$count = $data->getRatings($station);
+$feedback = $dbh->viewRatings($userID);
+$get = $dbh->getFeedback($station);
+$count = $dbh->getRatings($station);
 if(!empty($get) || !empty($count)){
 $rateSum = 0;
 foreach($get as $rate){
@@ -38,16 +38,16 @@ $totalRate = $rateSum / $count;
     $totalRate = 0;
 }
 
-$feedback = $data->viewRatings($station);
+$feedback = $dbh->viewRatings($station);
 
-$countAll = $data->countRatings($station);
-$countOne = $data->countOneStar($station);
-$countTwo = $data->countTwoStar($station);
-$countThree = $data->countThreeStar($station);
-$countFour = $data->countFourStar($station);
-$countFive = $data->countFiveStar($station);
+$countAll = $dbh->countRatings($station);
+$countOne = $dbh->countOneStar($station);
+$countTwo = $dbh->countTwoStar($station);
+$countThree = $dbh->countThreeStar($station);
+$countFour = $dbh->countFourStar($station);
+$countFive = $dbh->countFiveStar($station);
 
-$shop = $data->shopDetails($userID);
+$shop = $dbh->shopDetails($userID);
 $shopDetails = $shop[0];
 
 ?>
@@ -58,7 +58,7 @@ $shopDetails = $shop[0];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Station Feedbacks</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -66,58 +66,27 @@ $shopDetails = $shop[0];
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Store%20css%20files/store-navigation.css">
+    <link rel="stylesheet" href="assets/css/Customer%20css%20files/customer-navigation.css">
     <link rel="stylesheet" href="assets/css/Store%20css%20files/store-view-feedback.css">
 </head>
 
 <body>
-<nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container"><a class="btn" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars"></i></a><a class="navbar-brand" href="#">&nbsp;<i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a>
-            <ul class="navbar-nav">
-            <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $shopDetails['station_name'].' '.$shopDetails['branch_name']; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a href="store-home.php"><i class="fas fa-home"></i><span class="icon-name">Dashboard</span></a></li>
-                <li class="sidebar-brand"> <a href="store-location.php"><i class="fas fa-map-marked-alt"></i><span class="icon-name">Location</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="store-orders-all.php">
-                        <i class="fas fa-shopping-basket"></i><span class="icon-name">Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountShop($userID);
-                    if($orderCounter != 0){?>
-                        <sup><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="store-mytimeline.php"><i class="fas fa-store"></i><span class="icon-name">Profile</span></a></li>
-                <li class="sidebar-brand"> <a href="store-myproducts.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> <a href="store-view-sales.php"><i class="fas fa-chart-bar"></i><span class="icon-name">View Sales</span></a></li>
-                <li class="sidebar-brand"> <a class="actives" href="store-view-feedback.php"><i class="fas fa-star-half-alt"></i><span class="icon-name">Reviews</span></a></li>
-                <li class="sidebar-brand"> <a href="store-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">Settings</span></a></li>
-            </ul>
-        </div>
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
         <div class="page-content-wrapper">
             <?php
-                    $records = $data->oneShop($station);
+                    $records = $dbh->oneShop($station);
                     foreach($records as $key => $val){
             ?>
             <div class="container ratings-container">
-                <h4>My Store Ratings</h4>
+                <h4>My Station Ratings</h4>
                 <div class="div-div">
                     <div id="store-ratings-total" class="ratings-summary">
                         <h2><?= number_format($totalRate, 1)?> out of 5<i class="fas fa-star"></i></h2>
@@ -136,10 +105,6 @@ $shopDetails = $shop[0];
                     <?php
                         if(!empty($feedback)){
                             foreach($feedback as $ratings){   
-
-                            $date = $ratings['rating_date'];
-                            $createdate = date_create($date);
-                            $new_date = date_format($createdate, "M d, Y h:i:s A");
                     ?>
                     <div class="ratings-div">
                         <div>
@@ -160,11 +125,11 @@ $shopDetails = $shop[0];
                                     }
                                 ?>
                             </div>
-                            <div class="date-div">
-                                <p class="rate-date"><?php echo $new_date ?></p>
-                            </div>
                             <div class="comment-div">
                                 <p><?=$ratings['feedback']?></p>
+                            </div>
+                            <div class="date-div">
+                                <p class="rate-date"><?php echo $dbh->datetimeconverter($ratings['rating_date']) ?></p>
                             </div>
                         </div>
                     </div>
@@ -187,9 +152,12 @@ $shopDetails = $shop[0];
             ?>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/ratings.js"></script>
+    <script src="assets/js/Sidebar-Menu.js"></script>
     <script>
         var stars = document.querySelectorAll(".ratings-btn");
-
         stars.forEach(button => {
             button.addEventListener("click",()=> {
                 resetActive();
@@ -202,12 +170,7 @@ $shopDetails = $shop[0];
                 button.classList.remove("active");
             })
         }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/ratings.js"></script>
-    <script src="assets/js/Sidebar-Menu.js"></script>
-    <script>
+
         //for last seen update
         let lastSeenUpdate = function(){
       	    $.get("assets/ajax/active_status.php");

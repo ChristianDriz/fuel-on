@@ -19,7 +19,8 @@ $db_name = "u887826340_db_fuelon";
 // # password
 // $pass = "";
 // # database name
-// $db_name = "db_fuelon";
+// // $db_name = "db_fuelon";
+// $db_name = "u887826340_db_fuelon";
 
 #creating database connection
 try {

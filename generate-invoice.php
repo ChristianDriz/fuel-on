@@ -1,30 +1,28 @@
 <?php    
 
     require_once("assets/classes/dbHandler.php");
-    $data = new Config();
+    $dbh = new Config();
 
     //$orderID = "ORD-312438465";
     // $shopID = 5;
     // $customerID = 10;
 
     $orderID = $_GET['orderId'];
-    $shopID = $_GET['shopID'];
-    $customerID = $_GET['customerID'];
+    // $shopID = $_GET['shopID'];
+    // $customerID = $_GET['customerID'];
 
-    $shop = $data->shopDetails($shopID);
+    $records = $dbh->customerOrders($orderID);
+    $order = $records[0];
+
+    $shop = $dbh->shopDetails($order['shopID']);
     $shopdetails = $shop[0];
 
-    $customer = $data->oneCustomer($customerID);
+    $customer = $dbh->oneCustomer($order['customerID']);
     $customerdetails = $customer[0];
 
-    $records = $data->getOrders($orderID);
-    $transacID = $records[0]['transacID'];
-    $status = $records[0]['order_status'];
-    $grandTotal = 0;
+    $date = $dbh->dateconverter($order['date_approved']);
 
-    $date = $records[0]['transac_date']; 
-    $createdate = date_create($date);
-    $new_date = date_format($createdate, "F d, Y");
+    $grandTotal = 0;
 
     require __DIR__ . "/vendor/autoload.php";
 
@@ -52,7 +50,8 @@ $html = '
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Order Invoice</title>
+    <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
@@ -74,8 +73,8 @@ $html = '
             </div>
             <div class="invoice">
                 <p class="invoice-title">INVOICE</p>
-                <p class="date">'.$new_date.'</p>
-                <p class="invoice-id">Invoice #: '.$transacID.'</p>
+                <p class="date">'.$date.'</p>
+                <p class="invoice-id">Invoice #: '.$order['transacID'].'</p>
             </div>
         </div>
         <div class="line"></div>
@@ -90,11 +89,11 @@ $html = '
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="order-id">'.$orderID.'</td>
+                            <td class="order-id">'.$order['orderID'].'</td>
                             <td class="to-details">'.$customerdetails['firstname'].' '.$customerdetails['lastname'].'</td>
                         </tr>
                         <tr>
-                            <td class="status">'.$status.'</td>
+                            <td class="status">'.$order['order_status'].'</td>
                             <td class="to-details">'.$customerdetails['phone_num'].'</td>
                         </tr>
                     </tbody>
@@ -146,12 +145,12 @@ $html = '
                 </table>
             </div>
         </div>
-        <div class="signature-div">
+        <footer class="footer-note">
+            <p>Thankyou for your business</p>
+        </footer>
+        <footer class="footer-signature">
             <p>Signature</p>
-        </div>
-        <div class="foot">
-            <p>Thankyou for choosing us!</p>
-        </div>
+        </footer>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

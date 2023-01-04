@@ -27,7 +27,12 @@
         $key = "%{$_POST['key']}%";
     }
 
-        $sql = 'SELECT * FROM tbl_fuel WHERE fuel_type LIKE ? OR fuel_category LIKE ? ORDER BY new_price ASC';
+        $sql = 'SELECT * FROM tbl_fuel 
+        WHERE fuel_type 
+        LIKE ? 
+        OR fuel_category 
+        LIKE ? 
+        ORDER BY new_price ASC';
         $stmt = $conn->prepare($sql);
         $stmt->execute([$key, $key]);
 
@@ -38,69 +43,91 @@
             $station = $data->customerGetStationforFuel($fuel['shopID']);                
             $shopDetails = $station[0];
     ?>
-        <div class="row feed-row">
+        <div class="row g-0 justify-content-start feed-row">
             <div class="col-12 feed-head-col">
-                <div class="feed-head-img-div"><img src="assets/img/profiles/<?php echo $shopDetails['user_image'] ?>"></div>
+                <div class="feed-head-img-div">
+                    <img src="assets/img/profiles/<?php echo $shopDetails['user_image'] ?>">
+                </div>
                 <div class="feed-head-name-div">
-                    <a href="customer-viewstore-timeline.php?stationID=<?php echo $fuel['shopID']; ?>">
+                    <a href="customer-viewstore-timeline.php?stationID=<?php echo $shopDetails['shopID']; ?>">
                         <?= $shopDetails['station_name'].' '.$shopDetails['branch_name'] ?>
                     </a>
+                    <p><?php echo $shopDetails['station_address']?></p>
                 </div>
-            </div>  
-                <div class="col-12 feed-body-col">
-                <div class="feed-body-div">
-                    <img class="fuel-img" src="assets/img/products/<?php echo $fuel['fuel_image'] ?>">
-                    <div class="fuel-details-div">
-                        <h1 class="fuel-name"><?php echo $fuel['fuel_type'] ?></h1>
+            </div>
+            <div class="col-12 feed-body-col">
+                <div class="row g-0 justify-content-center">
+                    <?php
+                        $fueldata = $data->oneFuel($fuel['fuelID']); 
+                        foreach($fueldata as $fuels){
+                    ?>
+                    <div class="col-sm-6 kolum">
                         <?php
-                            if(empty($fuel['old_price'])){
+                            //if the fuel is not available, the unavailable tag will displayed
+                            if($fuels['fuel_status'] == "not available"){
                         ?>
-                        <div class="price-div">
-                            <h1>₱<?php echo $fuel['new_price'] ?></h1>
-                        </div>
-                        <?php
-                            }
-                            else{
-                        ?>
-                        <div class="price-div">
-                            <h1>₱<?php echo $fuel['old_price'] ?></h1>
-                            <i class="icon ion-arrow-right-a"></i>
-                            <h1>₱<?php echo $fuel['new_price'] ?></h1>
-                            <?php
-                                if($fuel['new_price'] > $fuel['old_price']){
-                            ?>
-                            <div class="price-change-div up"><i class="icon ion-arrow-up-a arrow-up"></i>
-                                <p>+<?php echo number_format($fuel['new_price'] - $fuel['old_price'], 2) ?></p>
-                            </div>
-                            <?php
-                                }elseif($fuel['new_price'] < $fuel['old_price']){
-                            ?>
-                            <div class="price-change-div down"><i class="icon ion-arrow-down-a arrow-up"></i>
-                                <p><?php echo number_format($fuel['new_price'] - $fuel['old_price'], 2) ?></p>
-                            </div>
-                            <?php
-                                }
-                            ?>
-                        </div>
+                        <span class="status-tag">Not available</span>
                         <?php
                             }
-                            $date = $fuel['date_updated'];
-                            $createdate = date_create($date);
-                            $new_date = date_format($createdate, "F d, Y");
+                            if($fuels['fuel_category'] == "Diesel" ){
                         ?>
-                        <p class="date-p">Price as of <?php echo $new_date ?></p>
-                        <p class="status-p"><span>Status:</span><?php echo $fuel['fuel_status']?></p>
+                        <div class="fuel-div diesel">
+                        <?php
+                            }elseif($fuels['fuel_category'] == "Unleaded"){
+                        ?>
+                        <div class="fuel-div unleaded">
+                        <?php
+                            }elseif($fuels['fuel_category'] == "Premium"){
+                        ?>
+                        <div class="fuel-div premium">
+                        <?php
+                            }elseif($fuels['fuel_category'] == "Racing"){
+                        ?>
+                        <div class="fuel-div racing">
+                        <?php
+                            }
+                        ?>
+                            <div class="fuel-name">
+                                <h1><?php echo $fuels['fuel_category']?></h1>
+                                <h6><?php echo $fuels['fuel_type']?></h6>
+                            </div>
+                            <div class="fuel-price">
+                                <?php
+                                    if(empty($fuels['old_price'])){
+                                ?>
+                                <h1><strong>₱</strong><?php echo $fuels['new_price']?>
+                                <?php
+                                    }else{
+                                        if($fuels['new_price'] > $fuels['old_price']){
+                                ?>
+                                <h1><strong>₱</strong><?php echo $fuels['new_price']?><i class="fas fa-angle-double-up"></i><span><?php echo number_format($fuels['new_price'] - $fuels['old_price'], 2) ?></span></h1>
+                                <p>from <strong>₱</strong><?php echo $fuels['old_price']?></p>
+                                <?php
+                                        }elseif($fuels['new_price'] < $fuels['old_price']){
+                                ?>
+                                <h1><strong>₱</strong><?php echo $fuels['new_price']?><i class="fas fa-angle-double-down"></i><span><?php echo abs(number_format($fuels['new_price'] - $fuels['old_price'], 2)) ?></span></h1>
+                                <p>from <strong>₱</strong><?php echo $fuels['old_price']?></p>
+                                <?php
+                                        }
+                                    }
+                                ?>
+                            </div>
+                            <p class="date">as of <?php echo $data->dateconverter($fuels['date_updated'])?></p>
+                        </div>
                     </div>
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
         </div>
-<?php
-        }
-    }else{
-?>
-    <div class="no-result-div"><i class="fas fa-search"></i>
-        <p>No result found for '<?=htmlspecialchars($_POST['key'])?>'</p>
-    </div>
-<?php
-    }
-?>
+        <?php
+                }
+            }else{
+        ?>
+        <div class="no-result-div"><i class="fas fa-search"></i>
+            <p>No result found for '<?=htmlspecialchars($_POST['key'])?>'</p>
+        </div>
+        <?php
+            }
+        ?>

@@ -11,7 +11,8 @@ function initMap() {
     var myOptions = {
         zoom: 14,
         center: coords,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        clickableIcons: false
     }
 
     map = new google.maps.Map(document.getElementById("maps"), myOptions);
@@ -39,9 +40,6 @@ function initMap() {
         + '<p style="font-weight: 500; margin: 0;">Address: ' + location.address + '</p>' 
         + '<p style="font-weight: 500; margin: 0;">Schedule: ' + location.sched + '</p>'
         + '<br>'
-        + '<div style="text-align: center;">'
-        + '<a class="btn" style="background-color:#fea600; border: none; color: #ffffff; padding:3px 10px;" href="store-mytimeline.php">View</a>';
-        + '</div>'
 
         //to show the station details
         google.maps.event.addListener(usermarker, 'click', function () {

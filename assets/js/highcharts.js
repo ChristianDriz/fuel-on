@@ -24,13 +24,13 @@ $(function () {
             },
             colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
             title: {
-                text: 'Average Sales Monthly Report'
+                text: 'Monthly Earning',
             },
             xAxis: {
                 type: 'category',
                 labels: {
                     formatter: function () {
-                        return 'Month ' + this.axis.defaultLabelFormatter.call(this);
+                        return this.axis.defaultLabelFormatter.call(this);
                     }            
                 },
             },
@@ -42,16 +42,15 @@ $(function () {
                 },
                 min: 0,
                 title: {
-                    text: ''
+                    text: 'Amount in Peso'
                 }
             },
+            legend: {
+                enabled: false
+            },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:,.2f}</b><br/>',
             },
             plotOptions: {
                 column: {

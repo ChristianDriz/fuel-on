@@ -25,7 +25,6 @@ if(isset($_SESSION['userID'])){
     if(isset($_GET['reason'])){
         $reason = $_GET['reason'];
     }
-    // echo $reason;
 
     if(isset($_GET['customerID'])){
         $customerID = $_GET['customerID'];
@@ -36,64 +35,27 @@ if(isset($_SESSION['userID'])){
     }
 
     if($status == 'declined'){
-        //pang balik ng quantity if declined order
-        // $prodQuant = $dbh->getProdQuantity($orderID);
-        // $transQuant = $dbh->getTransQuantity($orderID);
-        // $solver = $dbh->getOrdProducts($orderID);
-
-        // foreach ($prodQuant as $prodq){
-        //     $id[] = $prodq['productID'];
-        //     $prod[] = $prodq['quantity'];    
-        // }
-
-        // foreach($transQuant as $transq){
-        //     $tran[] = $transq['quantity'];
-        // }
-
-        // $i = 0;
-
-        // foreach($solver as $newq){
-        //     $newQ = $prod[$i] + $tran[$i].'<br>';
-        //     $prodID = $id[$i];
-        //     $dbh->updateQuantity($newQ, $prodID);
-        //     $i++;
-        // }
-
         $newStatus = 'Declined';
-        $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
+        $dbh->updateOrder($date, $newStatus, $reason, $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
     elseif($status == 'cancelled'){
 
         //pang balik ng quantity if cancelled order
-        $prodQuant = $dbh->getProdQuantity($orderID);
-        $transQuant = $dbh->getTransQuantity($orderID);
         $solver = $dbh->getOrdProducts($orderID);
 
-        foreach ($prodQuant as $prodq){
-            $id[] = $prodq['productID'];
-            $prod[] = $prodq['quantity'];    
-        }
+        foreach($solver as $data){
+            $stocks = $data['stocks'];
+            $quantity = $data['quantity'];
+            $prodID = $data['productID'];
+            $newstock = $stocks + $quantity;
 
-        foreach($transQuant as $transq){
-            $tran[] = $transq['quantity'];
-        }
-
-        $i = 0;
-
-        foreach($solver as $newq){
-            $newQ = $prod[$i] + $tran[$i].'<br>';
-
-            // echo $newQ;
-            $prodID = $id[$i];
-            // echo $prodID;
-            $dbh->updateQuantity($newQ, $prodID);
-            $i++;
+            $dbh->updateQuantity($newstock, $prodID);
         }
         
         $newStatus = 'Cancelled';
-        $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
+        $dbh->updateOrder($date, $newStatus, $reason, $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
@@ -101,33 +63,19 @@ if(isset($_SESSION['userID'])){
     elseif($status == 'pickup_failed'){
 
         //pang balik ng quantity if cancelled order
-        $prodQuant = $dbh->getProdQuantity($orderID);
-        $transQuant = $dbh->getTransQuantity($orderID);
         $solver = $dbh->getOrdProducts($orderID);
 
-        foreach ($prodQuant as $prodq){
-            $id[] = $prodq['productID'];
-            $prod[] = $prodq['quantity'];    
-        }
+        foreach($solver as $data){
+            $stocks = $data['stocks'];
+            $quantity = $data['quantity'];
+            $prodID = $data['productID'];
+            $newstock = $stocks + $quantity;
 
-        foreach($transQuant as $transq){
-            $tran[] = $transq['quantity'];
-        }
-
-        $i = 0;
-
-        foreach($solver as $newq){
-            $newQ = $prod[$i] + $tran[$i].'<br>';
-
-            // echo $newQ;
-            $prodID = $id[$i];
-            // echo $prodID;
-            $dbh->updateQuantity($newQ, $prodID);
-            $i++;
+            $dbh->updateQuantity($newstock, $prodID);
         }
         
         $newStatus = 'Pickup Failed';
-        $dbh->updateCancelledOrder($newStatus, $reason, $orderID);
+        $dbh->updateOrder($date, $newStatus, $reason, $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
@@ -135,7 +83,7 @@ if(isset($_SESSION['userID'])){
 
         $newStatus = 'To Pickup';
 
-        $dbh->updateOrder($newStatus, $orderID);
+        $dbh->updateOrder($date, $newStatus, '', $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
 
     }
@@ -143,10 +91,9 @@ if(isset($_SESSION['userID'])){
 
         $newStatus = 'Completed';
 
-        $dbh->updateOrder($newStatus, $orderID);
+        $dbh->updateOrder($date, $newStatus, '', $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);
     }
-
 }
 else{
     header('location: index.php');

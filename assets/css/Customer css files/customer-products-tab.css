@@ -206,15 +206,16 @@ body {
 
 .product-div {
   background-color: #ffffff;
-  border-radius: 2px;
+  border-radius: 4px;
   box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
   position: relative;
   overflow: hidden;
 }
 
 .product-div:hover {
-  border: 1px solid #fea600;
+  /*border: 1px solid #fea600;*/
   margin-top: -1px;
+  box-shadow: 0px 2px 20px rgba(207,197,197,0.28);
 }
 
 .product-image-div {
@@ -222,15 +223,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@media (max-width: 575px) {
-  .product-image-div {
-    height: 160px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 .product-image-div img {
@@ -277,6 +269,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-weight: 500;
 }
 
 .price-sold-div .sold {

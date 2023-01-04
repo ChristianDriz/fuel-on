@@ -1,5 +1,5 @@
 .product-container {
-  max-width: 1000px;
+  max-width: 1100px;
   padding-top: 50px;
 }
 
@@ -13,7 +13,7 @@
 
 #Product-details {
   background-color: #ffffff;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
 }
 
@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  height: 505px;
+  max-height: 550px;
 }
 
 .no-stock-img {
@@ -85,25 +85,36 @@ label {
   margin: 0;
 }
 
-#Product-quantity .quantity-div input {
-  padding: 5px 0;
-  font-size: 16px;
-  width: 50px;
+.quantity-div {
+  width: 120px;
+}
+
+.quantity-div .btn {
+  border-color: #dadfe3;
+  color: #827e7e;
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.quantity-div .btn:focus {
+  border-color: #dadfe3;
+  background-color: #f8f5f5;
+  color: #fea600;
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.quantity-div .form-control {
+  padding: 0;
+  font-size: 18px;
   text-align: center;
-  background-color: #ffffff;
+  font-weight: 600;
 }
 
 #Product-quantity .quantity-div input:focus {
   outline: #f5f0f0;
   box-shadow: 0 0 #f5f0f0;
   border-color: #ced4da;
-}
-
-#Product-quantity .col .stocks {
-  border: none;
-  width: 60px;
-  height: 24px;
-  color: #3e3d3d;
 }
 
 #Product-btns {
@@ -137,7 +148,7 @@ label {
 
 #Product-seller {
   background-color: #ffffff;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
   margin-top: 15px;
   align-items: center;
@@ -238,3 +249,11 @@ label {
   font-weight: 600;
   font-size: 20px;
 }
+
+/* Chrome, Safari, Edge, Opera */
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+

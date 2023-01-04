@@ -65,7 +65,7 @@
         $allowed_extension = array("jpg", "jpeg", "png");
         $error = $_FILES['image']['error'];
         
-        if ($size > 1000000) {
+        if ($size > 2000000) {
             if ($userType == 1) {
                 $dbh->info("../../customer-account-settings.php", "Your file is too large.");
             }

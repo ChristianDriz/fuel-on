@@ -7,15 +7,17 @@ if (isset($_SESSION['userID'])) {
     $userpic = $_SESSION['userPic'];
     $userType = $_SESSION['userType'];
 
-    if ($userType == 1) {
+    if ($userType == 1 || $userType == 0) 
+    {
         header('location: index.php');
     }
+
 } else {
     header('location: index.php');
 }
 
 require_once("assets/classes/dbHandler.php");
-$data = new Config();
+$dbh = new Config();
 
 if (isset($_GET['stationID'])) {
     $station = $_GET['stationID'];
@@ -23,8 +25,8 @@ if (isset($_GET['stationID'])) {
     $station = $userID;
 }
 
-$get = $data->getFeedback($station);
-$count = $data->getRatings($station);
+$get = $dbh->getFeedback($station);
+$count = $dbh->getRatings($station);
 if (!empty($get) || !empty($count)) {
     $rateSum = 0;
     foreach ($get as $rate) {
@@ -35,7 +37,7 @@ if (!empty($get) || !empty($count)) {
     $totalRate = 0;
 }
 
-$shop = $data->shopDetails($userID);
+$shop = $dbh->shopDetails($userID);
 $shopDetails = $shop[0];
 
 ?>
@@ -46,7 +48,7 @@ $shopDetails = $shop[0];
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Station My Products</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -56,98 +58,65 @@ $shopDetails = $shop[0];
     <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
     <link rel="stylesheet" href="assets/css/Store%20css%20files/store-myproducts.css">
-    <link rel="stylesheet" href="assets/css/Store%20css%20files/store-navigation.css">
+    <link rel="stylesheet" href="assets/css/Customer%20css%20files/customer-navigation.css">
     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css"> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="assets/css/modal-form.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container"><a class="btn" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars"></i></a><a class="navbar-brand" href="#">&nbsp;<i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a>
-            <ul class="navbar-nav">
-                <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $shopDetails['station_name'].' '.$shopDetails['branch_name']; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a href="store-home.php"><i class="fas fa-home"></i><span class="icon-name">Dashboard</span></a></li>
-                <li class="sidebar-brand"> <a href="store-location.php"><i class="fas fa-map-marked-alt"></i><span class="icon-name">Location</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="store-orders-all.php">
-                        <i class="fas fa-shopping-basket"></i><span class="icon-name">Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountShop($userID);
-                    if($orderCounter != 0){?>
-                        <sup><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="store-mytimeline.php"><i class="fas fa-store"></i><span class="icon-name">Profile</span></a></li>
-                <li class="sidebar-brand"> <a class="actives" href="store-myproducts.php"><i class="fas fa-shopping-bag"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> <a href="store-view-sales.php"><i class="fas fa-chart-bar"></i><span class="icon-name">View Sales</span></a></li>
-                <li class="sidebar-brand"> <a href="store-view-feedback.php"><i class="fas fa-star-half-alt"></i><span class="icon-name">Reviews</span></a></li>
-                <li class="sidebar-brand"> <a href="store-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">Settings</span></a></li>
-            </ul>
-        </div>
-        <div class="page-content-wrapper">
         <?php
-        $kawnt = $data->countProdsinShop($station);
-        $records = $data->allProductsStore($station);
+            //side navigation
+            include 'side-navigation.php';
         ?>
-        <div class="container products-container">
-            <div class="add-prod-div">
-                <h4>My Products</h4>
-                <a class="btn" role="button" href="store-add-products.php">Add Product</a>
-            </div>
-            <div class="products-div">
-                <!-- <div class="add-prod-div">
-                    <p>Total Products: <?php echo $kawnt ?></p>
-                    <a class="btn" role="button" href="store-add-products.php"><i class="fas fa-plus"></i>Add Product</a>
-                </div> -->
+        <div class="page-content-wrapper">
+            <?php
+            $kawnt = $dbh->countProdsinShop($station);
+            $records = $dbh->allProductsStore($station);
+            ?>
+            <div class="container products-container">
+                <div class="add-prod-div">
+                    <h4>My Products</h4>
+                    <a class="btn" role="button" href="#modal-add" data-bs-toggle="modal">Add Product</a>
+                </div>
                 <?php
                 if (empty($records)) {
                 ?>
-                <div class="no-post">
-                    <p>You don't have any products in your inventory.</p>
+                <div id="no-products">
+                    <div class="no-prod-div"><img src="assets/img/no-product.png">
+                        <h5>You don't have any products in your inventory.</h5>
+                    </div>
                 </div>
                 <?php
-                } else {
+                    }else {
                 ?>
+                <div class="products-div">
                     <div class="table-responsive">
                         <table class="product-table table">
                             <thead>
                                 <tr>
                                     <!-- <th></th> -->
-                                    <th>Image</th>
+                                    <th class="text-center">Image</th>
                                     <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Sold</th>
                                     <th>Stock</th>
+                                    <th>Critical Level</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                    $index = 0;
-                                    foreach ($records as $key => $val) {
+                                    foreach ($records as $val) {
                                         $prodID = $val['productID'];
-                                        $sold = $data->countShopSold($prodID);
-                                        // $benta = $sold[];
+                                        $sold = $dbh->countShopSold($prodID);
                                 ?>
                                 <tr>
                                     <!-- <td></td> -->
@@ -157,54 +126,176 @@ $shopDetails = $shop[0];
                                     <td class="prodname-td">
                                         <p><?php echo $val['product_name'] ?></p>
                                     </td>
-                                    <td>₱<?php echo $val['price'] ?></td>
-                                    <td><?php echo $sold ?></td>
-                                    <td><?php echo $val['quantity'] ?></td>
-                                    <td class="status-td">
+                                    <td>₱<?php echo $val['price']?></td>
                                     <?php
-                                        if ($val['quantity'] == 0) { ?>
-                                            <button class="btn btn-dark normal">No Stock</button>
-                                        <?php
-                                        } else if ($val['quantity'] < 10) {
-                                        ?>
-                                            <button class="btn btn-danger normal">Critical</button>
-                                        <?php
-                                        } else if ($val['quantity'] >= 10) {
-                                        ?>
-                                            <button class="btn btn-success normal">Normal</button>
-                                        <?php } ?>
+                                        if($sold == 0){
+                                    ?>
+                                    <td>0</td>
+                                    <?php
+                                        }else{
+                                    ?>
+                                    <td><?php echo $dbh->numberconverter($sold)?></td>
+                                    <?php
+                                        }
+                                    ?>
+                                    <td><?php echo $val['quantity'] ?></td>
+                                    <td><?php echo $val['critical_level']?></td>
+                                    <td>
+                                        <div class="status-div">
+                                            <?php
+                                                if ($val['quantity'] == 0) { 
+                                            ?>
+                                                <p class="no-stock">No Stock</p>
+                                            <?php
+                                                }else if ($val['quantity'] <= $val['critical_level']){
+                                            ?>
+                                                <p class="critical">Critical</p>
+                                            <?php
+                                                } else if ($val['quantity'] > $val['critical_level']) {
+                                            ?>
+                                                <p class="normal">Normal</p>
+                                            <?php 
+                                                }
+                                            ?>
+                                        </div>
                                     </td>
                                     <td>
-                                        <a class="btn edit-btn" role="button" data-bss-tooltip="" data-bs-placement="bottom" title="Edit product" href="store-update-myproduct.php?productID=<?php echo $val['productID'] ?>">
+                                        <a class="btn edit-btn" role="button" data-bs-toggle="modal" href="#modal-update<?php echo $val['productID']?>">
                                             <i class="fas fa-pen"></i>
                                         </a>
-                                        <!-- <a href="assets/includes/deleteProducts-inc.php?prodID=<?= $val['productID'] ?>" class="btn del-btn" role="button" data-bs-toggle="tooltip" data-bss-tooltip="" data-bs-placement="bottom" title="Delete product" onClick="return deleteconfirm()">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                            <script>
-                                function deleteconfirm() 
-                                {
-                                    var result = confirm("Are you sure you want to delete this product?");
-                                    if (result==true) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
-                                }
-                            </script> -->
+      
+                                        <!--update modal-form-->
+                                        <div class="modal fade" role="dialog" tabindex="-1" id="modal-update<?php echo $val['productID']?>">
+                                            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <form class="modal-form" action="assets/includes/updateProducts-inc.php?prodID=<?php echo $val['productID'] ?>" method="post" enctype="multipart/form-data">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Update Product</h4>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row settings-row">
+                                                                <div class="col-12 col-xl-4 form prod-image">
+                                                                    <div class="input-div"><label class="form-label">Product Image</label>
+                                                                        <div class="avatar-bg"><img src="assets/img/products/<?php echo $val['prod_image'] ?>"/></div>
+                                                                    </div><input class="form-control file-input image-input" type="file" name="image" accept="image/*">
+                                                                    <div class="leybel">
+                                                                        <p>Maximum size: 2MB</p>
+                                                                        <p>File extension: JPEG, PNG</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 col-xl-8 form prod-details">
+                                                                    <div class="input-div">
+                                                                        <label class="form-label">Product Name</label>
+                                                                        <input class="form-control" type="text" name="prodName" placeholder="Enter product name" value="<?php echo $val['product_name']?>">
+                                                                    </div>
+                                                                    <div class="input-div">
+                                                                        <label class="form-label">Description</label>
+                                                                        <textarea class="form-control" name="description" placeholder="Enter product description"><?php echo $val['description']?></textarea>
+                                                                    </div>
+                                                                    <div class="input-div">
+                                                                        <label class="form-label">Price</label>
+                                                                        <input class="form-control" type="number" name="price" min="1" placeholder="Enter price" value="<?php echo number_format($val['price'])?>">
+                                                                    </div>
+                                                                    <div class="stocks-n-critical">
+                                                                        <div class="input-div stocks-div">
+                                                                            <label class="form-label">Stocks</label>
+                                                                            <input class="form-control" type="number" name="stocks" min="0" placeholder="Enter stocks" value="<?php echo $val['quantity']?>">
+                                                                        </div>
+                                                                        <div class="input-div critical-div">
+                                                                            <label class="form-label">Critical Level</label>
+                                                                            <input class="form-control" type="number" name="criticalLevel" min="1" placeholder="Enter product critical level" value="<?php echo $val['critical_level']?>">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="button-div">
+                                                                        <button class="btn cancel" type="button">Discard</button>
+                                                                        <button class="btn save" type="submit" name="save">Save Changes</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php
-                                    $index++;
                                 }
                                 ?>
                             </tbody>
-
                         </table>
                     </div>
-                <?php
+                </div>
+            </div>
+            <?php
                 }
-                ?>
+                if(isset($_GET['prodName']) || isset($_GET['stocks']) || isset($_GET['criticalLevel']) || isset($_GET['price']) || isset($_GET['description'])){
+                    $prodName = $_GET['prodName'];
+                    $desc = $_GET['description'];
+                    $price = $_GET['price'];
+                    $stocks = $_GET['stocks'];
+                    $level = $_GET['level'];
+                }else{
+                    $prodName = "";
+                    $desc = "";
+                    $price = "";
+                    $stocks = "";
+                    $level = "";
+                }
+            ?>
+            <!--modal form-->
+            <div class="modal fade" role="dialog" tabindex="-1" id="modal-add">
+                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form class="modal-form" action="assets/includes/addProduct-inc.php" method="post" enctype="multipart/form-data">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Product</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row settings-row">
+                                    <div class="col-12 col-xl-4 form prod-image">
+                                        <div class="input-div"><label class="form-label">Product Image</label>
+                                            <div class="avatar-bg"></div>
+                                        </div><input class="form-control file-input image-input" type="file" name="image" accept="image/*">
+                                        <div class="leybel">
+                                            <p>Maximum size: 2MB</p>
+                                            <p>File extension: JPEG, PNG</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-8 form prod-details">
+                                        <div class="input-div">
+                                            <label class="form-label">Product Name</label>
+                                            <input class="form-control" type="text" name="prodName" placeholder="Enter product name" value="<?php echo $prodName?>">
+                                        </div>
+                                        <div class="input-div">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control" name="description" placeholder="Enter product description"><?php echo $desc?></textarea>
+                                        </div>
+                                        <div class="input-div">
+                                            <label class="form-label">Price</label>
+                                            <input class="form-control" type="number" name="price" min="1" placeholder="Enter price" value="<?php echo $price?>">
+                                        </div>
+                                        <div class="stocks-n-critical">
+                                            <div class="input-div stocks-div">
+                                                <label class="form-label">Stocks</label>
+                                                <input class="form-control" type="number" name="stocks" min="1" placeholder="Enter stocks" value="<?php echo $stocks?>">
+                                            </div>
+                                            <div class="input-div critical-div">
+                                                <label class="form-label">Critical Level</label>
+                                                <input class="form-control" type="number" name="criticalLevel" min="1" placeholder="Enter product critical level" value="<?php echo $level?>">
+                                            </div>
+                                        </div>
+                                        <div class="button-div">
+                                            <button class="btn cancel" type="button">Cancel</button>
+                                            <button class="btn save" type="submit" name="save">Add Product</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,8 +329,22 @@ $shopDetails = $shop[0];
             } ],
             order: [ 1, 'asc' ]
         });
-
+        
         <?php 
+        if(isset($_SESSION['info_message'])) 
+            { ?>
+            
+        //NOTIFY 
+        Swal.fire({
+            title: 'Oops...',
+            text: '<?php echo $_SESSION['info_message']?>',
+            icon: 'info',
+            button: true
+        });
+        <?php 
+        unset($_SESSION['info_message']);
+        }
+
         if(isset($_SESSION['message'])) {?>
         //SUCCESS
         Swal.fire({

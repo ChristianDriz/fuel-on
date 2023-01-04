@@ -11,6 +11,10 @@ if(isset($_SESSION['userID'])){
     { 
         header('location: index.php');
     }
+    elseif($userType == 0)
+    { 
+        header('location: index.php');
+    }
 }
 else{
     header('location: index.php');
@@ -58,7 +62,7 @@ $countFive = $data->countFiveStar($station);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Station Feedbacks</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -72,182 +76,161 @@ $countFive = $data->countFiveStar($station);
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container">
-            <a class="btn" role="button" id="menu-toggle" href="#menu-toggle">
-                <i class="fa fa-bars"></i>
-            </a>
-            <a class="navbar-brand">
-                <i class="fas fa-gas-pump"></i>&nbsp;FUEL ON
-            </a>
-            <ul class="navbar-nav">
-            <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $username; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a href="customer-home.php"><i class="fas fa-home"></i><span class="icon-name">Home</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-map.php"><i class="fas fa-map-pin"></i><span class="icon-name">Map</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-products.php"><i class="fas fa-tags"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-cart.php">
-                        <i class="fas fa-shopping-cart"></i><span class="icon-name">Cart</span>
-                    </a>
-                    <?php 
-                    $cartItemCount = $data->cartTotalItems($userID);
-                    if($cartItemCount != 0){?>
-                        <sup><?php echo $cartItemCount?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-my-order.php">
-                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountCustomer($userID);
-                    if($orderCounter != 0){?>
-                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
-            </ul>
-        </div>
-        <div class="page-content-wrapper">
-    <div class="store-profile-div">
     <?php
-        foreach($stations as $val){
-
-            //open hour
-            $openTime = $val['opening'];
-            $createdate = date_create($openTime);
-            $Timeopen = date_format($createdate, "h:i a");
-
-            //close hour
-            $closeTime = $val['closing'];
-            $createdate = date_create($closeTime);
-            $Timeclose = date_format($createdate, "h:i a");
+        //top navigation
+        include 'top-navigation.php';
     ?>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-7 col-lg-8 profile-col">
-                    <div class="profile-image-div"><img class="img" src="assets/img//profiles/<?= $val['user_image']?>"></div>
-                    <div class="profile-name-div">
-                        <h5><?= $val['station_name'].' '.$val['branch_name'] ?> Branch</h5>
-                        <p style="font-weight: 600;"><?php echo $val['station_address']?></p>
-                        <p class="rating">
-                            <i class="far fa-star"></i>Rating:
-                            <a><span><?= number_format($totalRate, 1)?> (<?= $count ?> Rating)</span></a>
-                        </p>
-                        <div class="sched-div 24hrs"><i class="far fa-clock"></i>
-                            <p class="open">
-                                <span style="font-weight: 500;">
-                                <?php
-                                    if($val['opening'] == "00:00:00" && $val['closing'] == "00:00:00"){
-                                        echo "24 hours Open"; 
-                                    }else{
-                                        echo $Timeopen . ' to ' . $Timeclose;
-                                    }
-                                ?>
-                                </span>
-                            </p>
+    <div id="wrapper">
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
+        <div class="page-content-wrapper">
+            <div class="store-profile-div">
+            <?php
+                foreach($stations as $val){
+
+                    //open hour
+                    $openTime = $val['opening'];
+                    $createdate = date_create($openTime);
+                    $Timeopen = date_format($createdate, "h:i a");
+
+                    //close hour
+                    $closeTime = $val['closing'];
+                    $createdate = date_create($closeTime);
+                    $Timeclose = date_format($createdate, "h:i a");
+            ?>
+                <div class="container">
+                    <div class="map-div" id="maps"></div>
+                    <input type="hidden" id="mapLat" value="<?php echo $val['map_lat']?>">
+                    <input type="hidden" id="mapLng" value="<?php echo $val['map_lang']?>">
+                    <input type="hidden" id="station" value="<?php echo $val['station_name'].' '.$val['branch_name']?>">
+                    <input type="hidden" id="address" value="<?php echo $val['station_address']?>">
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-7 col-lg-8 profile-col">
+                            <div class="profile-image-div">
+                                <div class="outline-div">
+                                    <img class="img" src="assets/img//profiles/<?= $val['user_image']?>">
+                                </div>
+                            </div>
+                            <div class="profile-name-div">
+                                <h5><?= $val['station_name'].' '.$val['branch_name'] ?> Branch</h5>
+                                <p style="font-weight: 600;"><?php echo $val['station_address']?></p>
+                                <p class="rating">
+                                    <i class="far fa-star"></i>Rating:
+                                    <a><span><?= number_format($totalRate, 1)?> (<?= $count ?> Rating)</span></a>
+                                </p>
+                                <div class="sched-div 24hrs"><i class="far fa-clock"></i>
+                                    <p class="open">
+                                        <span style="font-weight: 500;">
+                                        <?php
+                                            if($val['opening'] == "00:00:00" && $val['closing'] == "00:00:00"){
+                                                echo "24 hours Open"; 
+                                            }else{
+                                                echo $Timeopen . ' to ' . $Timeclose;
+                                            }
+                                        ?>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            <?php 
+                } 
+            ?>
             </div>
-        </div>
-    <?php 
-        } 
-    ?>
-    </div>
-    <div class="container ratings-container">
-        <div id="store-ratings-total" class="ratings-summary">
-            <div class="rates-heading"><a href="customer-viewstore-timeline.php?stationID=<?php echo $val['userID']; ?>"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-arrow-left">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <line x1="5" y1="12" x2="11" y2="18"></line>
-                        <line x1="5" y1="12" x2="11" y2="6"></line>
-                    </svg></a>
-                <h4>Store Ratings</h4>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-auto"><button class="btn ratings-btn active" type="button" id="allStar" value="<?php echo $val['userID'];?>">All<span>(<?=$countAll?>)</span></button></div>
-                <div class="col-auto"><button class="btn ratings-btn" type="button" id="fiveStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countFive?>)</span></button></div>
-                <div class="col-auto"><button class="btn ratings-btn" type="button" id="fourStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countFour?>)</span></button></div>
-                <div class="col-auto"><button class="btn ratings-btn" type="button" id="threeStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countThree?>)</span></button></div>
-                <div class="col-auto"><button class="btn ratings-btn" type="button" id="twoStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countTwo?>)</span></button></div>
-                <div class="col-auto"><button class="btn ratings-btn" type="button" id="oneStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><span>(<?=$countOne?>)</span></button></div>
-            </div>
-        </div>
-
-        <!--Start ng loop-->
-        <div class="dito" id="dito">
-        <?php
-            if(!empty($feedback)){
-                foreach($feedback as $ratings){  
-
-                $date = $ratings['rating_date'];
-                $createdate = date_create($date);
-                $new_date = date_format($createdate, "M d, Y h:i:s A");
-        ?>
-        <div class="ratings-div">
-            <div>
-                <div class="rates-pic-div"><img class="rates-img" src="assets/img/profiles/<?=$ratings['user_image']?>"></div>
-            </div>
-            <div class="rates-content">
-                <div class="user-div">
-                    <p class="user-name"><?=$ratings['firstname'].' '.$ratings['lastname']?></p>
+            <div class="container ratings-container">
+                <div id="store-ratings-total" class="ratings-summary">
+                    <div class="rates-heading">
+                        <a class="back">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-arrow-left">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <line x1="5" y1="12" x2="11" y2="18"></line>
+                                <line x1="5" y1="12" x2="11" y2="6"></line>
+                            </svg>
+                        </a>
+                        <h4>Station Ratings</h4>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto"><button class="btn ratings-btn active" type="button" id="allStar" value="<?php echo $val['userID'];?>">All<span>(<?=$countAll?>)</span></button></div>
+                        <div class="col-auto"><button class="btn ratings-btn" type="button" id="fiveStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countFive?>)</span></button></div>
+                        <div class="col-auto"><button class="btn ratings-btn" type="button" id="fourStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countFour?>)</span></button></div>
+                        <div class="col-auto"><button class="btn ratings-btn" type="button" id="threeStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countThree?>)</span></button></div>
+                        <div class="col-auto"><button class="btn ratings-btn" type="button" id="twoStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><i class="fas fa-star"></i><span>(<?=$countTwo?>)</span></button></div>
+                        <div class="col-auto"><button class="btn ratings-btn" type="button" id="oneStar" value="<?php echo $val['userID'];?>"><i class="fas fa-star"></i><span>(<?=$countOne?>)</span></button></div>
+                    </div>
                 </div>
-                <div class="star-div">
-                    <?php
-                        $star = 0;
-                        while($star < $ratings['rating']){
-                    ?>
-                            <i class="fas fa-star"></i>
-                    <?php
-                        $star++;
+
+                <!--Start ng loop-->
+                <div class="dito" id="dito">
+                <?php
+                    if(!empty($feedback)){
+                        foreach($feedback as $ratings){  
+                ?>
+                <div class="ratings-div">
+                    <div>
+                        <div class="rates-pic-div"><img class="rates-img" src="assets/img/profiles/<?=$ratings['user_image']?>"></div>
+                    </div>
+                    <div class="rates-content">
+                        <div class="user-div">
+                            <p class="user-name"><?=$ratings['firstname'].' '.$ratings['lastname']?></p>
+                        </div>
+                        <div class="star-div">
+                            <?php
+                                $star = 0;
+                                while($star < $ratings['rating']){
+                            ?>
+                                    <i class="fas fa-star"></i>
+                            <?php
+                                $star++;
+                                }
+                            ?>
+                        </div>
+                        <div class="comment-div">
+                            <p><?=$ratings['feedback']?></p>
+                        </div>
+                        <div class="date-div">
+                            <p class="rate-date"><?php echo $data->datetimeconverter($ratings['rating_date']) ?></p>
+                        </div>
+                    </div>
+                </div>
+                <?php
                         }
-                    ?>
+                    }else{
+                ?>
+                <div class="no-ratings-div">
+                    <p>No Ratings Yet</p>
                 </div>
-                <div class="date-div">
-                    <p class="rate-date"><?php echo $new_date ?></p>
+                <?php 
+                    }
+                ?>
                 </div>
-                <div class="comment-div">
-                    <p><?=$ratings['feedback']?></p>
-                </div>
+                <!--End ng loop-->
             </div>
         </div>
-        <?php
-                }
-            }else{
-        ?>
-        <div class="no-ratings-div">
-            <p>No Ratings Yet</p>
-        </div>
-        <?php 
-            }
-        ?>
-        </div>
-        <!--End ng loop-->
     </div>
-    </div>
-    </div>
-    <script>
-        var stars = document.querySelectorAll(".ratings-btn");
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/ratings.js"></script>
+    <script src="assets/js/Sidebar-Menu.js"></script>
+    <script src="assets/js/sweetalert2.js"></script>
+    <!--galing kay rose-->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznw3cpC9HWF3r7VOvfpTpFaC_3s2lPMY"></script> -->
+    
+    <!--galing kay michelle-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_OEm-GWs2MhtvKaabGYVDO1wOE6LI9i0"></script>
 
+    <script src="assets/js/customer-viewstore-location.js"></script>
+    <script>
+        $('.back').click(function () { 
+            window.history.back();
+        });
+
+        var stars = document.querySelectorAll(".ratings-btn");
         stars.forEach(button => {
             button.addEventListener("click",()=> {
                 resetActive();
@@ -260,14 +243,7 @@ $countFive = $data->countFiveStar($station);
                 button.classList.remove("active");
             })
         }
-    </script>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/ratings.js"></script>
-    <script src="assets/js/Sidebar-Menu.js"></script>
-    <script src="assets/js/sweetalert2.js"></script>
-    <script>    
         <?php if(isset($_SESSION['message'])) 
             { ?>
         Swal.fire({

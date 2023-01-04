@@ -1,5 +1,25 @@
 <?php
-session_start();
+    session_start();
+
+    if(isset($_SESSION['userID'])){
+        $userID = $_SESSION['userID'];
+        $username = $_SESSION['fname'];
+        $userpic = $_SESSION['userPic'];
+        $userType = $_SESSION['userType'];
+    
+        if($userType == 0)
+        { 
+            header('location: admin-home-panel.php');
+        }
+        elseif($userType == 1)
+        { 
+            header('location: customer-home.php');
+        }
+        elseif($userType == 2)
+        { 
+            header('location: store-home.php');
+        }
+    }
 
     if(isset($_GET['email'])){
         $email = $_GET['email'];
@@ -15,7 +35,7 @@ session_start();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Login</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -62,7 +82,7 @@ session_start();
                         <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a></li>
                         <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>
                     </ul>
-                    <p class="copyright text-center">Copyright © FuelOn 2022 | Web Design by Christian Joseph Dimla</p>
+                    <p class="copyright text-center">Copyright © FuelOn 2022 | Web Design by Fuel On Team</p>
                 </div>
             </div>
         </div>

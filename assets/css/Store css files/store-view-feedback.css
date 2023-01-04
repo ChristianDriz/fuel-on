@@ -9,7 +9,7 @@ body {
 .div-div {
   background-color: #ffffff;
   box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
-  border-radius: 7px;
+  border-radius: 8px;
   margin: 20px 0;
   padding: 10px 30px;
 }
@@ -26,15 +26,12 @@ body {
 
 .ratings-summary {
   text-align: center;
-  padding: 20px 0;
-  border-bottom: 1px solid #f5f0f0;
+  padding: 20px 0 10px 0;
 }
 
 @media (max-width: 575px) {
   .ratings-summary {
-    text-align: center;
     padding: 0 0 10px 0;
-    border-bottom: 1px solid #f5f0f0;
   }
 }
 
@@ -71,8 +68,8 @@ body {
 .ratings-btn {
   border: 1px solid rgba(99,93,93,0.28);
   width: 100px;
-  border-radius: 2px;
-  padding: 3px;
+  border-radius: 8px;
+  padding: 0 0 3px 0;
 }
 
 .ratings-btn.active {
@@ -97,7 +94,7 @@ body {
 
 .fa-star {
   color: #fea600;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .ratings-container h4 {
@@ -107,8 +104,8 @@ body {
 
 .ratings-div {
   display: flex;
-  padding: 20px 0;
-  border-bottom: 1px solid #f5f0f0;
+  padding: 15px 0;
+  border-top: 1px solid #f5f0f0;
 }
 
 .rates-pic-div {
@@ -135,7 +132,7 @@ body {
 }
 
 .rates-content {
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 .user-div .user-name {
@@ -149,13 +146,17 @@ body {
   font-size: 14px;
 }
 
+.date-div p {
+  margin: 0;
+}
+
 .date-div .rate-date {
-  margin: 10px 0;
+  margin: 5px 0;
   color: rgba(62,61,61,0.76);
 }
 
 .comment-div p {
-  color: #000000;
+  margin: 5px 0 0 0;
 }
 
 /* END */

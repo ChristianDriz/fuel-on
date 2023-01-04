@@ -16,17 +16,32 @@ if(isset($_POST['addAdmin'])){
     $verified = 1;
 
 }
-    $account = $dbh->checkAdminAccount();
-    $acc = $account[0];
+    $account = $dbh->getVerified($email);
+    $data = 'fname=' .$fname. '&lname=' .$lname. '&email=' .$email. '&phone=' .$phone;
 
-    if($email == $acc['email'] || $phone == $acc['phone_num']){
-        $dbh->info("../../admin-table.php", "Account already taken. Please use other email or phone.");
+    //checking email if already used
+    if(!empty($account)){
+        $dbh->info("../../admin-table.php?$data", "Email already taken. Please use other email.");
     }
+    //fname and lname format validation
+    elseif(!preg_match("/^[a-zA-Z0-9_ -]*$/", $fname) || !preg_match("/^[a-zA-Z0-9_ -]*$/", $lname)){
+        $dbh->info("../../admin-table.php?$data", "Invalid name format.");
+    }
+    //email format validation
+    elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        $dbh->info("../../admin-table.php?$data", "Invalid email format.");
+    }
+    //phone num format validation
     elseif (!preg_match("/^(09)[0-9]{0,9}$/", $phone)){
-        $dbh->info("../../admin-table.php", "Invalid phone number format.");
+        $dbh->info("../../admin-table.php?$data", "Invalid phone number format must be 11 digits in length.");
     }
+    //pass must be equal to confirm pass
     elseif($pass != $confirmpass){
-        $dbh->info("../../admin-table.php", "Password does not match.");
+        $dbh->info("../../admin-table.php?$data", "Password does not match.");
+    }
+    //pass lenght must be 8 chars
+    elseif(strlen($pass) < 8){
+        $dbh->info("../../admin-table.php?$data", "Password must be 8 characters in length.");
     }
     else{
         $hashedPass = password_hash($pass, PASSWORD_DEFAULT);

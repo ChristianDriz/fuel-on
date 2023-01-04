@@ -10,6 +10,10 @@
         { 
             header('location: index.php');
         }
+        elseif($userType == 0)
+        { 
+            header('location: index.php');
+        }
     }
     else{
         header('location: index.php');
@@ -24,7 +28,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Checkout</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -37,64 +41,24 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container">
-            <a class="btn" role="button" id="menu-toggle" href="#menu-toggle">
-                <i class="fa fa-bars"></i>
-            </a>
-            <a class="navbar-brand">
-                <i class="fas fa-gas-pump"></i>&nbsp;FUEL ON
-            </a>
-            <ul class="navbar-nav">
-                <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $username; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a href="customer-home.php"><i class="fas fa-home"></i><span class="icon-name">Home</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-map.php"><i class="fas fa-map-pin"></i><span class="icon-name">Map</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-products.php"><i class="fas fa-tags"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-cart.php">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="icon-name">Cart</span>
-                    </a>
-                    <?php
-                    $cartRemaining = $data->cartRemainingItems($userID, $userID);
-                    if ($cartRemaining != 0) { ?>
-                        <sup><?php echo $cartRemaining ?></sup>
-                    <?php
-                    } ?>
-                </li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-my-order.php">
-                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountCustomer($userID);
-                    if($orderCounter != 0){?>
-                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
-            </ul>
-        </div>
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
         <div class="page-content-wrapper">
-            <form action = "assets/includes/checkout-inc.php" method="post">
+            <form action="assets/includes/checkout-inc.php" method="post" enctype="multipart/form-data">
             <div id="kart-container">
+                <div class="title-div">
+                    <a class="back">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <h4>Checkout</h4>
+                </div>
                 <div id="product-header">
                     <div class="col-6 head-col">
                         <p class="produkto">Product</p>
@@ -109,13 +73,11 @@
                         <p>Total Price</p>
                     </div>
                 </div>
-
                     <?php
                     $stations = $data->divideShopsCheckout($userID);
-
                     $grandtotal = 0;
                     $count = 0;
-
+                    
                     foreach($stations as $station){
                         $shopID = $station['shopID'];
                         $records = $data->sortCartCheckOut($userID, $shopID);
@@ -126,7 +88,7 @@
                     ?>
                     <div class="prodak">
                         <div class="seller-name">
-                            <a href="customer-viewstore-timeline.php?stationID=<?php echo $shops['shopID'] ?>">
+                            <a>
                                 <i class="fas fa-store"></i>
                                 <?=$shops['station_name'].' '.$shops['branch_name'];?>
                             </a>
@@ -139,7 +101,7 @@
                         <div class="sa-products">     
                             <div class="product-col">
                                 <div class="imeyds-div">
-                                        <a href="customer-view-products.php?stationID=<?=$val['shopID']?>&&prodID=<?=$val['productID']?>"><img class=".product-img" src="assets/img/products/<?=$val['prod_image'];?>"></a>
+                                    <a><img class="product-img" src="assets/img/products/<?=$val['prod_image'];?>"></a>
                                 </div>
                                 <div class="neym-div">
                                     <p class="product-name"><?=$val['product_name'];?></p>
@@ -162,8 +124,7 @@
                         </div>
                     </div>
                     <?php $grandtotal += $ordtotal; }?>
-            
-                
+               
                 <div id="checkout">
                     <div class="payment-method-div">
                         <p>Payment Method:</p>
@@ -181,12 +142,13 @@
                         <?php
                             if($count != 0){
                         ?>
-                        </div><button class="btn" type="submit" name="checkout">Place Order</button>
+                        </div>
+                        <button class="btn" type="submit" name="checkout">Place Order</button>
                         <?php
                         }
                         else{
                         ?>
-                        </div><button class="btn disabled" type="submit" name="checkout">Place Order</button>
+                        <button class="btn disabled" type="submit" name="checkout">Place Order</button>
                         <?php
                         }
                         ?>
@@ -224,6 +186,10 @@
         fetchMessageNotif();
         //auto update every .5 sec
         setInterval(fetchMessageNotif, 500);
+
+        $('.back').click(function () { 
+            window.history.back();
+        });
     </script>
 </body>
 </html>

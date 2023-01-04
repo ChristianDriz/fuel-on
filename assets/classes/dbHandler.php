@@ -1,6 +1,5 @@
 <?php
 
-
 require_once('Notifications.php');
 
 class DBHandler extends Notifications
@@ -18,7 +17,8 @@ class DBHandler extends Notifications
 
             // $username = "root";
             // $password = "";
-            // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
+            // // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
+            // $dbh = new PDO('mysql:host=localhost;dbname=u887826340_db_fuelon', $username, $password);
             // return $dbh;
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -32,11 +32,9 @@ class Config extends DBHandler
     public function addToCart($userID, $shopID, $prodID, $prodName, $quantity)
     {
         try {
-            $stmt = $this->connect()->prepare('INSERT INTO tbl_carts(customerID, shopID, productID, product_name, quantity) VALUES(?, ?, ?, ?, ?);');
-
+            $stmt = $this->connect()->prepare('INSERT INTO tbl_carts(customerID, shopID, productID, product_name, quantity) 
+            VALUES(?, ?, ?, ?, ?);');
             $stmt->execute(array($userID, $shopID, $prodID, $prodName, $quantity));
-
-            //echo "<script>alert('Added to cart successfully!');document.location='../../customer-cart.php'</script>";
 
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -123,14 +121,14 @@ class Config extends DBHandler
     //     }
     // }
 
-    public function checkOut($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $date)
+    public function checkOut($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $orderDate)
     {
         try {
             $stmt = $this->connect()->prepare('INSERT INTO tbl_transactions(shopID, customerID, 
             productID, product_name, price, quantity, total, 
-            orderID, payment_method, transac_date) 
+            orderID, payment_method, date_ordered) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
-            $stmt->execute(array($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $date));
+            $stmt->execute(array($shopID, $customerID, $prodID, $prodName, $prodPrice, $quantity, $total, $orderID, $payment, $orderDate));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -160,6 +158,7 @@ class Config extends DBHandler
                     FROM tbl_notif 
                     WHERE customerID = ?
                     AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")
+                    GROUP BY notif_date
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
@@ -168,7 +167,7 @@ class Config extends DBHandler
                     print "Error!: " . $e->getMessage() . "<br/>";
                     die();
                 }
-                break;
+            break;
 
             case '2';
                 try {
@@ -176,6 +175,7 @@ class Config extends DBHandler
                     FROM tbl_notif 
                     WHERE shopID = ?
                     AND notif_type IN ("Ordered", "Cancelled", "Completed", "Pickup Failed")
+                    GROUP BY notif_date
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
@@ -184,7 +184,7 @@ class Config extends DBHandler
                     print "Error!: " . $e->getMessage() . "<br/>";
                     die();
                 }
-                break;
+            break;
         }
     }
 
@@ -213,7 +213,7 @@ class Config extends DBHandler
                     print "Error!: " . $e->getMessage() . "<br/>";
                     die();
                 }
-                break;
+            break;
 
             //shop
             case '2':
@@ -225,7 +225,7 @@ class Config extends DBHandler
                     WHERE tbl_users.userID = tbl_transactions.customerID 
                     AND tbl_products.productID = tbl_transactions.productID 
                     AND tbl_transactions.orderID = ? 
-                    GROUP BY tbl_transactions.orderID;');
+                    GROUP BY tbl_transactions.orderID');
 
                     $stmt->execute(array($orderID));
                     return $stmt->fetchAll();
@@ -233,7 +233,7 @@ class Config extends DBHandler
                     print "Error!: " . $e->getMessage() . "<br/>";
                     die();
                 }
-                break;
+            break;
         }
     }
 
@@ -249,6 +249,7 @@ class Config extends DBHandler
                     WHERE customerID = ?
                     AND read_status = 0
                     AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")
+                    GROUP BY notif_date
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
@@ -267,6 +268,7 @@ class Config extends DBHandler
                     WHERE shopID  = ?
                     AND read_status = 0
                     AND notif_type IN ("Ordered", "Cancelled")
+                    GROUP BY notif_date
                     ORDER BY notif_date DESC;');
 
                     $stmt->execute(array($userID));
@@ -288,10 +290,15 @@ class Config extends DBHandler
             case '1':
                 try {
                     $stmt = $this->connect()->prepare('SELECT COUNT(*) 
-                    FROM tbl_notif 
-                    WHERE customerID = ? 
-                    AND read_status = 0
-                    AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")');
+                    FROM (
+                        SELECT COUNT(*) 
+                        FROM tbl_notif 
+                        WHERE customerID = ?
+                        AND read_status = 0
+                        AND notif_type IN ("To Pickup", "Declined", "Completed", "Pickup Failed")
+                        GROUP BY notif_date
+                    )
+                    tbl_notif');
 
                     $stmt->execute(array($userID));
                     return $stmt->fetchColumn();
@@ -305,10 +312,15 @@ class Config extends DBHandler
             case '2':
                 try {
                     $stmt = $this->connect()->prepare('SELECT COUNT(*) 
-                    FROM tbl_notif 
-                    WHERE shopID = ?
-                    AND read_status = 0 
-                    AND notif_type IN ("Ordered", "Cancelled")');
+                    FROM (
+                        SELECT COUNT(*) 
+                        FROM tbl_notif 
+                        WHERE shopID = ?
+                        AND read_status = 0
+                        AND notif_type IN ("Ordered", "Cancelled")
+                        GROUP BY notif_date
+                    )
+                    tbl_notif');
                     $stmt->execute(array($userID));
                     return $stmt->fetchColumn();
                 } catch (\PDOException $e) {
@@ -382,7 +394,8 @@ class Config extends DBHandler
     public function customerGetStationforFuel($shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.station_name, tbl_station.branch_name
+            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.station_name, tbl_station.branch_name, 
+            tbl_station.station_address, tbl_station.shopID
             FROM tbl_users, tbl_station
             WHERE tbl_users.userID = tbl_station.shopID 
             AND tbl_users.userID = ?');
@@ -459,12 +472,27 @@ class Config extends DBHandler
     public function productsFuelAll()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.station_name, tbl_station.branch_name, tbl_fuel.*
+            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.station_name, tbl_station.branch_name, tbl_station.station_address, tbl_fuel.*
             FROM tbl_users, tbl_station, tbl_fuel
             WHERE tbl_users.userID = tbl_station.shopID
             AND tbl_station.shopID = tbl_fuel.shopID
+            GROUP BY tbl_users.userID
             ORDER BY tbl_fuel.date_updated DESC');
             $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function fuelDetails($shopID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT * FROM tbl_fuel 
+            WHERE shopID = ?
+            ORDER BY fuel_category ');
+            $stmt->execute(array($shopID));
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -530,7 +558,8 @@ class Config extends DBHandler
     public function productsFuelDiesel()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, tbl_station.branch_name, tbl_fuel.* 
+            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, 
+            tbl_station.branch_name, tbl_station.station_address, tbl_fuel.* 
             FROM tbl_users, tbl_station, tbl_fuel
             WHERE tbl_users.userID = tbl_station.shopID
             AND tbl_station.shopID = tbl_fuel.shopID
@@ -547,7 +576,8 @@ class Config extends DBHandler
     public function productsFuelUnleaded()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, tbl_station.branch_name, tbl_fuel.* 
+            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, 
+            tbl_station.branch_name,  tbl_station.station_address, tbl_fuel.* 
             FROM tbl_users, tbl_station, tbl_fuel
             WHERE tbl_users.userID = tbl_station.shopID
             AND tbl_station.shopID = tbl_fuel.shopID
@@ -564,11 +594,30 @@ class Config extends DBHandler
     public function productsFuelPremium()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, tbl_station.branch_name, tbl_fuel.* 
+            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, 
+            tbl_station.branch_name, tbl_station.station_address, tbl_fuel.* 
             FROM tbl_users, tbl_station, tbl_fuel
             WHERE tbl_users.userID = tbl_station.shopID
             AND tbl_station.shopID = tbl_fuel.shopID
             AND tbl_fuel.fuel_category = "Premium" 
+            ORDER BY new_price ASC');
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function productsFuelRacing()
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT tbl_users.user_image, tbl_station.shopID, tbl_station.station_name, 
+            tbl_station.branch_name, tbl_station.station_address, tbl_fuel.* 
+            FROM tbl_users, tbl_station, tbl_fuel
+            WHERE tbl_users.userID = tbl_station.shopID
+            AND tbl_station.shopID = tbl_fuel.shopID
+            AND tbl_fuel.fuel_category = "Racing" 
             ORDER BY new_price ASC');
             $stmt->execute();
             return $stmt->fetchAll();
@@ -639,15 +688,36 @@ class Config extends DBHandler
         }
     }
 
+    // public function allShops()
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT tbl_users.*, tbl_station.*
+    //         FROM tbl_users, tbl_station
+    //         WHERE tbl_users.userID = tbl_station.shopID
+    //         AND user_type = 2 
+    //         AND verified = 1
+    //         ORDER BY station_name ASC');
+    //         $stmt->execute();
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
+
     public function allShops()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_users.*, tbl_station.*
-            FROM tbl_users, tbl_station
-            WHERE tbl_users.userID = tbl_station.shopID
-            AND user_type = 2 
-            AND verified = 1
-            ORDER BY station_name ASC');
+            $stmt = $this->connect()->prepare('SELECT tbl_users.verified, tbl_users.user_image, tbl_station.*, COUNT(tbl_shop_ratings.rating) AS ratings
+            FROM tbl_users
+            LEFT JOIN tbl_station
+            ON tbl_users.userID = tbl_station.shopID
+            LEFT JOIN tbl_shop_ratings
+            ON tbl_users.userID = tbl_shop_ratings.shopID
+            WHERE tbl_users.verified = 1
+            AND tbl_users.user_type = 2
+            GROUP BY tbl_users.userID
+            ORDER BY ratings DESC');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -689,7 +759,10 @@ class Config extends DBHandler
     public function getCartProdQuantity($cartID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_carts.quantity FROM tbl_products, tbl_carts WHERE tbl_products.productID = tbl_carts.productID AND cartID = ?;');
+            $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_carts.quantity 
+            FROM tbl_products, tbl_carts 
+            WHERE tbl_products.productID = tbl_carts.productID 
+            AND cartID = ?;');
 
             $stmt->execute(array($cartID));
 
@@ -706,7 +779,8 @@ class Config extends DBHandler
         try {
             $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_products.quantity 
             FROM tbl_products, tbl_carts 
-            WHERE tbl_products.productID = tbl_carts.productID AND cartID = ?;');
+            WHERE tbl_products.productID = tbl_carts.productID 
+            AND cartID = ?;');
 
             $stmt->execute(array($cartID));
 
@@ -718,45 +792,48 @@ class Config extends DBHandler
     }
 
     //for transac
-    public function getProdQuantity($orderID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_products.quantity 
-            FROM tbl_products, tbl_transactions 
-            WHERE tbl_products.productID = tbl_transactions.productID 
-            AND orderID = ?;');
+    // public function getProductStocks($orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_products.quantity 
+    //         FROM tbl_products, tbl_transactions 
+    //         WHERE tbl_products.productID = tbl_transactions.productID 
+    //         AND orderID = ?;');
 
-            $stmt->execute(array($orderID));
+    //         $stmt->execute(array($orderID));
 
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
-    //for transac
-    public function getTransQuantity($orderID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_transactions.quantity 
-            FROM tbl_products, tbl_transactions 
-            WHERE tbl_products.productID = tbl_transactions.productID 
-            AND orderID = ?;');
+    // //for transac
+    // public function getTransacOrderQuantity($orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_transactions.quantity 
+    //         FROM tbl_products, tbl_transactions 
+    //         WHERE tbl_products.productID = tbl_transactions.productID 
+    //         AND orderID = ?;');
 
-            $stmt->execute(array($orderID));
+    //         $stmt->execute(array($orderID));
 
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
     public function getOrdProducts($orderID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_products, tbl_transactions WHERE tbl_products.productID = tbl_transactions.productID AND orderID = ?;');
+            $stmt = $this->connect()->prepare('SELECT tbl_products.productID, tbl_products.quantity AS stocks, tbl_transactions.quantity
+            FROM tbl_products, tbl_transactions
+            WHERE tbl_products.productID = tbl_transactions.productID 
+            AND orderID = ?;');
 
             $stmt->execute(array($orderID));
 
@@ -766,6 +843,22 @@ class Config extends DBHandler
             die();
         }
     }
+
+    // public function getOrdProducts($orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT * FROM tbl_products, tbl_transactions 
+    //         WHERE tbl_products.productID = tbl_transactions.productID 
+    //         AND orderID = ?;');
+
+    //         $stmt->execute(array($orderID));
+
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
     public function viewFile($userID)
     {
@@ -861,25 +954,6 @@ class Config extends DBHandler
         }
     }
 
-    //pangkuha ng lahat ng naging order ni customer
-    public function CustomerAllOrder($customerID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT * 
-            FROM tbl_transactions
-            WHERE customerID = ? 
-            GROUP BY orderID
-            ORDER BY transac_date DESC;');
-
-            $stmt->execute(array($customerID));
-
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
     // //extra code for testing
     // public function CustomerAllOrderss($customerID)
     // {
@@ -916,6 +990,25 @@ class Config extends DBHandler
         }
     }
 
+    //pangkuha ng lahat ng naging order ni customer
+    public function CustomerAllOrder($customerID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT * 
+            FROM tbl_transactions
+            WHERE customerID = ? 
+            GROUP BY orderID
+            ORDER BY date_ordered DESC;');
+
+            $stmt->execute(array($customerID));
+
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
     //pang get ng order ni customer based on order status
     public function customerOrderCount($customerID, $status)
     {
@@ -935,19 +1028,18 @@ class Config extends DBHandler
         }
     }
 
-    public function customerOrderCountCancelled($customerID, $statusOne, $statusTwo, $statusThree)
+    public function customerOrderCountCancelled($customerID)
     {
         try {
             $stmt = $this->connect()->prepare("SELECT *
             FROM tbl_transactions 
             WHERE customerID = ?
-            AND (order_status = ? 
-            OR order_status = ? 
-            OR order_status = ?)
+            AND order_status 
+            IN ('Cancelled', 'Declined', 'Pickup Failed')
             GROUP BY orderID
-            ORDER BY transac_date DESC;");
+            ORDER BY date_ordered DESC;");
 
-            $stmt->execute(array($customerID, $statusOne, $statusTwo, $statusThree));
+            $stmt->execute(array($customerID));
 
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -1050,7 +1142,7 @@ class Config extends DBHandler
     public function customerGetShop($orderID)
     {
         try {
-            $stmt = $this->connect()->prepare("SELECT tbl_station.*, tbl_users.user_type
+            $stmt = $this->connect()->prepare("SELECT tbl_station.*, tbl_users.user_image, tbl_users.user_type
             FROM tbl_station, tbl_users, tbl_transactions 
             WHERE tbl_users.userID = tbl_station.shopID 
             AND tbl_station.shopID = tbl_transactions.shopID 
@@ -1128,10 +1220,7 @@ class Config extends DBHandler
     public function customerOrders($orderID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT tbl_transactions.shopID, tbl_transactions.customerID, tbl_transactions.productID, 
-            tbl_transactions.product_name, tbl_transactions.price, tbl_products.prod_image, 
-            tbl_transactions.quantity, tbl_transactions.total, tbl_transactions.payment_method, 
-            tbl_transactions.order_status, tbl_transactions.cancel_reason 
+            $stmt = $this->connect()->prepare('SELECT tbl_transactions.*, tbl_products.prod_image
             FROM tbl_transactions, tbl_products 
             WHERE tbl_products.productID = tbl_transactions.productID 
             AND tbl_transactions.orderID = ?');
@@ -1145,35 +1234,34 @@ class Config extends DBHandler
         }
     }
 
-    public function getOrders($orderID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT * FROM `tbl_transactions` 
-            WHERE orderID = ?');
+    // public function getOrders($orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT * FROM `tbl_transactions` 
+    //         WHERE orderID = ?');
+    //         $stmt->execute(array($orderID));
 
-            $stmt->execute(array($orderID));
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
-    public function getOrderDate($orderID, $status)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT tbl_notif.notif_date 
-            FROM tbl_notif 
-            WHERE orderID = ?
-            AND notif_type = ?');
-            $stmt->execute(array($orderID, $status));
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
+    // public function getOrderDate($orderID, $status)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT tbl_notif.notif_date 
+    //         FROM tbl_notif 
+    //         WHERE orderID = ?
+    //         AND notif_type = ?');
+    //         $stmt->execute(array($orderID, $status));
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
     // public function getInvoiceDate($orderID)
     // {
@@ -1226,7 +1314,7 @@ class Config extends DBHandler
             FROM tbl_transactions 
             WHERE shopID = ? 
             GROUP BY orderID
-            ORDER BY transac_date DESC;');
+            ORDER BY date_ordered DESC;');
 
             $stmt->execute(array($shopID));
 
@@ -1288,7 +1376,10 @@ class Config extends DBHandler
     public function countShopSold($prodID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_transactions WHERE order_status = "Completed" AND productID = ?');
+            $stmt = $this->connect()->prepare('SELECT SUM(quantity)
+            FROM tbl_transactions 
+            WHERE order_status = "Completed" 
+            AND productID = ?');
 
             $stmt->execute(array($prodID));
 
@@ -1320,9 +1411,23 @@ class Config extends DBHandler
     public function countCritical($shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_products 
-            WHERE quantity < 10 
-            AND quantity != 0 
+            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_products
+            WHERE quantity <= critical_level
+            AND shopID = ?');
+            $stmt->execute(array($shopID));
+            return $stmt->fetchColumn();
+            //return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function countNotAvailable($shopID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_fuel 
+            WHERE fuel_status = "not available"
             AND shopID = ?');
             $stmt->execute(array($shopID));
             return $stmt->fetchColumn();
@@ -1457,7 +1562,7 @@ class Config extends DBHandler
             WHERE shopID = ? 
             AND order_status = ? 
             GROUP BY orderID
-            ORDER BY transac_date DESC;');
+            ORDER BY date_ordered DESC;');
 
             $stmt->execute(array($shopID, $status));
 
@@ -1468,19 +1573,18 @@ class Config extends DBHandler
         }
     }
 
-    public function shopOrderCountCancelled($shopID, $statusOne, $statusTwo, $statusThree)
+    public function shopOrderCountCancelled($shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT *
+            $stmt = $this->connect()->prepare("SELECT *
             FROM tbl_transactions 
             WHERE shopID = ?
-            AND (order_status = ? 
-            OR order_status = ? 
-            OR order_status = ?)
+            AND order_status 
+            IN ('Cancelled', 'Declined', 'Pickup Failed')
             GROUP BY orderID
-            ORDER BY transac_date DESC;');
+            ORDER BY date_ordered DESC;");
 
-            $stmt->execute(array($shopID, $statusOne, $statusTwo, $statusThree));
+            $stmt->execute(array($shopID));
 
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -1495,7 +1599,7 @@ class Config extends DBHandler
             $stmt = $this->connect()->prepare('SELECT * FROM tbl_transactions 
             WHERE shopID = ? 
             AND order_status = ?
-            ORDER BY transac_date DESC');
+            ORDER BY date_ordered DESC');
             $stmt->execute(array($shopID, $status));
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -1508,31 +1612,12 @@ class Config extends DBHandler
     {
         try {
             $stmt = $this->connect()->prepare('SELECT * FROM tbl_transactions 
-            WHERE transac_date BETWEEN ?
+            WHERE date_completed BETWEEN ?
             AND ?
             AND shopID = ?
             AND order_status = "completed"
-            ORDER BY transac_date DESC');
+            ORDER BY date_completed DESC');
             $stmt->execute(array($from_date, $to_date, $userID));
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
-    //to divide shops in checkout
-    public function divideShopsCheckout($userID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_carts 
-            WHERE customerID = ? 
-            AND checked = ? 
-            AND quantity != 0 
-            GROUP BY shopID;');
-
-            $stmt->execute(array($userID, true));
-
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -1547,6 +1632,41 @@ class Config extends DBHandler
             $stmt = $this->connect()->prepare('SELECT COUNT(*) FROM tbl_carts WHERE customerID = ?;');
 
             $stmt->execute(array($customerID));
+
+            return $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function cartTotalItemswithQuantity($customerID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT COUNT(*) 
+            FROM tbl_carts 
+            WHERE customerID = ?
+            AND quantity != 0;');
+
+            $stmt->execute(array($customerID));
+
+            return $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function cartItemsPerStation($shopID, $customerID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT COUNT(*)
+            FROM tbl_carts
+            WHERE shopID = ?
+            AND customerID = ?
+            AND quantity != 0;');
+
+            $stmt->execute(array($shopID, $customerID));
 
             return $stmt->fetchColumn();
         } catch (\PDOException $e) {
@@ -1836,32 +1956,59 @@ class Config extends DBHandler
         }
     }
 
-    public function updateOrder($status, $orderID)
+    public function updateOrder($date, $status, $reason, $orderID)
     {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET order_status = ? WHERE orderID = ?;');
-            $stmt->execute(array($status, $orderID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
+        switch ($status){
+            case 'To Pickup':
+                try {
+                    $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET date_approved = ?, order_status = ? WHERE orderID = ?;');
+                    $stmt->execute(array($date, $status, $orderID));
+                } catch (\PDOException $e) {
+                    print "Error!: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            break;
+
+            case 'Completed':
+                try {
+                    $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET date_completed = ?, order_status = ? WHERE orderID = ?;');
+                    $stmt->execute(array($date, $status, $orderID));
+                } catch (\PDOException $e) {
+                    print "Error!: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            break;
+
+            case 'Declined':
+            case 'Cancelled':
+            case 'Pickup Failed':
+                try {
+                    $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET date_cancelled = ?, order_status = ?, cancel_reason = ? WHERE orderID = ?;');
+                    $stmt->execute(array($date, $status, $reason, $orderID));
+                } catch (\PDOException $e) {
+                    print "Error!: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            break;
         }
     }
 
-    public function updateCancelledOrder($status, $reason, $orderID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET order_status = ?, cancel_reason = ? WHERE orderID = ?;');
-            $stmt->execute(array($status, $reason, $orderID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
+    // public function updateCancelledOrder($date_cancelled, $status, $reason, $orderID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('UPDATE tbl_transactions SET date_cancelled = ?, order_status = ?, cancel_reason = ? WHERE orderID = ?;');
+    //         $stmt->execute(array($date_cancelled, $status, $reason, $orderID));
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
     public function setCartQuantityZero($prodID)
     {
         try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_carts SET quantity = 0 
+            $stmt = $this->connect()->prepare('UPDATE tbl_carts 
+            SET quantity = 0, checked = 0
             WHERE productID = ?;');
 
             $stmt->execute(array($prodID));
@@ -1875,7 +2022,7 @@ class Config extends DBHandler
     {
         try {
             $stmt = $this->connect()->prepare('UPDATE tbl_carts 
-            SET quantity = 1 
+            SET quantity = 1
             WHERE productID = ?;');
 
             $stmt->execute(array($prodID));
@@ -1888,6 +2035,35 @@ class Config extends DBHandler
     public function setCartQuantityEqualtoStock($quantity, $prodID, $userID)
     {
         try {
+            $stmt = $this->connect()->prepare('UPDATE tbl_carts SET quantity = ? 
+            WHERE productID = ? 
+            AND customerID = ?;');
+
+            $stmt->execute(array($quantity, $prodID, $userID));
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    // public function updateCart($quantity, $checked, $prodID, $userID)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('UPDATE tbl_carts SET quantity = ?, checked = ? WHERE productID = ? AND customerID = ?;');
+
+    //         $stmt->execute(array($quantity, $checked, $prodID, $userID));
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    //     // var_dump($checked);
+    //     // DateTime(1);
+    // }
+
+
+    public function updateCartQuantity($quantity, $prodID, $userID)
+    {
+        try {
             $stmt = $this->connect()->prepare('UPDATE tbl_carts SET quantity = ? WHERE productID = ? AND customerID = ?;');
 
             $stmt->execute(array($quantity, $prodID, $userID));
@@ -1897,25 +2073,11 @@ class Config extends DBHandler
         }
     }
 
-    public function updateCart($quantity, $prodID, $userID, $checked = 0)
-    {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_carts SET quantity = ?, checked = ? WHERE productID = ? AND customerID = ?;');
-
-            $stmt->execute(array($quantity, $checked, $prodID, $userID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-        // var_dump($checked);
-        // DateTime(1);
-    }
-
     //to get the sales report date
     public function salesreportdate($shopID)
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT MIN(transac_date) AS From_date, MAX(transac_date) AS To_date 
+            $stmt = $this->connect()->prepare('SELECT MIN(date_completed) AS From_date, MAX(date_completed) AS To_date 
             FROM tbl_transactions 
             WHERE shopID = ?');
 
@@ -2011,6 +2173,24 @@ class Config extends DBHandler
             ORDER BY cartID DESC;');
 
             $stmt->execute(array($userID));
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    //to divide shops in checkout
+    public function divideShopsCheckout($userID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT * FROM tbl_carts 
+            WHERE customerID = ? 
+            AND checked = ? 
+            AND quantity != 0 
+            GROUP BY shopID;');
+
+            $stmt->execute(array($userID, true));
 
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -2020,7 +2200,7 @@ class Config extends DBHandler
     }
 
     //sort products in cart depending on shop id
-    public function sortCart($userID, $shopID)
+    public function sortCartwithStock($userID, $shopID)
     {
         try {
             $stmt = $this->connect()->prepare('SELECT tbl_carts.cartID, tbl_products.shopID, 
@@ -2032,11 +2212,33 @@ class Config extends DBHandler
             AND tbl_products.productID = tbl_carts.productID 
             AND  tbl_carts.customerID = ?
             AND tbl_carts.shopID = ?
+            AND tbl_products.quantity != 0
             ORDER BY cartID DESC;');
             $stmt->execute(array($userID, $shopID));
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function sortCartnoStock($userID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT tbl_carts.cartID, tbl_products.shopID, 
+            tbl_products.productID, tbl_carts.product_name, tbl_products.description, 
+            tbl_products.quantity AS stocks, tbl_products.price, 
+            tbl_products.prod_image, tbl_carts.quantity, tbl_carts.checked 
+            FROM tbl_products,tbl_carts,tbl_users 
+            WHERE tbl_users.userID = tbl_carts.customerID 
+            AND tbl_products.productID = tbl_carts.productID 
+            AND  tbl_carts.customerID = ?
+            AND tbl_products.quantity = 0
+            ORDER BY cartID DESC;');
+            $stmt->execute(array($userID));
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>"; 
             die();
         }
     }
@@ -2054,7 +2256,8 @@ class Config extends DBHandler
             AND  tbl_carts.customerID = ? 
             AND tbl_carts.shopID = ? 
             AND tbl_carts.checked = ?
-            AND tbl_carts.quantity > 0;');
+            AND tbl_carts.quantity > 0
+            ORDER BY tbl_carts.cartID DESC;');
             $stmt->execute(array($userID, $shopID, true));
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -2064,7 +2267,7 @@ class Config extends DBHandler
     }
 
     //for checkbox in cart 
-    public function selectAllFromCart($shopId, $userId, $checked, $type = '')
+    public function selectAllFromCart($checked, $shopId, $prodID, $userId, $type = '')
     {
         switch ($type) {
             case 'store':
@@ -2073,20 +2276,37 @@ class Config extends DBHandler
                     $stmt = $this->connect()->prepare('UPDATE tbl_carts 
                     SET checked = ? 
                     WHERE shopID = ? 
-                    AND customerID = ?;');
+                    AND customerID = ?
+                    AND quantity != 0;');
                     $stmt->execute(array($checked, $shopId, $userId));
                 } catch (\PDOException $e) {
                     print "Error!: " . $e->getMessage() . "<br/>";
                     die();
                 }
                 break;
+
             case 'all':
                 //selecting all products in cart
                 try {
                     $stmt = $this->connect()->prepare('UPDATE tbl_carts 
                     SET checked = ? 
-                    WHERE customerID = ?;');
+                    WHERE customerID = ?
+                    AND quantity != 0;');
                     return $stmt->execute(array($checked, $userId));
+                } catch (\PDOException $e) {
+                    print "Error!: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+                break;
+
+            case 'product':
+                //selecting one product
+                try {
+                    $stmt = $this->connect()->prepare('UPDATE tbl_carts 
+                    SET checked = ? 
+                    WHERE productID = ? 
+                    AND customerID = ?;');
+                    return $stmt->execute(array($checked, $prodID, $userId));
                 } catch (\PDOException $e) {
                     print "Error!: " . $e->getMessage() . "<br/>";
                     die();
@@ -2096,17 +2316,38 @@ class Config extends DBHandler
     }
 
     //to delete all items in cart
-    public function deleteAllinCart($customerID)
+    public function deleteAllinCart($customerID, $type)
     {
-        try {
-            $stmt = $this->connect()->prepare('DELETE FROM tbl_carts WHERE customerID = ? AND quantity >= 0 AND checked = 1;');
+        switch ($type) {
+            case 'checked':
+                try {
+                    $stmt = $this->connect()->prepare('DELETE FROM tbl_carts 
+                    WHERE customerID = ? 
+                    AND checked = 1;');
 
-            $stmt->execute(array($customerID));
+                    $stmt->execute(array($customerID));
 
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
+                    return $stmt->fetchAll();
+                } catch (\PDOException $e) {
+                    print "Error!: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            break;
+
+            case 'no-stock':
+                try {
+                    $stmt = $this->connect()->prepare('DELETE FROM tbl_carts 
+                    WHERE customerID = ? 
+                    AND quantity = 0;');
+
+                    $stmt->execute(array($customerID));
+
+                    return $stmt->fetchAll();
+                } catch (\PDOException $e) {
+                    print "Error!: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            break;
         }
     }
 
@@ -2152,27 +2393,71 @@ class Config extends DBHandler
     //     }
     // }
 
-    public function insertFuel($fuel_type, $fuel_category, $image, $price, $fuel_status, $date, $userID)
+    public function insertFuel($fuel_name, $fuel_type, $price, $fuel_status, $date, $userID)
     {
         try {
-            $stmt = $this->connect()->prepare("INSERT INTO tbl_fuel(fuel_type, fuel_category, fuel_image, new_price, fuel_status, date_updated, shopID) 
-            VALUES(?, ?, ?, ?, ?, ?, ?);");
+            $stmt = $this->connect()->prepare("INSERT INTO tbl_fuel(fuel_type, fuel_category, new_price, fuel_status, date_updated, shopID) 
+            VALUES(?, ?, ?, ?, ?, ?);");
 
-            $stmt->execute(array($fuel_type, $fuel_category, $image, $price, $fuel_status, $date, $userID));
+            $stmt->execute(array($fuel_name, $fuel_type, $price, $fuel_status, $date, $userID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
     }
 
-    public function insertProducts($prodName, $desc, $image, $quantity, $price, $userID)
+    public function updateFuel($fuelType, $category, $status, $fuelID)
     {
         try {
-            $stmt = $this->connect()->prepare('INSERT INTO tbl_products(product_name, description, prod_image, quantity, price, shopID) VALUES(?, ?, ?, ?, ?, ?);');
+            $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_type = ?, fuel_category = ?, fuel_status = ? WHERE fuelID = ?');
+            $stmt->execute(array($fuelType, $category, $status, $fuelID));
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
 
-            $stmt->execute(array($prodName, $desc, $image, $quantity, $price, $userID));
+    // public function updateFuelStatus($fuelID, $fuelStatus)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_status = ? WHERE fuelID = ?');
+    //         $stmt->execute(array($fuelStatus, $fuelID));
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
-            // echo "<script>alert('Product is added successfully!');document.location='../../view-store.php'</script>";
+    // public function updateFuelPic($fuelID, $fuelType, $image)
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_type = ?, fuel_image = ? WHERE fuelID = ?');
+    //         $stmt->execute(array($fuelType, $image, $fuelID));
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
+
+    public function updateFuelPrice($fuelType, $category, $new_price, $old_price, $status, $date, $fuelID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_type = ?, 
+            fuel_category = ?, new_price = ?, 
+            old_price = ?, fuel_status = ?, 
+            date_updated = ? WHERE fuelID = ?');
+            $stmt->execute(array($fuelType, $category, $new_price, $old_price, $status, $date, $fuelID));
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
+    public function insertProducts($prodName, $desc, $image, $quantity, $level, $price, $userID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('INSERT INTO tbl_products(product_name, description, prod_image, quantity, critical_level, price, shopID) VALUES(?, ?, ?, ?, ?, ?, ?);');
+            $stmt->execute(array($prodName, $desc, $image, $quantity, $level, $price, $userID));
 
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
@@ -2180,67 +2465,22 @@ class Config extends DBHandler
         }
     }
 
-    public function updateFuel($fuelID, $fuelType)
+    public function updateProdImage($prodName, $desc, $image, $quantity, $level, $price, $prodID)
     {
         try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_type = ? WHERE fuelID = ?');
-            $stmt->execute(array($fuelType, $fuelID));
+            $stmt = $this->connect()->prepare('UPDATE tbl_products SET product_name = ?, description = ?, prod_image = ?, quantity = ?, critical_level = ?, price = ? WHERE productID = ?');
+            $stmt->execute(array($prodName, $desc, $image, $quantity, $level, $price, $prodID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
     }
 
-    public function updateFuelStatus($fuelID, $fuelStatus)
+    public function updateProducts($prodName, $desc, $quantity, $level, $price, $prodID)
     {
         try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_status = ? WHERE fuelID = ?');
-            $stmt->execute(array($fuelStatus, $fuelID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
-    public function updateFuelPic($fuelID, $fuelType, $image)
-    {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_fuel SET fuel_type = ?, fuel_image = ? WHERE fuelID = ?');
-            $stmt->execute(array($fuelType, $image, $fuelID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
-    public function updateFuelPrice($newPrice, $oldPrice, $date, $fuelID)
-    {
-        try {
-            $stmt = $this->connect()->prepare("UPDATE tbl_fuel SET new_price = ?, old_price = ?, date_updated = ? 
-            WHERE fuelID = ?");
-            $stmt->execute(array($newPrice, $oldPrice, $date, $fuelID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
-    public function updateProdImage($prodName, $desc, $image, $quantity, $price, $prodID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_products SET product_name = ?, description = ?, prod_image = ?, quantity = ?, price = ? WHERE productID = ?');
-            $stmt->execute(array($prodName, $desc, $image, $quantity, $price, $prodID));
-        } catch (\PDOException $e) {
-            print "Error!: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-
-    public function updateProducts($prodName, $desc, $quantity, $price, $prodID)
-    {
-        try {
-            $stmt = $this->connect()->prepare('UPDATE tbl_products SET product_name = ?, description = ?, quantity = ?, price = ? WHERE productID = ?');
-            $stmt->execute(array($prodName, $desc, $quantity, $price, $prodID));
+            $stmt = $this->connect()->prepare('UPDATE tbl_products SET product_name = ?, description = ?, quantity = ?, critical_level = ?, price = ? WHERE productID = ?');
+            $stmt->execute(array($prodName, $desc, $quantity, $level, $price, $prodID));
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -2529,6 +2769,24 @@ class Config extends DBHandler
         }
     }
 
+    //all stations that is declined
+    public function superAdminDeclinedShops()
+    {
+        try {
+            $stmt = $this->connect()->prepare('SELECT tbl_users.*, tbl_station.* 
+            FROM tbl_users, tbl_station 
+            WHERE tbl_users.userID = tbl_station.shopID 
+            AND user_type = 2 
+            AND verified = 2
+            ORDER BY tbl_station.station_name ASC');
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    }
+
     //station details
     public function shopDetails($shopID)
     {
@@ -2637,11 +2895,11 @@ class Config extends DBHandler
     {
         try {
             $stmt = $this->connect()->prepare("SELECT 
-            MONTHNAME(transac_date) as Month, SUM(total) as amount
+            MONTHNAME(date_completed) as Month, SUM(total) as amount
             FROM tbl_transactions 
             WHERE shopID = ?
             AND order_status = ?
-            GROUP BY MONTH(transac_date)");
+            GROUP BY MONTH(date_completed)");
             $stmt->execute(array($shopID, $status));
             return $stmt->fetchAll();
             
@@ -2881,58 +3139,58 @@ class Config extends DBHandler
     }
 
     //get chat list
-    public function getChatList($userID)
-    {
-        // switch($usertype) {
-        //     case '0';
-                try {
-                    $stmt = $this->connect()->prepare("SELECT user.userID, user.user_type, user.firstname, user.lastname, user.user_image, user.active_status, chats.* 
-                    FROM tbl_users AS user
-                    INNER JOIN tbl_chat_contents AS chats ON chats.receiverID = user.userID
-                    WHERE chats.senderID = ?
-                    GROUP BY user.userID
-                    ORDER BY chats.created_at DESC");
-                    $stmt->execute(array($userID));
-                    return $stmt->fetchAll();
-                } catch (\PDOException $e) {
-                    print "Error!: " . $e->getMessage() . "<br/>";
-                    die();
-                }
-        //         break;
+    // public function getChatList($userID)
+    // {
+    //     switch($usertype) {
+    //         case '0';
+    //             try {
+    //                 $stmt = $this->connect()->prepare("SELECT user.userID, user.user_type, user.firstname, user.lastname, user.user_image, user.active_status, chats.* 
+    //                 FROM tbl_users AS user
+    //                 INNER JOIN tbl_chat_contents AS chats ON chats.receiverID = user.userID
+    //                 WHERE chats.senderID = ?
+    //                 GROUP BY user.userID
+    //                 ORDER BY chats.created_at DESC");
+    //                 $stmt->execute(array($userID));
+    //                 return $stmt->fetchAll();
+    //             } catch (\PDOException $e) {
+    //                 print "Error!: " . $e->getMessage() . "<br/>";
+    //                 die();
+    //             }
+    //             break;
 
-        //     case '1';
-        //         try {
-        //             $stmt = $this->connect()->prepare("SELECT user.userID, user.firstname, user.lastname, user.user_image, user.active_status, chats.* 
-        //             FROM tbl_users AS user
-        //             INNER JOIN tbl_chat_contents AS chats ON chats.receiverID = user.userID
-        //             WHERE chats.senderID = ?
-        //             GROUP BY user.userID
-        //             ORDER BY chats.created_at DESC");
-        //             $stmt->execute(array($userID));
-        //             return $stmt->fetchAll();
-        //         } catch (\PDOException $e) {
-        //             print "Error!: " . $e->getMessage() . "<br/>";
-        //             die();
-        //         }
-        //         break;
+    //         case '1';
+    //             try {
+    //                 $stmt = $this->connect()->prepare("SELECT user.userID, user.firstname, user.lastname, user.user_image, user.active_status, chats.* 
+    //                 FROM tbl_users AS user
+    //                 INNER JOIN tbl_chat_contents AS chats ON chats.receiverID = user.userID
+    //                 WHERE chats.senderID = ?
+    //                 GROUP BY user.userID
+    //                 ORDER BY chats.created_at DESC");
+    //                 $stmt->execute(array($userID));
+    //                 return $stmt->fetchAll();
+    //             } catch (\PDOException $e) {
+    //                 print "Error!: " . $e->getMessage() . "<br/>";
+    //                 die();
+    //             }
+    //             break;
 
-        //     case '2':
-        //         try {
-        //             $stmt = $this->connect()->prepare("SELECT user.userID, user.firstname, user.lastname, user.user_image, user.active_status, chats.* 
-        //             FROM tbl_users AS user
-        //             INNER JOIN tbl_chat_contents AS chats ON chats.receiverID = user.userID
-        //             WHERE chats.senderID = ?
-        //             GROUP BY user.userID
-        //             ORDER BY chats.created_at DESC");
-        //             $stmt->execute(array($userID));
-        //             return $stmt->fetchAll();
-        //         } catch (\PDOException $e) {
-        //             print "Error!: " . $e->getMessage() . "<br/>";
-        //             die();
-        //         }
-        //         break;
-        // }    
-    }
+    //         case '2':
+    //             try {
+    //                 $stmt = $this->connect()->prepare("SELECT user.userID, user.firstname, user.lastname, user.user_image, user.active_status, chats.* 
+    //                 FROM tbl_users AS user
+    //                 INNER JOIN tbl_chat_contents AS chats ON chats.receiverID = user.userID
+    //                 WHERE chats.senderID = ?
+    //                 GROUP BY user.userID
+    //                 ORDER BY chats.created_at DESC");
+    //                 $stmt->execute(array($userID));
+    //                 return $stmt->fetchAll();
+    //             } catch (\PDOException $e) {
+    //                 print "Error!: " . $e->getMessage() . "<br/>";
+    //                 die();
+    //             }
+    //             break;
+    //     }    
+    // }
 
     // public function createNotification($transactionId, $type)
     // {
@@ -3041,8 +3299,8 @@ class Config extends DBHandler
     public function addAdmin($email, $fname, $lname, $phone, $password, $type, $verified){
 
         try {
-            $stmt = $this->connect()->prepare('INSERT INTO tbl_users(email, firstname, lastname, phone_num, password, user_type, verified) 
-            VALUES(?, ?, ?, ?, ?, ?, ?);');
+            $stmt = $this->connect()->prepare('INSERT INTO tbl_users(email, firstname, lastname, phone_num, password, user_image, user_type, verified) 
+            VALUES(?, ?, ?, ?, ?, "default-img.jpg", ?, ?);');
             $stmt->execute(array($email, $fname, $lname, $phone, $password, $type, $verified));
 
         } catch (\PDOException $e) {
@@ -3054,7 +3312,7 @@ class Config extends DBHandler
     public function checkAdminAccount()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT email, phone_num FROM tbl_users WHERE user_type = 0');
+            $stmt = $this->connect()->prepare('SELECT email, phone_num FROM tbl_users');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (PDOException $e) {
@@ -3088,6 +3346,95 @@ class Config extends DBHandler
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
+        }
+    }
+
+    //Adding the reason if the station is declined
+    public function StationDeclinedReason($reason, $shopID)
+    {
+        try {
+            $stmt = $this->connect()->prepare('UPDATE tbl_station
+            SET declined_reason = ?
+            WHERE shopID = ?');
+
+            $stmt->execute(array($reason, $shopID));
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    } 
+
+    //converter of number from 1000 to 1k and so on...
+    public function numberconverter($number)
+    {
+        //thousand
+        if($number > 999){
+            return round(($number / 1000), 2) . 'k';
+        }
+
+        //less than thousand
+        if($number <= 999){
+            return $number;
+        }
+    }
+
+    //converting the date time into "Month day, Year hour:minute seconds"
+    public function datetimeconverter($datetime)
+    {
+        $createdate = date_create($datetime);
+        $date = date_format($createdate, "F d, Y h:i A");
+
+        return $date;
+    }
+
+    //converting the date into "Month full name, day, Year"
+    public function dateconverter($date)
+    {
+        $createdate = date_create($date);
+        $date = date_format($createdate, "F d, Y");
+
+        return $date;
+    }
+
+
+    // public function dateCalculate($datetime)
+    // {
+        // define('TIMEZONE', 'Asia/Manila');
+        // date_default_timezone_set(TIMEZONE);
+        // date("F d, Y h:i A")
+    //     // $grace_period = date('F d, Y', strtotime($datetime. '+ 2 days'));
+
+    //     if ($grace_period = date('F d, Y', strtotime($datetime. '+ 2 days')) > $datetime)
+    //     {
+    //         return $grace_period;
+    //     }
+    //     elseif($grace_period = date('F d, Y', strtotime($datetime. '+ 2 days')) == date("F d, Y"))
+    //     {
+    //         return "Today";
+    //     }
+    //     else
+    //     {
+    //         return "Today";
+    //     }
+    // }
+
+    //cancellation reasons
+    public function cancelreason($reason)
+    {
+        if($reason == 'reason1'){
+            return 'Need to modify order';
+        }
+        elseif($reason == 'reason2'){
+            return 'Found something else cheaper';
+        }
+        elseif($reason == 'reason3'){
+            return 'Others / Change of mind';
+        }
+        elseif($reason == 'reason4'){
+            return 'Out of stock';
+        }
+        elseif($reason == 'reason5'){
+            return 'Did not picked up the order';
         }
     }
 }

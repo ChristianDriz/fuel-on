@@ -36,9 +36,6 @@
     if(isset($_POST['quantity'])){
         $quantity = $_POST['quantity'];
     }
-    else{
-        $quantity = 1;
-    }
 
     require_once('../classes/dbHandler.php');
 
@@ -52,33 +49,48 @@
         $prodStocks = $dbh->getProdQuantityforCart($record['cartID']);
         $cartQuant = $dbh->getCartProdQuantity($record['cartID']);
     }
- 
-    if($quantity <= $prod['quantity']){
-        if(empty($records)){
-            $dbh->addToCart($userID, $stationID, $prodID, $prodName, $quantity);
+
+    // echo $quantity;
+
+    if(empty($records)){
+        //quantity can change by the user not greater than the stock available which is the prod[quantity]
+        if($quantity > $prod['quantity']){
+            $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! The quantity you input exceeds the stocks available.");        
+        }
+        elseif($quantity == 0 || empty($quantity)){
+            $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! Minimum quantity is 1.");        
         }
         else{
-            //pang compare if cart quantity is equal to the product quantity
-            foreach ($prodStocks as $prodq){
-                $id = $prodq['productID'];
-                $prodQuantity = $prodq['quantity'];    
-            }
-
-            foreach ($cartQuant as $cartq){
-                $cartQuantity = $cartq['quantity'];    
-            }
-
-            if($prodQuantity >= $cartQuantity){
-                $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! You have " . $cartQuantity ." item/s of this product in your cart and it would exceed your purchasing limit.");
-            }else{
-                $cart = $records[0];
-                $quantity = $quantity + $cart['quantity'];
-                $dbh->updateCart($quantity, $prodID, $userID);
-            }
+            $dbh->addToCart($userID, $stationID, $prodID, $prodName, $quantity);
+            $dbh->success("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Added to cart successfully!");
         }
     }
     else{
-        $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! The quantity you input exceeds the stocks available.");        
-    }
+        //product stocks
+        $prodq = $prodStocks[0];
+        $prodQuantity = $prodq['quantity'];    
     
-    $dbh->success("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Added to cart successfully!");
+        //cart quantity
+        $cartq = $cartQuant[0];
+        $cartQuantity = $cartq['quantity'];    
+
+        //remaining quantity that the user can add to cart
+        $remaining = $prodQuantity - $cartQuantity;  
+
+        //new quantity
+        $newquantity = $quantity + $cartQuantity;
+
+        if($quantity > $prodQuantity){
+            $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! The quantity you input exceeds the stocks available.");        
+        }
+        elseif($quantity > $remaining){
+            $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! You have " . $cartQuantity ." item/s of this product in your cart and it would exceed your purchasing limit.");
+        }
+        elseif($quantity == 0){
+            $dbh->info("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Add to cart failed! Minimum quantity is 1.");        
+        }
+        else{
+            $dbh->updateCartQuantity($newquantity, $prodID, $userID);
+            $dbh->success("../../customer-view-products.php?prodID=$prodID&stationID=$stationID", "Added to cart successfully!");
+        }
+    }

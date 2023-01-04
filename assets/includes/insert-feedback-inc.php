@@ -16,11 +16,14 @@ if(isset($_SESSION['userID'])){
     $date = date("Y-m-d H:i:s");
 
     if(isset($_POST['submit1'])){
-        $rating = $_POST['rate'];
         $feedback = $_POST['feedback'];
-        
-        $dbh->insertRating($userID, $shopID, $rating, $feedback, $date);
-        
-        $dbh->success("../../customer-view-feedback.php?stationID=$shopID", "Your feedback has been successfully submitted.");
-        // echo "<script>alert('Feedback submitted successfully!');document.location='../../customer-view-feedback.php?stationID=$shopID'</script>";
+        $rating = $_POST['rate'];
+
+        if (empty($rating)){
+            $dbh->info("../../customer-viewstore-timeline.php?stationID=$shopID", "You need to set star ratings.");
+        }
+        else{
+            $dbh->insertRating($userID, $shopID, $rating, $feedback, $date);
+            $dbh->success("../../customer-view-feedback.php?stationID=$shopID", "Your feedback has been successfully submitted.");
+        }
     }

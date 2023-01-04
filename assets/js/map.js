@@ -12,7 +12,8 @@ function initMap(mapLong, mapLat) {
 		lat: mapLat,
 		lng: mapLong
 		},
-		zoom: 12
+		zoom: 12,
+		clickableIcons: false
 	});
 
 	// Ajax here
@@ -84,7 +85,8 @@ function showNearest(){
 		var myOptions = {
 			zoom: 14,
 			center: coords,
-			mapTypeId: google.maps.MapTypeId.ROADMAP
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			clickableIcons: false
 		}
 	
 		map = new google.maps.Map(document.getElementById("maps"), myOptions);

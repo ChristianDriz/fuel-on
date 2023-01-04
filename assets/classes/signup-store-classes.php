@@ -5,7 +5,7 @@ class SignupStore extends DBHandler{
 
         $conn = $this->connect();
         try {
-            $stmt = $conn->prepare('INSERT INTO tbl_users (email, firstname, lastname, phone_num, password, user_type, map_lat, map_lang) VALUES (?, ?, ?, ?, ?, ?, ?, ?);');
+            $stmt = $conn->prepare('INSERT INTO tbl_users (email, firstname, lastname, phone_num, password, user_image, user_type, map_lat, map_lang) VALUES (?, ?, ?, ?, ?, "default-station-img.jpg", ?, ?, ?);');
             $hashedPass = password_hash($password, PASSWORD_DEFAULT);
             $stmt->execute(array($email, $firstname, $lastname, $phone, $hashedPass, $type, $mapLat, $mapLng));
             $this->insertStoreDetails($conn->lastInsertId(), $filename, $tmp, $station_name, $branch, $address, $tin_num, $opening, $closing);

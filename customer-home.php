@@ -31,11 +31,14 @@ $data = new Config();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Home</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sarabun&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Share+Tech+Mono&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
@@ -45,65 +48,20 @@ $data = new Config();
     <link rel="stylesheet" href="assets/css/Customer%20css%20files/customer-navigation.css">
 </head>
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container">
-            <a class="btn" role="button" id="menu-toggle" href="#menu-toggle">
-                <i class="fa fa-bars"></i>
-            </a>
-            <a class="navbar-brand">
-                <i class="fas fa-gas-pump"></i>&nbsp;FUEL ON
-            </a>
-            <ul class="navbar-nav">
-                <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $username; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a class="actives" href="customer-home.php"><i class="fas fa-home"></i><span class="icon-name">Home</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-map.php"><i class="fas fa-map-pin"></i><span class="icon-name">Map</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-products.php"><i class="fas fa-tags"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-cart.php">
-                        <i class="fas fa-shopping-cart"></i><span class="icon-name">Cart</span>
-                    </a>
-                    <?php 
-                    $cartItemCount = $data->cartTotalItems($userID);
-                    if($cartItemCount != 0){?>
-                        <sup><?php echo $cartItemCount?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-my-order.php">
-                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountCustomer($userID);
-                    if($orderCounter != 0){?>
-                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
-            </ul>
-        </div>
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
         <div class="page-content-wrapper">
             <div class="container contener">
                 <div class="sliders">
                     <div class="slider-head">
-                        <a href="#">
+                        <a href="customer-view-allstation.php">
                             <h5>Gasoline Stations</h5>
                         </a>
                     </div>
@@ -114,7 +72,7 @@ $data = new Config();
                             foreach($records as $val){
                         ?>
                             <div class="inside-body-slider">
-                                <a href="customer-viewstore-timeline.php?stationID=<?php echo $val['userID']; ?>">
+                                <a href="customer-viewstore-timeline.php?stationID=<?php echo $val['shopID']; ?>">
                                     <div class="image-div">
                                         <img src="assets/img/profiles/<?php echo $val['user_image'] ?>" alt="Gas Station Logo">
                                     </div>
@@ -136,100 +94,108 @@ $data = new Config();
                     </div>
                 </div>
                 <div class="dito">
-                <div class="sort-div"><span>Sort by</span>
-                    <div class="sort-options">
-                        <button class="btn sort-btn active" type="button" id="all" value="all">All types</button>
-                        <button class="btn sort-btn" type="button" id="diesel" value="diesel">Diesel</button>
-                        <button class="btn sort-btn" type="button" id="unleaded" value="unleaded">Unleaded</button>
-                        <button class="btn sort-btn" type="button" id="premium" value="premium">Premium</button>
+                    <div class="sort-div"><span>Sort by</span>
+                        <div class="sort-options">
+                            <button class="btn sort-btn active" type="button" id="all" value="all">All types</button>
+                            <button class="btn sort-btn" type="button" id="diesel" value="diesel">Diesel</button>
+                            <button class="btn sort-btn" type="button" id="unleaded" value="unleaded">Unleaded</button>
+                            <button class="btn sort-btn" type="button" id="premium" value="premium">Premium</button>
+                            <button class="btn sort-btn" type="button" id="racing" value="racing">Racing</button>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-container">
-                    <div class="display">
-                    <?php
-                        $allfuels = $data->productsFuelAll();
-                            foreach($allfuels as $fuel){ 
-                    ?>
-                        <div class="row feed-row">
-                            <div class="col-12 feed-head-col">
-                                <div class="feed-head-img-div"><img src="assets/img/profiles/<?php echo $fuel['user_image'] ?>"></div>
-                                <div class="feed-head-name-div">
-                                    <a href="customer-viewstore-timeline.php?stationID=<?php echo $fuel['shopID']; ?>">
-                                        <?= $fuel['station_name'].' '.$fuel['branch_name'] ?>
-                                    </a>
+                    <div class="timeline-container">
+                        <div class="display">
+                            <?php
+                                $allfuels = $data->productsFuelAll();
+                                    foreach($allfuels as $fuel){ 
+                            ?>
+                            <div class="row g-0 justify-content-start feed-row">
+                                <div class="col-12 feed-head-col">
+                                    <div class="feed-head-img-div">
+                                        <img src="assets/img/profiles/<?php echo $fuel['user_image'] ?>">
+                                    </div>
+                                    <div class="feed-head-name-div">
+                                        <a href="customer-viewstore-timeline.php?stationID=<?php echo $fuel['shopID']; ?>">
+                                            <?= $fuel['station_name'].' '.$fuel['branch_name'] ?>
+                                        </a>
+                                        <p><?php echo $fuel['station_address']?></p>
+                                    </div>
                                 </div>
-                            </div>  
-                            <div class="col-12 feed-body-col">
-                                <div class="feed-body-div">
-                                    <img class="fuel-img" src="assets/img/products/<?php echo $fuel['fuel_image'] ?>">
-                                    <div class="fuel-details-div">
-                                        <h1 class="fuel-name"><?php echo $fuel['fuel_type'] ?></h1>
+                                <div class="col-12 feed-body-col">
+                                    <div class="row g-0 justify-content-center">
                                         <?php
-                                            if(empty($fuel['old_price'])){
+                                            $fueldata = $data->fuelDetails($fuel['shopID']); 
+                                                foreach($fueldata as $fuels){
                                         ?>
-                                        <div class="price-div">
-                                            <h1>₱<?php echo $fuel['new_price'] ?></h1>
-                                        </div>
-                                        <?php
-                                            }
-                                            else{
-                                        ?>
-                                        <div class="price-div">
-                                            <h1>₱<?php echo $fuel['old_price'] ?></h1>
-                                            <i class="icon ion-arrow-right-a"></i>
-                                            <h1>₱<?php echo $fuel['new_price'] ?></h1>
+                                        <div class="col-sm-6 kolum">
                                             <?php
-                                                if($fuel['new_price'] > $fuel['old_price']){
+                                                //if the fuel is not available, the unavailable tag will displayed
+                                                if($fuels['fuel_status'] == "not available"){
                                             ?>
-                                            <div class="price-change-div up"><i class="icon ion-arrow-up-a arrow-up"></i>
-                                                <p>+<?php echo number_format($fuel['new_price'] - $fuel['old_price'], 2) ?></p>
-                                            </div>
+                                            <span class="status-tag">Not available</span>
                                             <?php
-                                                }elseif($fuel['new_price'] < $fuel['old_price']){
+                                                }
+                                                if($fuels['fuel_category'] == "Diesel" ){
                                             ?>
-                                            <div class="price-change-div down"><i class="icon ion-arrow-down-a arrow-up"></i>
-                                                <p><?php echo number_format($fuel['new_price'] - $fuel['old_price'], 2) ?></p>
-                                            </div>
+                                            <div class="fuel-div diesel">
+                                            <?php
+                                                }elseif($fuels['fuel_category'] == "Unleaded"){
+                                            ?>
+                                            <div class="fuel-div unleaded">
+                                            <?php
+                                                }elseif($fuels['fuel_category'] == "Premium"){
+                                            ?>
+                                            <div class="fuel-div premium">
+                                            <?php
+                                                }elseif($fuels['fuel_category'] == "Racing"){
+                                            ?>
+                                            <div class="fuel-div racing">
                                             <?php
                                                 }
                                             ?>
+                                                <div class="fuel-name">
+                                                    <h1><?php echo $fuels['fuel_category']?></h1>
+                                                    <h6><?php echo $fuels['fuel_type']?></h6>
+                                                </div>
+                                                <div class="fuel-price">
+                                                    <?php
+                                                        if(empty($fuels['old_price'])){
+                                                    ?>
+                                                    <h1><strong>₱</strong><?php echo $fuels['new_price']?>
+                                                    <?php
+                                                        }else{
+                                                            if($fuels['new_price'] > $fuels['old_price']){
+                                                    ?>
+                                                    <h1><strong>₱</strong><?php echo $fuels['new_price']?><i class="fas fa-angle-double-up"></i><span><?php echo number_format($fuels['new_price'] - $fuels['old_price'], 2) ?></span></h1>
+                                                    <p>from <strong>₱</strong><?php echo $fuels['old_price']?></p>
+                                                    <?php
+                                                            }elseif($fuels['new_price'] < $fuels['old_price']){
+                                                    ?>
+                                                    <h1><strong>₱</strong><?php echo $fuels['new_price']?><i class="fas fa-angle-double-down"></i><span><?php echo abs(number_format($fuels['new_price'] - $fuels['old_price'], 2)) ?></span></h1>
+                                                    <p>from <strong>₱</strong><?php echo $fuels['old_price']?></p>
+                                                    <?php
+                                                            }
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p class="date">as of <?php echo $dbh->dateconverter($fuels['date_updated'])?></p>
+                                            </div>
                                         </div>
                                         <?php
                                             }
-                                            $date = $fuel['date_updated'];
-                                            $createdate = date_create($date);
-                                            $new_date = date_format($createdate, "F d, Y");
                                         ?>
-                                        <p class="date-p">Price as of <?php echo $new_date ?></p>
-                                        <p class="status-p"><span>Status:</span><?php echo $fuel['fuel_status']?></p>
                                     </div>
                                 </div>
                             </div>
+                            <?php
+                                }
+                            ?>
                         </div>
-                    <?php
-                        }
-                    ?>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        var stars = document.querySelectorAll(".sort-btn");
-        stars.forEach(button => {
-            button.addEventListener("click",()=> {
-                resetActive();
-                button.classList.add("active");
-            })
-        })
-
-        function resetActive(){
-            stars.forEach(button => {
-                button.classList.remove("active");
-            })
-        }
-    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/sortFuel.js"></script>
@@ -265,6 +231,20 @@ $data = new Config();
          	 });
         });
     });
+
+    var stars = document.querySelectorAll(".sort-btn");
+    stars.forEach(button => {
+        button.addEventListener("click",()=> {
+            resetActive();
+            button.classList.add("active");
+        })
+    })
+
+    function resetActive(){
+        stars.forEach(button => {
+            button.classList.remove("active");
+        })
+    }
 
     <?php
     if (isset($_SESSION['message'])) { ?>

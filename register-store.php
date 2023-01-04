@@ -1,20 +1,23 @@
 <?php
     session_start();
 
-    if(isset($_GET['email'])){
+    if(isset($_GET['email']) && isset($_GET['fname']) 
+    && isset($_GET['lname']) &&  isset($_GET['station_name']) 
+    && isset($_GET['branch']) &&  isset($_GET['address']) 
+    && isset($_GET['phone']) && isset($_GET['tin_num'])){
         $email = $_GET['email'];
-        $firstname = $_GET['firstname'];  
-        $lastname = $_GET['lastname']; 
+        $fname = $_GET['fname'];  
+        $lname = $_GET['lname']; 
         $station_name = $_GET['station_name'];  
         $branch = $_GET['branch']; 
         $address = $_GET['address'];
         $phone = $_GET['phone']; 
-        $tin_num = $_GET['tin']; 
+        $tin_num = $_GET['tin_num']; 
     }
     else{
         $email = '';
-        $firstname = '';
-        $lastname = '';
+        $fname = '';
+        $lname = '';
         $station_name = '';
         $branch = '';
         $address = '';
@@ -28,7 +31,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Register Station</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -66,11 +69,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">First name</label>
-                                            <input class="form-control" type="text" name="firstname" value="<?php echo $firstname?>">
+                                            <input class="form-control" type="text" name="fname" value="<?php echo $fname?>">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Last name</label>
-                                            <input class="form-control" type="text" name="lastname" value="<?php echo $lastname?>">
+                                            <input class="form-control" type="text" name="lname" value="<?php echo $lname?>">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Station name</label>
@@ -81,11 +84,11 @@
                                             <input class="form-control" type="text" name="branch" value="<?php echo $branch?>">
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Station Address</label>
+                                            <label class="form-label">Station address</label>
                                             <textarea class="form-control" name="address"><?php echo $address?></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Contact Number</label>
+                                            <label class="form-label">Phone number</label>
                                             <input class="form-control" type="tel" name="phone" value="<?php echo $phone?>">
                                         </div>
                                     </div>
@@ -123,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-xl-4 map-cols">
-                                        <p>Move the map to change the marker</p>
+                                        <p>Click the map to add a marker</p>
                                         <div id="maps" class="map-div"></div>
                                         <input type="hidden" name="mapLat" id="mapLat" required>
                                         <input type="hidden" name="mapLng" id="mapLng" required>   
@@ -149,7 +152,7 @@
                         <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a></li>
                         <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>
                     </ul>
-                    <p class="copyright text-center">Copyright © FuelOn 2022 | Web Design by Christian Joseph Dimla</p>
+                    <p class="copyright text-center">Copyright © FuelOn 2022 | Web Design by Fuel On Team</p>
                 </div>
             </div>
         </div>
@@ -158,7 +161,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/Profile-edit-form.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznw3cpC9HWF3r7VOvfpTpFaC_3s2lPMY"></script>
+    <!--galing kay rose-->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBznw3cpC9HWF3r7VOvfpTpFaC_3s2lPMY"></script> -->
+    
+    <!--galing kay michelle-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_OEm-GWs2MhtvKaabGYVDO1wOE6LI9i0"></script>
+
     <script src="assets/js/map-locator.js"></script>
     <!-- <script src="assets/js/register-store.js"></script> -->
     <script src="assets/js/sweetalert2.js"></script>

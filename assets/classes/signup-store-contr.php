@@ -4,8 +4,8 @@
 class SignupStoreContr extends SignupStore{
 
     private $email;
-    private $firstname;
-    private $lastname;
+    private $fname;
+    private $lname;
     private $station_name;
     private $branch;
     private $address;
@@ -23,11 +23,10 @@ class SignupStoreContr extends SignupStore{
     private $tmp;
 
 
-
-    public function __construct($email, $firstname, $lastname, $station_name, $branch, $address, $phone, $password, $confirm, $type, $tin_num, $mapLat, $mapLng, $filename, $filesize, $tmp, $opening, $closing){
+    public function __construct($email, $fname, $lname, $station_name, $branch, $address, $phone, $password, $confirm, $type, $tin_num, $mapLat, $mapLng, $filename, $filesize, $tmp, $opening, $closing){
         $this->email = $email;
-        $this->firstname = $firstname;
-        $this->lastname = $lastname;
+        $this->fname = $fname;
+        $this->lname = $lname;
         $this->station_name = $station_name;
         $this->branch = $branch;
         $this->address = $address;
@@ -47,57 +46,59 @@ class SignupStoreContr extends SignupStore{
     
 
     public function signUp(){
-        $this->registerStore($this->email, $this->firstname, $this->lastname, $this->station_name, $this->branch, $this->address, $this->phone, $this->password, $this->type, $this->tin_num, $this->mapLat, $this->mapLng, $this->filename, $this->tmp, $this->opening, $this->closing);
+        $this->registerStore($this->email, $this->fname, $this->lname, $this->station_name, $this->branch, $this->address, $this->phone, $this->password, $this->type, $this->tin_num, $this->mapLat, $this->mapLng, $this->filename, $this->tmp, $this->opening, $this->closing);
     }
 
     public function checkInput(){
 
-        $email = $_SESSION['email'];
-        $firstname = $_SESSION['firstname'];
-        $lastname = $_SESSION['lastname'];
-        $station_name = $_SESSION['station_name'];
-        $branch = $_SESSION['branch'];
-        $address = $_SESSION['address'];
-        $phone = $_SESSION['phone'];
-        $tin_num = $_SESSION['tin_num'];
+        $email = $_POST['email'];
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $station_name = $_POST['station_name'];
+        $branch = $_POST['branch'];
+        $address = $_POST['address'];
+        $phone = $_POST['phone'];
+        $tin_num = $_POST['tin_num'];
+
+        $data = 'email='.$email.'&fname='.$fname.'&lname='.$lname.'&station_name='.$station_name.'&branch='.$branch.'&address='.$address.'&phone='.$phone.'&tin_num='.$tin_num;
 
         if($this->emptyInput() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "All fields must be filled out.");
+            $this->info("../../register-store.php?$data", "All fields must be filled out.");
             exit();
         }
 
         if($this->invalidEmail() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid email format.");
+            $this->info("../../register-store.php?$data", "Invalid email format.");
             exit();
         }
 
-        if($this->invalidFName() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid first name format.");
+        if($this->invalidName() == false){
+            $this->info("../../register-store.php?$data", "Invalid name format.");
             exit();
         }
 
-        if($this->invalidLName() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid last name format.");
+        if($this->invalidPhone() == false){
+            $this->info("../../register-store.php?$data", "Invalid phone number format.");
             exit();
         }
-
-        // if($this->invalidPhone() == false){
-        //     $this->info("../../register-store.php?email=$email&name=$name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid phone number format.");
-        //     exit();
-        // }
 
         if($this->passwordMatch() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Password does not match.");
+            $this->info("../../register-store.php?$data", "Password does not match.");
+            exit();
+        }
+
+        if($this->passwordLength() == false){
+            $this->info("../../register-store.php?$data", "Password must be 8 characters in length.");
             exit();
         }
 
         if($this->userTaken() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Account already taken. Please use another email.");
+            $this->info("../../register-store.php?$data", "Account already taken. Please use another email.");
             exit();
         }
 
         if($this->invalidTIN() == false){
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "Invalid TIN format");
+            $this->info("../../register-store.php?$data", "Invalid TIN format");
             exit();
         }
 
@@ -105,10 +106,10 @@ class SignupStoreContr extends SignupStore{
         $extension = pathinfo($this->filename, PATHINFO_EXTENSION);
 
         if (!in_array($extension, ['pdf', 'png', 'jpeg', 'jpg'])) {
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "File type must be pdf, png, jpg, or jpeg");
+            $this->info("../../register-store.php?$data", "File type must be pdf, png, jpg, or jpeg");
             die();
         } elseif ($this->filesize > 2000000) { // file shouldn't be larger than 2Megabyte
-            $this->info("../../register-store.php?email=$email&firstname=$firstname&lastname=$lastname&station_name=$station_name&branch=$branch&address=$address&phone=$phone&tin=$tin_num", "File size too large");
+            $this->info("../../register-store.php?$data", "File size too large");
             die();
         } else {
             if (file_exists($this->filename)) {
@@ -121,8 +122,8 @@ class SignupStoreContr extends SignupStore{
     private function emptyInput(){
         $result;
         if(empty($this->email)
-        || empty($this->firstname)
-        || empty($this->lastname)
+        || empty($this->fname)
+        || empty($this->lname)
         || empty($this->station_name)
         || empty($this->branch)
         || empty($this->address)
@@ -142,21 +143,9 @@ class SignupStoreContr extends SignupStore{
         return $result;
     }
 
-
-    private function invalidFName(){
+    private function invalidName(){
         $result;
-        if(!preg_match("/^[a-zA-Z0-9_ -]*$/", $this->firstname)){
-            $result = false;
-        }
-        else{
-            $result = true;
-        }
-        return $result;
-    }
-
-    private function invalidLName(){
-        $result;
-        if(!preg_match("/^[a-zA-Z0-9_ -]*$/", $this->lastname)){
+        if(!preg_match("/^[a-zA-Z0-9_ -]*$/", $this->fname) || !preg_match("/^[a-zA-Z0-9_ -]*$/", $this->lname)){
             $result = false;
         }
         else{
@@ -176,16 +165,16 @@ class SignupStoreContr extends SignupStore{
         return $result;
     }
 
-    // private function invalidPhone(){
-    //     $result;
-    //     if(!preg_match("/^(09)[0-9]{0,9}$/", $this->phone)){
-    //         $result = false;
-    //     }
-    //     else{
-    //         $result = true;
-    //     }
-    //     return $result;
-    // }
+    private function invalidPhone(){
+        $result;
+        if(!preg_match("/^(09)[0-9]{0,9}$/", $this->phone)){
+            $result = false;
+        }
+        else{
+            $result = true;
+        }
+        return $result;
+    }
 
     private function invalidTIN(){
         $result;
@@ -204,6 +193,17 @@ class SignupStoreContr extends SignupStore{
     private function passwordMatch(){
         $result;
         if($this->password !== $this->confirm){
+            $result = false;
+        }
+        else{
+            $result = true;
+        }
+        return $result;
+    }
+
+    private function passwordLength(){
+        $result;
+        if(strlen($this->password) < 8){
             $result = false;
         }
         else{

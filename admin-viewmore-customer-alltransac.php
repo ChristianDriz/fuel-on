@@ -43,7 +43,7 @@ $count = $dbh->countCustomerRating($customerID);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON (Admin)</title>
+    <title>Fuel ON | (Admin) Customer Transactions</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -53,50 +53,26 @@ $count = $dbh->countCustomerRating($customerID);
     <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-navigation.css">
+    <link rel="stylesheet" href="assets/css/Customer%20css%20files/customer-navigation.css">
     <link rel="stylesheet" href="assets/css/Admin%20css%20files/admin-viewmore-customeralltransac.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container"><a class="btn" role="button" id="menu-toggle" href="#menu-toggle"><i class="fa fa-bars"></i></a><a class="navbar-brand">&nbsp;<i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a>
-            <ul class="navbar-nav">
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $username; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a href="admin-home-panel.php"><i class="fas fa-home"></i><span class="icon-name">Dashboard</span></a></li>
-                <li class="sidebar-brand"> <a href="admin-normal-user-table.php"><i class="fas fa-users"></i><span class="icon-name">Normal Users</span></a></li>
-                <li class="sidebar-brand"> <a href="admin-stores-table.php"><i class="fas fa-store"></i><span class="icon-name">Station Owners</span></a></li>
-                <li class="sidebar-brand"> <a href="admin-table.php"><i class="fas fa-user-tie"></i><span class="icon-name">Admins</span></a></li>
-                <li class="sidebar-brand"> <a href="admin-products-table.php"><i class="fas fa-shopping-basket"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> <a href="admin-fuels-table.php"><i class="fas fa-gas-pump"></i><span class="icon-name">Fuels</span></a></li>
-                <li class="sidebar-brand"> <a href="admin-store-locations.php"><i class="fas fa-map-marked-alt"></i><span class="icon-name">Station Locations</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="admin-store-approval.php"><i class="fas fa-user-check"></i><span class="icon-name">Pending Approval</span></a>
-                    <?php 
-                        $pending = $dbh->countPending();
-                        if ($pending != 0) { ?>
-                        <sup><?=$pending ?></sup>
-                    <?php
-                    } ?>
-                </li>
-                <li class="sidebar-brand"> <a href="admin-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">Settings</span></a></li>
-            </ul>
-        </div>
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
         <div class="page-content-wrapper">
+            <?php
+                if(empty($customer)){
+                    include 'no-data.php';
+                }else{
+            ?>
             <div class="container details-container">
                 <h4>Normal Users Details</h4>
                 <?php
@@ -170,7 +146,7 @@ $count = $dbh->countCustomerRating($customerID);
                                 <option value="ordered">Ordered</option>
                                 <option value="pickup">To Pickup</option>
                                 <option value="completed">Completed</option>
-                                <option value="cancelled">Cancelled/Declined</option>
+                                <option value="cancelled">Cancelled</option>
                             </select>
                         </div>
                         <div class="serts-div">
@@ -178,146 +154,233 @@ $count = $dbh->countCustomerRating($customerID);
                         </div>
                     </div>
                     <div class="dine">
-                    <?php
-                        if(empty($orders)){
-                    ?>
-                    <h5 class="no-rate">No Transactions Yet</h5>
-                    <?php
-                        }else{
-                        foreach($orders as $row){   
-                            $station = $dbh->customerGetShop($row['orderID']);
-                            $shopDetails = $station[0];
-                    ?>
-                    <div class="prodak">
-                        <div class="seller-name">
-                            <div class="seller-div">
-                                <p>
-                                    <i class="fas fa-store"></i>
-                                    <span>&nbsp;<?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?> Branch</span><br>
-                                </p>
+                        <?php
+                            if(empty($orders)){
+                        ?>
+                        <h5 class="no-rate">No Transactions Yet</h5>
+                        <?php
+                            }else{
+                            foreach($orders as $order){   
+                                $station = $dbh->customerGetShop($order['orderID']);
+                                $shopDetails = $station[0];
+                        ?>
+                        <div class="view-order-container">
+                            <div class="header-div">
+                                <div class="seller-div">
+                                    <img src="assets/img/profiles/<?php echo $shopDetails['user_image']?>">
+                                    <a href="admin-viewmore-stores-allratings.php?shopID=<?= $shopDetails['shopID']?>"><?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?></a>
+                                </div>
+                                <div>
+                                    <span><?php echo $order['orderID']?></span><span class="divider">|</span><span class="status"><?php echo $order['order_status']?></span>
+                                </div>
                             </div>
-                            <div class="order-id-div">
-                                <p><?php echo $row['orderID']?></p>
+                            <?php
+                                //ordered
+                                if($order['order_status'] == "Ordered"){
+                            ?>
+                            <div class="transac-date-div">
+                                <div class="col-12 col-md-4 details-col">
+                                    <div class="payment-div">
+                                        <span>Payment:</span>
+                                        <p><?php echo $order['payment_method']?></p>
+                                    </div>
+                                    <div class="note-div">
+                                        <span>Waiting for the station to confirm the order.</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8 order-first order-md-last timeline-div">
+                                    <div>
+                                        <div class="date">
+                                            <span>Date Ordered:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_ordered'])?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                                //to pickup
+                                }elseif($order['order_status'] == "To Pickup"){
+                            ?>
+                            <div class="transac-date-div">
+                                <div class="col-12 col-md-4 details-col">
+                                    <div class="payment-div">
+                                        <span>Payment:</span>
+                                        <p><?php echo $order['payment_method']?></p>
+                                    </div>
+                                    <div class="note-div">
+                                        <span>Customer must pickup the order within 2 days upon approval.</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8 order-first order-md-last timeline-div">
+                                    <div>
+                                        <div class="date">
+                                            <span>Date Approved:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_approved'])?></p>
+                                        </div>
+                                        <div class="date">
+                                            <span>Date Ordered:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_ordered'])?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                                //completed
+                                }elseif($order['order_status'] == "Completed"){
+                            ?>
+                            <div class="transac-date-div">
+                                <div class="col-12 col-md-4 details-col">
+                                    <div class="payment-div">
+                                        <span>Payment:</span>
+                                        <p><?php echo $order['payment_method']?></p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8 order-first order-md-last timeline-div">
+                                    <div>
+                                        <div class="date">
+                                            <span>Date Completed:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_completed'])?></p>
+                                        </div>
+                                        <div class="date">
+                                            <span>Date Approved:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_approved'])?></p>
+                                        </div>
+                                        <div class="date">
+                                            <span>Date Ordered:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_ordered'])?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                                //declined, cancelled
+                                }elseif($order['order_status'] == "Declined" || $order['order_status'] == "Cancelled"){
+                            ?>
+                            <div class="transac-date-div">
+                                <div class="col-12 col-md-4 details-col">
+                                    <div class="payment-div">
+                                        <span>Payment:</span>
+                                        <p><?php echo $order['payment_method']?></p>
+                                    </div>
+                                    <div class="payment-div">
+                                        <span>Cancellation Reason:</span>
+                                        <p><?php echo $dbh->cancelreason($order['cancel_reason'])?></p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8 order-first order-md-last timeline-div">
+                                    <div>
+                                        <div class="date">
+                                            <span>Date Cancelled:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_cancelled'])?></p>
+                                        </div>
+                                        <div class="date">
+                                            <span>Date Ordered:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_ordered'])?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                                //pickup failed
+                                }elseif($order['order_status'] == "Pickup Failed"){
+                            ?>
+                            <div class="transac-date-div">
+                                <div class="col-12 col-md-4 details-col">
+                                    <div class="payment-div">
+                                        <span>Payment:</span>
+                                        <p><?php echo $order['payment_method']?></p>
+                                    </div>
+                                    <div class="payment-div">
+                                        <span>Cancellation Reason:</span>
+                                        <p><?php echo $dbh->cancelreason($order['cancel_reason'])?></p>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-8 order-first order-md-last timeline-div">
+                                    <div>
+                                        <div class="date">
+                                            <span>Date Cancelled:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_cancelled'])?></p>
+                                        </div> 
+                                        <div class="date">
+                                            <span>Date Approved:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_approved'])?></p>
+                                        </div>
+                                        <div class="date">
+                                            <span>Date Ordered:</span>
+                                            <p><?php echo $dbh->datetimeconverter($order['date_ordered'])?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                                }
+                            ?>
+                            <div class="prodak">
+                                <?php
+                                    $grandtotal = 0;
+                                    $records = $dbh->customerOrders($order['orderID']);
+                                    foreach($records as $key => $val){
+                                        $grandtotal += $val['total'];
+                                ?>
+                                <div class="sa-products">
+                                    <a class="product-col">
+                                        <div class="imeds-n-neym">
+                                            <div class="imeyds-div">
+                                                <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']?>">
+                                            </div>
+                                            <div>
+                                                <div class="neym-div">
+                                                    <p class="product-name"><?php echo $val['product_name']?></p>
+                                                </div>
+                                                <div class="unit-price-div"><span>₱<?php echo $val['price']?></span></div>
+                                                <div class="quantity-div"><span>Quantity: <?php echo $val['quantity']?></span></div>
+                                            </div>
+                                        </div>
+                                        <div class="total-price-div"><span>₱<?php echo number_format($val['total'], 2)?></span></div>
+                                    </a>
+                                </div>
+                                <?php
+                                    }
+                                ?>
+                                <div class="total-div"><span>Order Total:</span>
+                                    <p>₱<?php echo number_format($grandtotal, 2) ?></p>
+                                </div>
                             </div>
                         </div>
                         <?php
-                            $grandtotal = 0;
-                            $records = $dbh->customerOrders($row['orderID']);
-                            foreach($records as $key => $val){
-                                $grandtotal += $val['total'];
-
-                                $date = $row['transac_date'];
-                                $createdate = date_create($date);
-                                $new_date = date_format($createdate, "M d, Y h:i:s A");
-                        ?>
-                        <div class="sa-products">
-                            <div class="product-col">
-                                <div class="imeds-n-neym">
-                                    <div class="imeyds-div">
-                                        <a>
-                                            <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']?>">
-                                        </a>
-                                    </div>
-                                    <div>
-                                        <div class="neym-div">
-                                            <p class="product-name"><?php echo $val['product_name']?></p>
-                                        </div>
-                                        <div class="unit-price-div"><span>₱<?php echo $val['price']?></span></div>
-                                        <div class="quantity-div"><span>Quantity: <?php echo $val['quantity']?></span></div>
-                                    </div>
-                                </div>
-                                <div class="total-price-div"><span>₱<?php echo number_format($val['total'], 2)?></span></div>
-                            </div>
-                        </div>
-                        <?php 
                             }
-                            $reason1 = 'Need to modify order';
-                            $reason2 = 'Found something else cheaper';
-                            $reason3 = 'Others / Change of mind';
-                            $reason4 = 'Out of stock';
-                            $reason5 = 'Did not picked up the order';
-                        ?>
-                        <div class="summary">
-                            <div class="left-div">
-                                <div class="payment-div"><span>Payment:</span>
-                                    <p><?php echo $val['payment_method']?></p>
-                                </div>
-                                <div class="order-date-div"><span>Order Date:</span>
-                                    <p><?php echo $new_date ?></p>
-                                </div>
-                                <?php
-                                if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined" || $val['order_status'] == "Pickup Failed"){
-                                ?>
-                                <div class="cancel-div">
-                                    <span>Cancellation Details:</span>
-                                    <?php 
-                                    if($val['cancel_reason'] == "reason1"){
-                                    ?>
-                                        <p>Reason: <?php echo $reason1?></p>
-                                    <?php
-                                    }elseif($val['cancel_reason'] == "reason2"){
-                                    ?>
-                                        <p>Reason: <?php echo $reason2?></p>
-                                    <?php
-                                    }elseif($val['cancel_reason'] == "reason3"){
-                                    ?>
-                                        <p>Reason: <?php echo $reason3?></p>
-                                    <?php
-                                    }elseif($val['cancel_reason'] == "reason4"){
-                                    ?>  
-                                        <p>Reason: <?php echo $reason4?></p>
-                                    <?php
-                                    }elseif($val['cancel_reason'] == "reason5"){
-                                    ?>
-                                        <p>Reason: <?php echo $reason5?></p>
-                                    <?php
-                                    }?>
-                                </div>
-                                <?php
-                                }
-                                ?> 
-                            </div>
-                            <div class="right-div">
-                                <div class="order-total-div"><span>Order Total:</span>
-                                    <p>₱<?php echo number_format($grandtotal, 2) ?></p>
-                                </div>
-                                <div class="status-div"><span>Status:</span>
-                                    <p><?php echo $val['order_status']?></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php
                         }
-                    }
-                    ?>
+                        ?>
                     </div>
                 </div>
             </div>
+            <?php
+                }
+            ?>
         </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/editproduct.js"></script>
-    <script src="assets/js/admin-viewmore-customer-transac.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script>
-    $(document).ready(function() {
-        // $(".serts").on("input", function() {
-        //     var searchText = $(this).val();
-        //     alert (searchText);
-
-        //     if (searchText == "") return;
-        //     $.post('assets/ajax/admin-viewmore-customer-searchtransac.php', {
-        //             key: searchText
-        //         },
-        //         function(data, status) {
-        //             $(".dine").html(data);
-        //         });
-        // });
+    $(document).ready(function() {   
         //for search
+        $(".serts").on("input", function() {
+            var searchText = $(this).val();
+            var id = $(this).attr('id');
+
+            if (searchText == "") return;
+            $.post('assets/ajax/admin-viewmore-customer-searchtransac.php', {
+                    key: searchText, customerID: id
+                },
+                function(data, status) {
+                    $(".dine").html(data);
+                });
+        });
+
         $(".serts").on("keypress", function(e) {
             if(e.which == 13){
                 var searchText = $(this).val();

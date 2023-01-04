@@ -4,150 +4,91 @@ body {
 
 #container-settings {
   max-width: 1200px;
+  padding: 10px;
 }
 
 .container h4 {
   color: #3e3d3d;
   font-family: 'Source Sans Pro';
   font-weight: 600;
+  margin: 10px 0;
 }
 
-.page-content-wrapper {
-  padding: 20px;
-}
-
-@media (max-width: 575px) {
-  .page-content-wrapper {
-    padding: 20px 0;
-  }
-}
-
-.settings-row .kolum {
-  padding: 10px;
-}
-
-.kolum .inside-div {
+.form {
   background-color: #ffffff;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 15px;
   box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
-  height: 100%;
 }
 
-.kolum .inside-div .para {
-  font-size: 17px;
-  font-weight: 500;
-  color: #afb2ba;
+/* product image */
+
+.form.prod-image {
+  padding: 20px;
+}
+
+.form.prod-image .para, .form.sched-div .para {
+  color: #817c7c;
 }
 
 .avatar-bg {
   background-color: #f5f0f0;
-  height: 250px;
-  width: 250px;
+  height: 300px;
+  width: 300px;
   background-size: cover;
-  border-radius: 50%;
-  margin: 20px auto 40px;
+  margin: 30px auto 44px;
   background-position: 50% 50%;
+  border-radius: 50%;
 }
 
 .avatar-bg img {
-  height: 250px;
-  width: 250px;
-  border-radius: 50%;
+  height: 300px;
+  width: 300px;
   object-fit: cover;
+  border: none;
   border: 1px solid #f5f0f0;
+  border-radius: 50%;
+}
+
+@media (max-width: 575px) {
+  .avatar-bg {
+    height: 250px;
+    width: 250px;
+    margin: 30px auto 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .avatar-bg img {
+    height: 250px;
+    width: 250px;
+  }
 }
 
 .file-input {
   width: 250px;
   margin: auto;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f5f0f0;
+  border: none;
+}
+
+.file-input::-webkit-file-upload-button {
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: none;
+  margin-left: -5px;
 }
 
 .file-input:focus {
-  outline: none;
-  box-shadow: 0 0 0 #ffffff;
-}
-
-.button-div {
-  text-align: center;
-  padding: 40px 0 30px 0;
-}
-
-.button-div .update-btn {
-  background-color: #fea600;
-  color: #ffffff;
+  width: 250px;
+  margin: auto;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f5f0f0;
   border: none;
-  padding: 7px 25px;
-}
-
-.button-div .update-btn:hover {
-  background-color: #e79a08;
-}
-
-.inside-div.details {
-  padding: 20px 50px;
-  /*height: 593.5px;*/
-}
-
-@media (max-width: 990px) {
-  .inside-div.details {
-    padding: 20px 30px;
-    /*height: 510px;*/
-  }
-}
-
-.inside-div.details .input-div {
-  padding: 15px 0 0 0;
-  width: 100%;
-}
-
-.inside-div.details label {
-  color: #afb2ba;
-  margin: 0 0 3px;
-}
-
-/* .inside-div.details input {
-  padding: 8px 12px;
-} */
-
-.inside-div.details input.email {
-  background-color: #f8f5f5;
-}
-
-.inside-div.details .form-control:focus {
   outline: none;
   box-shadow: 0 0 0 #ffffff;
-  border: 1px solid #989b9d;
-}
-
-.inside-div.details .button-div {
-  /*margin-top: 50px;*/
-  display: flex;
-  justify-content: space-evenly;
-}
-
-@media (max-width: 990px) {
-  .inside-div.details .button-div {
-    margin-top: 0px;
-  }
-}
-
-.change-pass {
-  background-color: #f5f0f0;
-  color: #3e3d3d;
-  border: 1px solid #ede9e9;
-}
-
-.change-pass:focus {
-  color: #3e3d3d;
-  border: 1px solid #ede9e9;
-  background-color: #f5f0f0;
-}
-
-.change-pass:hover {
-  background-color: #ebe5e5;
-  color: #3e3d3d;
-  border-color: #ebe5e5;
 }
 
 .leybel {
@@ -161,152 +102,199 @@ body {
   font-size: 14px;
 }
 
-/* modal password */
+/* sched-div */
 
-.modal-content {
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-}
-
-.close-div {
-  text-align: end;
-}
-
-.password-div {
+.form.sched-div {
   padding: 20px;
-}
-
-.password-div .input-group {
-  padding: 10px;
-}
-
-.input-group input {
-  padding: 8px 15px;
-}
-
-.input-group input:focus {
-  box-shadow: 0 0 0 #ffffff;
-  border-color: #aeafb0;
-}
-
-.change-pass-div {
-  text-align: center;
-  padding: 10px 0 40px 0;
-}
-
-.change-pass-div .btn {
-  background-color: #fea600;
-  color: #ffffff;
-}
-
-.change-pass-div .btn:hover {
-  background-color: #e1970b;
-}
-
-.business-div {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.input-div.bisnes {
-  margin-left: 10px;
-}
-
-.drop-down-div {
-  display: flex;
-}
-
-.permit-input {
-  background-color: #f8f5f5;
-  color: #3e3d3d;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-}
-
-.permit-input:hover {
-  outline: none;
-  box-shadow: 0 0 0 #ffffff;
-  border: 1px solid #989b9d;
-}
-
-.permit-input:focus {
-  background-color: #f8f5f5;
-}
-
-.drapdawn {
-  /* padding: 8px 12px; */
-  border: 1px solid #ced4da;
-  margin-left: 5px;
-}
-
-.drapdawn:hover {
-  border-color: #ced4da;
-}
-
-.sched-div {
-  background-color: #ffffff;
-  margin-top: 20px;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
-  /*height: 261px;*/
+  margin: 24px 0 0 0;
+  height: 221px;
   display: grid;
 }
 
-@media (min-width: 991px) {
-  .sched-div {
-    background-color: #ffffff;
-    margin-top: 20px;
-    border-radius: 10px;
+@media (max-width: 991px) {
+  .form.sched-div {
     padding: 20px;
-    box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
-    height: 261px;
+    margin: 14px 0 0 0;
+    height: auto;
     display: grid;
   }
-}
-
-.sched-div p {
-  font-size: 17px;
-  font-weight: 500;
-  color: #afb2ba;
-  margin: 0;
-}
-
-.note-div {
-  background-color: rgba(120,163,245,0.17);
-  border: 1px solid #9ec0ff;
-  padding: 5px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.note-div i {
-  color: #78a3f5;
-}
-
-.note-div p {
-  margin: 0;
-  color: #6f6a6a;
-  font-size: 14px;
-  margin-left: 5px;
-  font-weight: 600;
-}
-
-.sched-input p {
-  font-size: 15px;
-  margin-top: 5px;
 }
 
 .radio-div {
   display: flex;
   justify-content: space-evenly;
+  padding: 12px;
 }
 
-/* #hiddenForm {
-  display: none;
-} */
+/* product details */
+
+.form.prod-details {
+  padding: 20px 40px;
+  height: 100%;
+}
+
+@media (max-width: 991px) {
+  .form.prod-details {
+    padding: 20px;
+    margin: 15px 0;
+  }
+}
+
+.input-div {
+  padding: 0 0 15px 0;
+  width: 100%;
+}
+
+.input-div label {
+  color: #817c7c;
+}
+
+.input-div input, .input-div textarea, .input-div select {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f5f0f0;
+}
+
+.input-div input:focus, .input-div textarea:focus, .input-div select:focus {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f5f0f0;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+.button-div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.button-div .btn {
+  background-color: #fea600;
+  color: #ffffff;
+  width: 150px;
+  border-radius: 8px;
+}
+
+.button-div .btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+  width: 150px;
+  border-radius: 8px;
+}
+
+.btn.change-pass {
+  margin-right: 10px;
+  background-color: #ffffff;
+  border-color: #c9bebe;
+  color: #3e3d3d;
+}
+
+.btn.change-pass:focus {
+  margin-right: 10px;
+  background-color: #ffffff;
+  border-color: #c9bebe;
+  color: #3e3d3d;
+}
+
+.btn.save-btn {
+  margin-left: 10px;
+}
+
+input.email {
+  background-color: #fefbfb;
+  cursor: default;
+}
+
+input.email:focus {
+  background-color: #fefbfb;
+  cursor: default;
+}
+
+.name-div {
+  display: flex;
+}
+
+.input-div.left {
+  margin-right: 10px;
+}
+
+.input-div.right {
+  margin-left: 10px;
+}
+
+.custom-file::-webkit-file-upload-button {
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: none;
+  margin-left: -5px;
+}
+
+.permit-div {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.permit-div .btn {
+  margin-left: 10px;
+  background-color: #f5f0f0;
+  color: #817c7c;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.permit-div .btn:focus {
+  margin-left: 10px;
+  background-color: #f5f0f0;
+  color: #817c7c;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+/* modal password */
+
+.modal-content {
+  border-radius: 15px;
+  border: none;
+}
+
+.modal-header {
+  border: none;
+}
+
+.modal-header .btn-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+.modal-body {
+  padding: 0 30px;
+  border: none;
+}
+
+.modal-body .input-div {
+  display: grid;
+}
+
+.modal-footer {
+  border: none;
+  justify-content: center;
+  padding: 10px 0 30px 0;
+}
+
+.btn.change-pass-btn {
+  background-color: #fea600;
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+.btn.change-pass-btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+  border-radius: 8px;
+}

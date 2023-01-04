@@ -113,7 +113,7 @@
             if (!in_array($extension, ['pdf', 'docx', 'png', 'jpeg', 'jpg', 'doc'])) {
                 $dbh->info("../../store-account-settings.php", "You file extension must be pdf, png, jpg, or jpeg");
                 die();
-            } elseif ($filesize > 1000000) { // file shouldn't be larger than 1Megabyte
+            } elseif ($filesize > 2000000) { // file shouldn't be larger than 2Megabyte
                 $dbh->info("../../store-account-settings.php", "Your file is too large.");
                 die();
             } else {

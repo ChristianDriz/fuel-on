@@ -1,0 +1,285 @@
+body {
+  background-color: #f5f0f0;
+}
+
+/* no fuels */
+
+#no-fuels h4 {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* end */
+
+/* fuel container */
+
+.add-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0 10px 0;
+}
+
+.add-div h4 {
+  font-weight: 600;
+}
+
+.add-div .btn {
+  border-radius: 8px;
+  background-color: #fea600;
+  color: #ffffff;
+  width: 120px;
+}
+
+.add-div .btn:focus {
+  border-radius: 8px;
+  background-color: #fea600;
+  color: #ffffff;
+  width: 120px;
+}
+
+/* fuel */
+
+.fuel-div {
+  padding: 25px 25px 15px 25px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(67,63,63,0.28);
+  background-color: #ffffff;
+  color: #ffffff;
+  font-family: 'Share Tech Mono';
+  margin: 12px 0;
+}
+
+.fuel-div.diesel {
+  background-color: #eab72d;
+}
+
+.fuel-div.unleaded {
+  background-color: #48884c;
+}
+
+.fuel-div.premium {
+  background-color: #f12d3c;
+}
+
+.fuel-div.racing {
+  background-color: #1670ae;
+}
+
+.fuel-name {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-family: 'Share Tech Mono';
+  text-align: center;
+}
+
+.fuel-name h1 {
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px 5px rgba(0,0,0,0.5);
+  margin: 0;
+}
+
+.fuel-name h6 {
+  /*margin: 0;*/
+  font-weight: 600;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+  letter-spacing: 1px;
+}
+
+.fuel-price {
+  background-color: #2f2f2f;
+  border-radius: 8px;
+  padding: 10px;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-align: center;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  min-height: 102px;
+}
+
+@media (max-width: 575px) {
+  .fuel-price {
+    min-height: auto;
+  }
+}
+
+.fuel-price h1 {
+  font-weight: 600;
+}
+
+strong {
+  font-family: 'Nunito';
+}
+
+.fuel-price h1 .fas {
+  font-size: large;
+  margin-left: 5px;
+  margin-top: 4px;
+}
+
+.fuel-price h1 span {
+  font-size: large;
+  margin-left: 2px;
+}
+
+.fuel-price p {
+  margin-top: -7px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.kolum {
+  position: relative;
+}
+
+.date {
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 10px 0 0 0;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+  font-family: 'Source Sans Pro';
+}
+
+.status-tag {
+  position: absolute;
+  color: #ffffff;
+  background-color: #2f2f2f;
+  top: 10px;
+  right: 10px;
+  width: 140px;
+  overflow: hidden;
+  border-radius: 0 5px;
+  text-align: center;
+  font-size: 17px;
+  box-shadow: 0 2px 3px #211f1f;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 2px;
+}
+
+.fuel-div .dropdown {
+  position: absolute;
+  top: 15px;
+  left: 25px;
+  color: #ffffff;
+  font-size: 20px;
+  font-family: 'Source Sans Pro';
+}
+
+/* end */
+
+/* modal add fuel */
+
+.modal-content {
+  border-radius: 15px;
+  border: none;
+}
+
+.modal-header {
+  border: none;
+  padding: 20px 30px 0 40px;
+}
+
+@media (max-width: 575px) {
+  .modal-header {
+    border: none;
+    padding: 15px 20px 0 20px;
+  }
+}
+
+.modal-header h4 {
+  color: #3e3d3d;
+  font-family: 'Source Sans Pro';
+  font-weight: 600;
+}
+
+.modal-header .btn-close:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+.modal-body {
+  padding: 15px 40px;
+}
+
+@media (max-width: 575px) {
+  .modal-body {
+    padding: 15px 20px;
+  }
+}
+
+.input-div {
+  padding: 0 0 20px 0;
+  width: 100%;
+}
+
+.input-div label {
+  color: #817c7c;
+}
+
+.input-div input, .input-div textarea, .input-div select {
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f5f0f0;
+}
+
+.input-div input:focus, .input-div textarea:focus, .input-div select:focus {
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f5f0f0;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+.button-div {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.button-div .btn {
+  background-color: #fea600;
+  color: #ffffff;
+  width: 150px;
+  border-radius: 8px;
+}
+
+.button-div .btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+  width: 150px;
+  border-radius: 8px;
+}
+
+.cancel.btn {
+  margin-right: 10px;
+  background-color: #ffffff;
+  color: #3e3d3d;
+  border-color: #c9bebe;
+}
+
+.cancel.btn:focus {
+  margin-right: 10px;
+  background-color: #ffffff;
+  color: #3e3d3d;
+  border-color: #c9bebe;
+}
+
+.save {
+  margin-left: 10px;
+}
+
+/* end */

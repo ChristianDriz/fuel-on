@@ -1,10 +1,10 @@
 body {
   font-family: sans-serif;
-  /* font-size: 18px; */
+  /*font-size: 18px;*/
 }
 
 .kontainer {
-  /* padding: 10px; */
+  /*padding: 10px;*/
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -120,10 +120,6 @@ tbody .amount {
   text-align: right;
 }
 
-.total-table {
-  width: 100%;
-}
-
 tfoot tr td {
   padding: 8px;
   border: 1px solid black;
@@ -140,10 +136,35 @@ tfoot tr td {
   width: 200px;
 }
 
-.foot {
-  position: absolute;
+.footer-note {
+  position: fixed;
+  width: 100%;
+  bottom: -85px;
+  left: 0px;
+  right: 0px;
+  height: 100px;
+  text-align: center;
+  /*line-height: 35px;*/
+  /*border-top: 1px solid black;*/
+  /*font-size: 12px;*/
+}
+
+.footer-signature {
+  position: fixed;
+  /*width: 100%;*/
   bottom: 0;
-  left: 0;
-  right: 0;
+  /*left: 0px;*/
+  right: 15px;
+  height: 100px;
+  color: black;
+  text-align: right;
+  /*line-height: 35px;*/
+  /*font-size: 12px;*/
+}
+
+.footer-signature p {
+  margin: 0;
+  width: 200px;
+  border-top: 1px solid black;
   text-align: center;
 }

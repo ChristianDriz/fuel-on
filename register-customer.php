@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    if(isset($_GET['email']) || isset($_GET['fname']) || isset($_GET['lname']) || isset($_GET['phone'])){
+    if(isset($_GET['email']) && isset($_GET['fname']) &&  isset($_GET['lname']) && isset($_GET['phone'])){
         $email = $_GET['email'];
         $fname = $_GET['fname'];  
         $lname = $_GET['lname']; 
@@ -20,7 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Register Customer</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -61,7 +61,7 @@
                                     <input class="form-control" type="text" name="lname" value="<?php echo $lname?>">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label">Contact number</label>
+                                    <label class="form-label">Phone number</label>
                                     <input class="form-control" type="tel" name="phone" value="<?php echo $phone?>">
                                 </div>
                                 <div class="form-group">
@@ -90,7 +90,7 @@
                         <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-twitter fa-stack-1x fa-inverse"></i></span></a></li>
                         <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-instagram fa-stack-1x fa-inverse"></i></span></a></li>
                     </ul>
-                    <p class="copyright text-center">Copyright © FuelOn 2022 | Web Design by Christian Joseph Dimla</p>
+                    <p class="copyright text-center">Copyright © FuelOn 2022 | Web Design by Fuel On Team</p>
                 </div>
             </div>
         </div>

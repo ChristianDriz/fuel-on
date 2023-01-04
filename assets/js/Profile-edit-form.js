@@ -57,3 +57,21 @@ var selDiv = "";
 //         clear[i].style.visibility = 'hidden';
 //     }
 // }
+$(document).ready(function () {
+    $('.cancel').click(function () {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You will discard the data you input.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = "store-myproducts.php";
+            }
+        })
+    });
+});

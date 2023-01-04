@@ -11,7 +11,7 @@
     include '../db.conn.php';
 
     require_once("../classes/dbHandler.php");
-    $data = new Config();
+    $dbh = new Config();
 
 
     if(isset($_GET['from_date']) && isset($_GET['to_date'])){
@@ -19,7 +19,7 @@
         $to_date = $_GET['to_date'];
     }
 
-    $data = $data->salesReportSorted($from_date, $to_date, $userID);
+    $data = $dbh->salesReportSorted($from_date, $to_date, $userID);
 
         if(empty($data)){
     ?>
@@ -35,10 +35,10 @@
                     <tr>
                         <!-- <th></th> -->
                         <th>Product Details</th>
-                        <th class="text-center" style="width: 12%;">Date&nbsp;</th>
-                        <th class="text-center" style="width: 10%;">Unit Cost</th>
-                        <th class="text-center">Qty</th>
-                        <th class="text-center">Amount</th>
+                        <th class="text-end">Date&nbsp;</th>
+                        <th class="text-end">Unit Cost</th>
+                        <th class="text-end">Qty</th>
+                        <th class="text-end">Amount</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,15 +46,11 @@
                         $grandtotal = 0;
                         foreach($data as $row){
                             $grandtotal += $row['total'];
-
-                            $date = $row['transac_date'];
-                            $createdate = date_create($date);
-                            $new_date = date_format($createdate, "M d, Y");
                     ?>
                     <tr>
                         <!-- <td></td> -->
                         <td><?php echo $row['product_name']?></td>
-                        <td class="text-center"><?php echo $new_date?></td>
+                        <td class="text-end"><?php echo $dbh->dateconverter($row['date_completed'])?></td>
                         <td class="text-end">₱<?php echo number_format($row['price'], 2)?></td>
                         <td class="text-end"><?php echo $row['quantity']?></td>
                         <td class="text-end">₱<?php echo number_format($row['total'], 2)?></td>

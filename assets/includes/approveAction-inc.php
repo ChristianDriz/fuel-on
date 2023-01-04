@@ -6,6 +6,7 @@ if (isset($_GET['type'])) {
 
     $storeId = $_GET['storeId'];
     $type = $_GET['type'];
+    $reason = $_GET['reason'];
 
     $updateStore = $dbh->updateStoreStatus($storeId, $type);
 
@@ -44,10 +45,15 @@ if (isset($_GET['type'])) {
         } else {
             $mail->Body = "<p>Dear user, </p> <h3>We're sorry to inform you that your account has been declined <br></h3>
             <br>
+            <h4>For the reason that '$reason' </h4>
+            <br><br>
             If you have any inquiries please send us an email.
             <br><br>
             <p>With regards,</p>
             <b>The Fuel ON Team</b>";
+
+            //adding the declined reason to database
+            $dbh->StationDeclinedReason($reason, $storeId);
         }
 
         $mail->send();

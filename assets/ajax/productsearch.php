@@ -19,7 +19,11 @@
         $key = "%{$_POST['key']}%";
     }
 
-        $sql = 'SELECT * FROM `tbl_products` WHERE quantity != 0 AND product_name LIKE ? ORDER BY price ASC';
+        $sql = 'SELECT * FROM `tbl_products` 
+        WHERE quantity != 0 
+        AND product_name 
+        LIKE ? 
+        ORDER BY price ASC';
         $stmt = $conn->prepare($sql);
         $stmt->execute([$key]);
 
@@ -43,7 +47,17 @@
                         <h6 class="prod-name"><?=$val['product_name']?></h6>
                         <div class="price-sold-div">
                             <p class="prod-price"><?= "₱" . $val['price'] ?></p>
-                            <p class="sold"><?php echo $sold ?> sold</p>
+                            <?php
+                                if($sold == 0){
+                            ?>
+                            <p class="sold">0 sold</p>
+                            <?php
+                                }else{
+                            ?>
+                            <p class="sold"><?php echo $data->numberconverter($sold)?> sold</p>
+                            <?php
+                                }
+                            ?>
                         </div>
                         <p class="prod-location"><i class="fas fa-store"></i><?php echo $station['station_name'].' '.$station['branch_name']?></p>
                     </div>

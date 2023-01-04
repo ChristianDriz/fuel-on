@@ -47,10 +47,6 @@
 
             if(!empty($Stars)){
                 foreach($Stars as $ratings){ 
-
-                $date = $ratings['rating_date'];
-                $createdate = date_create($date);
-                $new_date = date_format($createdate, "M d, Y h:i:s A");
         ?>
         <div class="ratings-div">
             <div>
@@ -65,17 +61,17 @@
                         $star = 0;
                         while($star < $ratings['rating']){
                     ?>
-                    <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
                     <?php
                         $star++;
                         }
                     ?>
                 </div>
-                <div class="date-div">
-                    <p class="rate-date"><?php echo $new_date?></p>
-                </div>
                 <div class="comment-div">
                     <p><?=$ratings['feedback']?></p>
+                </div>
+                <div class="date-div">
+                    <p class="rate-date"><?php echo $data->datetimeconverter($ratings['rating_date']) ?></p>
                 </div>
             </div>
         </div>

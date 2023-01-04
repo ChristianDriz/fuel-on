@@ -18,19 +18,20 @@ if(isset($_POST['save'])){
         $fuelID = $_GET['fuelID'];
     }
 
-    if(isset($_POST['fuelType'])){
-        $fuelType = $_POST['fuelType'];
-    }
-    else{
-        $fuelType = '';
+    if(isset($_POST['fuelname'])){
+        $fuelType = $_POST['fuelname'];
     }
 
-    if(isset($_FILES['image']['name'])){
-        $image = $_FILES['image']['name'];
+    // if(isset($_FILES['image']['name'])){
+    //     $image = $_FILES['image']['name'];
+    // }
+
+    if(isset($_POST['price'])){
+        $newPrice = $_POST['price'];
     }
 
-    if(isset($_POST['newPrice'])){
-        $newPrice = $_POST['newPrice'];
+    if(isset($_POST['category'])){
+        $category = $_POST['category'];
     }
 
     if(isset($_POST['oldPrice'])){
@@ -42,70 +43,79 @@ if(isset($_POST['save'])){
     }
 
     if($newPrice == $oldPrice){
-        if(empty($image)){
-            $dbh->updateFuel($fuelID, $fuelType);
-            $dbh->updateFuelStatus($fuelID, $fuel_status);
-        }
-        else{
-            $image = $_FILES['image']['name'];
-            $size = $_FILES['image']['size'];
-            $tmp_name = $_FILES['image']['tmp_name'];
-            $img_extension = pathinfo($image, PATHINFO_EXTENSION);
-            $allowed_extension = array("jpg", "jpeg", "png");
-            $error = $_FILES['image']['error'];
-        
-            if ($error === 0){
-                if ($size > 1000000) {
-                        $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "Your file is too large.");
-                }else{
-                    if (!in_array($img_extension, $allowed_extension)) {
-                        $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "You cannot upload this type of file.");
-                    }
-                    else
-                    {   
-                        $path = '../img/products/'.$image;
-                        move_uploaded_file($tmp_name, $path); 
-            
-                        $dbh->updateFuelPic($fuelID, $fuelType, $image);
-                        $dbh->updateFuelStatus($fuelID, $fuel_status); 
-                    }
-                }
-            }
-        }    
+        $dbh->updateFuel($fuelType, $category, $fuel_status, $fuelID);
     }
-    elseif($newPrice !== $oldPrice){
-        if(empty($image)){
-            $dbh->updateFuel($fuelID, $fuelType);
-            $dbh->updateFuelStatus($fuelID, $fuel_status);
-        }
-        else{
-            $image = $_FILES['image']['name'];
-            $size = $_FILES['image']['size'];
-            $tmp_name = $_FILES['image']['tmp_name'];
-            $img_extension = pathinfo($image, PATHINFO_EXTENSION);
-            $allowed_extension = array("jpg", "jpeg", "png");
-            $error = $_FILES['image']['error'];
-        
-            if ($error === 0){
-                if ($size > 1000000) {
-                        $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "Your file is too large.");
-                }else{
-                    if (!in_array($img_extension, $allowed_extension)) {
-                        $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "You cannot upload this type of file.");
-                    }
-                    else
-                    {   
-                        $path = '../img/products/'.$image;
-                        move_uploaded_file($tmp_name, $path); 
-            
-                        $dbh->updateFuelPic($fuelID, $fuelType, $image);
-                        $dbh->updateFuelStatus($fuelID, $fuel_status); 
-                    }
-                }
-            }
-        }
-        $dbh->updateFuelPrice($newPrice, $oldPrice, $date, $fuelID);
-        $dbh->updateFuelStatus($fuelID, $fuel_status);
+    elseif($newPrice != $oldPrice){
+        $dbh->updateFuelPrice($fuelType, $category, $newPrice, $oldPrice, $fuel_status, $date, $fuelID);
     }       
-    $dbh->success("../../store-mytimeline.php", "Fuel updated successfully!");
+    $dbh->success("../../store-myfuels.php", "Fuel updated successfully!");
+
+
+    // if($newPrice == $oldPrice){
+    //     if(empty($image)){
+    //         $dbh->updateFuel($fuelID, $fuelType);
+    //         $dbh->updateFuelStatus($fuelID, $fuel_status);
+    //     }
+    //     else{
+    //         $image = $_FILES['image']['name'];
+    //         $size = $_FILES['image']['size'];
+    //         $tmp_name = $_FILES['image']['tmp_name'];
+    //         $img_extension = pathinfo($image, PATHINFO_EXTENSION);
+    //         $allowed_extension = array("jpg", "jpeg", "png");
+    //         $error = $_FILES['image']['error'];
+        
+    //         if ($error === 0){
+    //             if ($size > 1000000) {
+    //                     $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "Your file is too large.");
+    //             }else{
+    //                 if (!in_array($img_extension, $allowed_extension)) {
+    //                     $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "You cannot upload this type of file.");
+    //                 }
+    //                 else
+    //                 {   
+    //                     $path = '../img/products/'.$image;
+    //                     move_uploaded_file($tmp_name, $path); 
+            
+    //                     $dbh->updateFuelPic($fuelID, $fuelType, $image);
+    //                     $dbh->updateFuelStatus($fuelID, $fuel_status); 
+    //                 }
+    //             }
+    //         }
+    //     }    
+    // }
+    // elseif($newPrice !== $oldPrice){
+    //     if(empty($image)){
+    //         $dbh->updateFuel($fuelID, $fuelType);
+    //         $dbh->updateFuelStatus($fuelID, $fuel_status);
+    //     }
+    //     else{
+    //         $image = $_FILES['image']['name'];
+    //         $size = $_FILES['image']['size'];
+    //         $tmp_name = $_FILES['image']['tmp_name'];
+    //         $img_extension = pathinfo($image, PATHINFO_EXTENSION);
+    //         $allowed_extension = array("jpg", "jpeg", "png");
+    //         $error = $_FILES['image']['error'];
+        
+    //         if ($error === 0){
+    //             if ($size > 1000000) {
+    //                     $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "Your file is too large.");
+    //             }else{
+    //                 if (!in_array($img_extension, $allowed_extension)) {
+    //                     $dbh->info("../../store-update-myfuel.php?fuelID=$fuelID", "You cannot upload this type of file.");
+    //                 }
+    //                 else
+    //                 {   
+    //                     $path = '../img/products/'.$image;
+    //                     move_uploaded_file($tmp_name, $path); 
+            
+    //                     $dbh->updateFuelPic($fuelID, $fuelType, $image);
+    //                     $dbh->updateFuelStatus($fuelID, $fuel_status); 
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     $dbh->updateFuelPrice($newPrice, $oldPrice, $date, $fuelID);
+    //     $dbh->updateFuelStatus($fuelID, $fuel_status);
+    // }       
+    // $dbh->success("../../store-mytimeline.php", "Fuel updated successfully!");
 }

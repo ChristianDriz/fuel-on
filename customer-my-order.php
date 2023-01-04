@@ -10,6 +10,10 @@ if(isset($_SESSION['userID'])){
     { 
         header('location: index.php');
     }
+    elseif($userType == 0)
+    { 
+        header('location: index.php');
+    }
 }
 else{
     header('location: index.php');
@@ -32,7 +36,7 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | My Orders All</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -45,283 +49,138 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container">
-            <a class="btn" role="button" id="menu-toggle" href="#menu-toggle">
-                <i class="fa fa-bars"></i>
-            </a>
-            <a class="navbar-brand">
-                <i class="fas fa-gas-pump"></i>&nbsp;FUEL ON
-            </a>
-            <ul class="navbar-nav">
-                <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $username; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-            <li class="sidebar-brand"> <a href="customer-home.php"><i class="fas fa-home"></i><span class="icon-name">Home</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-map.php"><i class="fas fa-map-pin"></i><span class="icon-name">Map</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-products.php"><i class="fas fa-tags"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-cart.php">
-                        <i class="fas fa-shopping-cart"></i><span class="icon-name">Cart</span>
-                    </a>
-                    <?php 
-                    $cartItemCount = $data->cartTotalItems($userID);
-                    if($cartItemCount != 0){?>
-                        <sup><?php echo $cartItemCount?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> 
-                    <a class="actives" href="customer-my-order.php">
-                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountCustomer($userID);
-                    if($orderCounter != 0){?>
-                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
-            </ul>
-        </div>
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
         <div class="page-content-wrapper">
-    <div class="container" id="transaction-container">
-        <div class="row g-0" id="transaction-row-header">
-            <div class="col">
-                <nav class="navbar navbar-light navbar-expand">
-                    <div class="container">
-                        <ul class="navbar-nav">
-                            <li class="nav-item active"><a class="nav-link active" href="customer-my-order.php">All</a></li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="customer-purchases-pending.php">Pending
-                                <?php
-                                    if($pendingCounter != 0){
-                                    echo "(".$pendingCounter.")";
-                                    }
-                                ?>
-                                </a>
-                            </li>
-                            <li class="nav-item">
+        <div class="container" id="transaction-container">
+            <div class="row g-0" id="transaction-row-header">
+                <div class="col">
+                    <nav class="navbar navbar-light navbar-expand">
+                        <div class="container">
+                            <ul class="navbar-nav">
+                                <li class="nav-item active"><a class="nav-link active" href="customer-my-order.php">All</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="customer-purchases-pending.php">Pending
+                                    <?php
+                                        if($pendingCounter != 0){
+                                        echo "(".$pendingCounter.")";
+                                        }
+                                    ?>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
 
-                                <a class="nav-link" href="customer-purchases-pickup.php">To Pickup 
-                                <?php
-                                    if($pickupCounter != 0){
-                                    echo "(".$pickupCounter.")";
-                                    }
-                                ?>
-                                </a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="customer-purchases-completed.php">Completed</a></li>
-                            <li class="nav-item"><a class="nav-link" href="customer-purchases-cancelled.php">Cancelled</a></li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-        </div>
-        <?php
-        $orders = $data->CustomerAllOrder($userID);
-            if(empty($orders)){
-        ?>
-        <div class="row" id="transaction-no-order-row">
-            <div class="col-12" id="no-order">
-                <div class="col-12" id="no-order">
-                    <img src="assets/img/no-order.png">
-                    <p>No orders yet</p>
+                                    <a class="nav-link" href="customer-purchases-pickup.php">To Pickup 
+                                    <?php
+                                        if($pickupCounter != 0){
+                                        echo "(".$pickupCounter.")";
+                                        }
+                                    ?>
+                                    </a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="customer-purchases-completed.php">Completed</a></li>
+                                <li class="nav-item"><a class="nav-link" href="customer-purchases-cancelled.php">Cancelled</a></li>
+                            </ul>
+                        </div>
+                    </nav>
                 </div>
-            </div>
-        </div>
-        <?php
-            }
-            else{
-                foreach($orders as $key => $row){   
-                    $station = $data->customerGetShop($row['orderID']);
-                    $shopDetails = $station[0];
-        ?>
-        <div class="prodak">
-            <div class="seller-name">
-                <div class="seller-div">
-                    <a>
-                        <i class="fas fa-store"></i>
-                        <?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?>
-                    </a>
-                    <a class="message-icon" href="chat-box.php?userID=<?=$shopDetails['shopID']?>&userType=<?=$shopDetails['user_type']?>">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-message">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4"></path>
-                            <line x1="8" y1="9" x2="16" y2="9"></line>
-                            <line x1="8" y1="13" x2="14" y2="13"></line>
-                        </svg>
-                    </a>
-                </div>
-                <div class="order-id-div">
-                    <p><?php echo $row['orderID']?></p>
-                </div>  
-            </div>
-                <?php
-                    $grandtotal = 0;
-                    $records = $data->customerOrders($row['orderID']);
-                    foreach($records as $key => $val){
-                        $grandtotal += $val['total'];
-
-                        $date = $row['transac_date'];
-                        $createdate = date_create($date);
-                        $new_date = date_format($createdate, "M d, Y h:i:s A");
-
-                        
-                        // to get the order approval date 
-                        $orderDate = $data->getOrderDate($row['orderID'], $row['order_status']);
-                        $ordDate = $orderDate[0];
-
-                        $date = $ordDate['notif_date'];
-                        $createdate = date_create($date);
-                        $date_approved = date_format($createdate, "M d, Y h:i:s A");
-                ?>
-                <div class="sa-products">
-                    <div class="product-col">
-                        <div class="imeds-n-neym">
-                            <div class="imeyds-div">
-                                <a href="#">
-                                    <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']?>">
-                                </a>
-                            </div>
-                            <div>
-                                <div class="neym-div">
-                                    <p class="product-name"><?php echo $val['product_name']?></p>
-                                </div>
-                                <div class="unit-price-div"><span>₱<?php echo $val['price']?></span></div>
-                                <div class="quantity-div"><span>Quantity: <?php echo $val['quantity']?></span></div>
-                            </div>
-                        </div>
-                        <div class="total-price-div"><span>₱<?php echo number_format($val['total'], 2)?></span></div>
-                    </div>
-                </div>
-                <?php 
-                    } 
-                    $reason1 = 'Need to modify order';
-                    $reason2 = 'Found something else cheaper';
-                    $reason3 = 'Others / Change of mind';
-                    $reason4 = 'Out of stock';
-                    $reason5 = 'Did not picked up the order';
-                ?>
-                <div class="summary">
-                    <div class="left-div">
-                        <div class="payment-div"><span>Payment:</span>
-                            <p><?php echo $val['payment_method']?></p>
-                        </div>
-                        <?php
-                        if($val['order_status'] == "To Pickup"){
-                        ?>
-                        <div class="order-date-div"><span>Order Date:</span>
-                            <p><?php echo $new_date?></p>
-                        </div>
-                        <div class="order-date-div"><span>Date Approved:</span>
-                            <p><?php echo $date_approved?></p>
-                        </div>
-                        <?php
-                        }else{
-                        ?>
-                        <div class="order-date-div"><span>Order Date:</span>
-                            <p><?php echo $new_date?></p>
-                        </div>
-                        <?php
-                        }
-                        
-                        if($val['order_status'] == "Ordered")
-                        {
-                        ?>
-                        <div class="cancel-div">
-                        <button class="btn cancel-order" 
-                        href="assets/includes/updateOrder-inc.php?status=cancelled&orderID=<?=$row['orderID']?>&shopID=<?=$shopDetails['shopID']?>&customerID=<?= $userID?>">Cancel Order</button>
-                        </div>
-                        <?php
-                        }else if($val['order_status'] == "Cancelled" || $val['order_status'] == "Declined" || $val['order_status'] == "Pickup Failed"){
-                        ?>
-                        <div class="cancel-div">
-                            <span>Cancellation Details:</span>
-                            <?php 
-                            if($val['cancel_reason'] == "reason1"){
-                            ?>
-                                <p>Reason: <?php echo $reason1?></p>
-                            <?php
-                            }elseif($val['cancel_reason'] == "reason2"){
-                            ?>
-                                <p>Reason: <?php echo $reason2?></p>
-                            <?php
-                            }elseif($val['cancel_reason'] == "reason3"){
-                            ?>
-                                <p>Reason: <?php echo $reason3?></p>
-                            <?php
-                            }elseif($val['cancel_reason'] == "reason4"){
-                            ?>  
-                                <p>Reason: <?php echo $reason4?></p>
-                            <?php
-                            }elseif($val['cancel_reason'] == "reason5"){
-                            ?>
-                                <p>Reason: <?php echo $reason5?></p>
-                            <?php
-                            }?>
-                        </div>
-                        <?php
-                        }
-                        ?>
-                    </div>
-                    <div class="right-div">
-                        <div class="order-total-div"><span>Order Total:</span>
-                            <p>₱<?php echo number_format($grandtotal, 2) ?></p>
-                        </div>
-                        <div class="status-div"><span>Status:</span>
-                            <p><?php echo $val['order_status']?></p>
-                        </div>
-                        <?php
-                            if($val['order_status'] == "To Pickup"){
-                        ?>
-                        <a class="btn print" target="_blank" href="generate-invoice.php?orderId=<?= $row['orderID'] ?>&shopID=<?= $row['shopID']?>&customerID=<?= $userID?>">
-                            <i class="fas fa-print"></i>
-                            Print Invoice
-                        </a>
-                        <?php
-                        }
-                        ?>
-                    </div>
-                </div>
-                <?php
-                if($val['order_status'] == "To Pickup"){
-                ?>
-                <div class="note-div">
-                    <p>Note: Please pick up the order within 7 days upon approval or it will be cancelled</p>
-                </div>
-                <?php
-                }
-                ?>
             </div>
             <?php
-                    }
-                }
+            $orders = $data->CustomerAllOrder($userID);
+                if(empty($orders)){
             ?>
+            <div class="row" id="transaction-no-order-row">
+                <div class="col-12" id="no-order">
+                    <div class="col-12" id="no-order">
+                        <img src="assets/img/no-order.png">
+                        <p>No orders yet</p>
+                    </div>
+                </div>
+            </div>
+            <?php
+                }
+                else{
+                    foreach($orders as $row){   
+                        $station = $data->customerGetShop($row['orderID']);
+                        $shopDetails = $station[0];
+            ?>
+                <div class="prodak">
+                    <div class="seller-name">
+                        <div class="seller-div">
+                            <a>
+                                <i class="fas fa-store"></i><?php echo $shopDetails['station_name'].' '. $shopDetails['branch_name']?>
+                            </a>
+                            <a class="message-icon" href="chat-box.php?userID=<?=$shopDetails['shopID']?>&userType=<?=$shopDetails['user_type']?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-message">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4"></path>
+                                    <line x1="8" y1="9" x2="16" y2="9"></line>
+                                    <line x1="8" y1="13" x2="14" y2="13"></line>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="order-id-div">
+                            <p><?php echo $row['order_status']?></p>
+                        </div>
+                    </div>
+                    <?php
+                        $grandtotal = 0;
+                        $records = $data->customerOrders($row['orderID']);
+                        foreach($records as $key => $val){
+                            $grandtotal += $val['total'];
+                    ?>
+                    <div class="sa-products">
+                        <a class="product-col" href="customer-view-order.php?orderID=<?php echo $row['orderID']?>">
+                            <div class="imeds-n-neym">
+                                <div class="imeyds-div">
+                                    <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']?>">
+                                </div>
+                                <div>
+                                    <div class="neym-div">
+                                        <p class="product-name"><?php echo $val['product_name']?></p>
+                                    </div>
+                                    <div class="unit-price-div"><span>₱<?php echo $val['price']?></span></div>
+                                    <div class="quantity-div"><span>Quantity: <?php echo $val['quantity']?></span></div>
+                                </div>
+                            </div>
+                            <div class="total-price-div"><span>₱<?php echo number_format($val['total'], 2)?></span></div>
+                        </a>
+                    </div>
+                    <?php 
+                        } 
+                    ?>
+                    <div class="summary">
+                        <div class="div-1">
+                            <div class="payment-div"><span>Payment:</span>
+                                <p><?php echo $val['payment_method']?></p>
+                            </div>
+                            <div class="total-div"><span>Order Total:</span>
+                                <p>₱<?php echo number_format($grandtotal, 2) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                        }
+                    }
+                ?>
+            </div>
         </div>
-    </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/js/Table-With-Search.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
-    <script src="assets/js/sweetalert2.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/order-script.js"></script>
     <script>
     //CONFIRMATION TO CANCEL ORDER
     $(document).ready(function () {

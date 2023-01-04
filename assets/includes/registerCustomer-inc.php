@@ -7,13 +7,13 @@ if (isset($_POST['submit'])){
 
     $dbh = new Config();
 
-    $_SESSION['email'] = $_POST['email'];
-    $_SESSION['fname'] = $_POST['fname'];
-    $_SESSION['lname'] = $_POST['lname'];
-    $_SESSION['phone'] = $_POST['phone'];
-    $_SESSION['password'] = $_POST['password'];
-    $_SESSION['confirm'] = $_POST['confirm'];
-    $_SESSION['type'] = $_GET['type'];
+    // $_SESSION['email'] = $_POST['email'];
+    // $_SESSION['fname'] = $_POST['fname'];
+    // $_SESSION['lname'] = $_POST['lname'];
+    // $_SESSION['phone'] = $_POST['phone'];
+    // $_SESSION['password'] = $_POST['password'];
+    // $_SESSION['confirm'] = $_POST['confirm'];
+    // $_SESSION['type'] = $_GET['type'];
     // $_SESSION['status'] = 'activated';
 
     $email = $_POST['email'];

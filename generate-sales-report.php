@@ -54,8 +54,6 @@ else{
     $createtodate = date_create($todate);
     $new_todate = date_format($createtodate, "M d, Y");
 
-
-
     require __DIR__ . "/vendor/autoload.php";
 
     use Dompdf\Dompdf;
@@ -67,6 +65,8 @@ else{
     $options->setIsPhpEnabled(true);
     $options->setisHtml5ParserEnabled(true);
 
+    define('TIMEZONE', 'Asia/Manila');
+    date_default_timezone_set(TIMEZONE);
 
 $html = '
 <!DOCTYPE html>
@@ -75,7 +75,7 @@ $html = '
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Sales Report</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
@@ -138,7 +138,7 @@ $html = '
                         foreach ($orders as $row) {
                             $grandtotal += $row['total'];
     
-                            $date = $row['transac_date'];
+                            $date = $row['date_completed'];
                             $createdate = date_create($date);
                             $new_date = date_format($createdate, "M d, Y");
 
@@ -175,11 +175,15 @@ $html = '
                 </table>
             </div>
         </div>
-        <div class="above-signature">
-            <div class="received">
-                <p>Received by: <strong>'.$shopdetails['firstname'].' '. $shopdetails['lastname'].'</strong></p>
-            </div>
-        </div>
+        <footer class="footer-date">
+            <p>Printed Date: '. date('Y-m-d H:i A').' </p>
+        </footer>
+        <footer class="footer-signature">
+            <p>
+                Received by: 
+                <strong>'.$shopdetails['firstname'].' '. $shopdetails['lastname'].'</strong>
+            </p>
+        </footer>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

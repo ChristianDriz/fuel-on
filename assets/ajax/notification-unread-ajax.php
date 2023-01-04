@@ -46,7 +46,7 @@ if (isset($_SESSION['userID'])) {
                         //When the order of the customer is approved
                         if($notifs['notif_type'] == "To Pickup"){
                 ?> 
-                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-pickup.php">
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name"><?php echo $DetailsNotif['name']?> Approved your order</p>
@@ -58,7 +58,7 @@ if (isset($_SESSION['userID'])) {
                         //When the order of the customer is declined    
                         }elseif($notifs['notif_type'] == "Declined"){
                     ?>
-                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-cancelled.php">
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name"><?php echo $DetailsNotif['name']?> Declined your order</p>
@@ -70,7 +70,7 @@ if (isset($_SESSION['userID'])) {
                         //When the order of the customer is completed
                         }elseif($notifs['notif_type'] == "Completed"){
                     ?>
-                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-completed.php">
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name">Your order is completed</p>
@@ -82,7 +82,7 @@ if (isset($_SESSION['userID'])) {
                         //When the order of the customer is completed
                         }elseif($notifs['notif_type'] == "Pickup Failed"){
                     ?>
-                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-purchases-cancelled.php">
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="customer-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name">Your order has been cancelled because it was not picked up</p>
@@ -98,7 +98,7 @@ if (isset($_SESSION['userID'])) {
                         //When new order is placed 
                         if($notifs['notif_type'] == "Ordered"){
                 ?>
-                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="store-orders-pending.php">
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="store-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name">You received a new order from <?php echo $DetailsNotif['name']?></p>
@@ -110,7 +110,7 @@ if (isset($_SESSION['userID'])) {
                         //When the order is cancelled
                         }elseif($notifs['notif_type'] == "Cancelled"){
                     ?>
-                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="store-orders-cancelled.php">
+                    <button class="d-flex align-items-start notif-link" id="<?= $notifs['orderID']?>" value="<?= $notifs['notif_date']?>" href="store-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name"><?php echo $DetailsNotif['name']?> Cancelled the Order</p>
@@ -122,7 +122,7 @@ if (isset($_SESSION['userID'])) {
                         //When order is completed
                         }elseif($notifs['notif_type'] == "Completed"){
                     ?>
-                    <button class="d-flex align-items-start notif-link" href="store-orders-completed.php">
+                    <button class="d-flex align-items-start notif-link" href="store-view-order.php?orderID=<?php echo $notifs['orderID']?>">
                         <img class="notif-img" src="assets/img/products/<?php echo $DetailsNotif['prod_image']?>">
                         <div class="notifs-details">
                             <p class="name"><?php echo $DetailsNotif['name']?> has received the order</p>

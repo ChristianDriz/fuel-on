@@ -6,7 +6,12 @@ if (isset($_SESSION['userID'])) {
     $userType = $_SESSION["userType"];
     $userpic = $_SESSION["userPic"];
 
-    if ($userType == 2) {
+    if($userType == 2)
+    { 
+        header('location: index.php');
+    }
+    elseif($userType == 0)
+    { 
         header('location: index.php');
     }
 } else {
@@ -17,7 +22,7 @@ require_once("assets/classes/dbHandler.php");
 $data = new Config();
 
 $cartItemCount = $data->cartTotalItems($userID);
-
+$cartItemCountwithQuantity = $data->cartTotalItemswithQuantity($userID);
 $cartChecked = $data->cartAllChecked($userID);
 $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
 
@@ -29,7 +34,7 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON</title>
+    <title>Fuel ON | Cart</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
@@ -44,62 +49,19 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
 </head>
 
 <body>
-    <nav class="navbar navbar-light navbar-expand sticky-top" id="top">
-        <div class="container">
-            <a class="btn" role="button" id="menu-toggle" href="#menu-toggle">
-                <i class="fa fa-bars"></i>
-            </a>
-            <a class="navbar-brand">
-                <i class="fas fa-gas-pump"></i>&nbsp;FUEL ON
-            </a>
-            <ul class="navbar-nav">
-                <?php require_once('notifications-div.php'); ?>
-                <li class="nav-item" id="mail">
-                    <p class="badge message-counter"></p>
-                    <a class="nav-link" href="chat-list.php"><i class="fas fa-envelope"></i></a>
-                </li>
-                <li class="nav-item dropdown" id="user"><a class="nav-link" data-bs-toggle="dropdown">
-                        <div class="profile-div"><img src="assets/img/profiles/<?php echo $userpic ?>"></div>
-                        <p><?php echo $username; ?></p>
-                    </a>
-                    <div class="dropdown-menu user"><a class="dropdown-item" href="assets/includes/logout-inc.php">Logout</a></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php
+        //top navigation
+        include 'top-navigation.php';
+    ?>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"> <a href="customer-home.php"><i class="fas fa-home"></i><span class="icon-name">Home</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-map.php"><i class="fas fa-map-pin"></i><span class="icon-name">Map</span></a></li>
-                <li class="sidebar-brand"> <a href="customer-products.php"><i class="fas fa-tags"></i><span class="icon-name">Products</span></a></li>
-                <li class="sidebar-brand">
-                    <a class="actives" href="customer-cart.php">
-                        <i class="fas fa-shopping-cart"></i><span class="icon-name">Cart</span>
-                    </a>
-                    <?php if ($cartItemCount != 0) { ?>
-                        <sup><?php echo $cartItemCount ?></sup>
-                    <?php
-                    } ?>
-                </li>
-                <li class="sidebar-brand"> 
-                    <a href="customer-my-order.php">
-                        <i class="fas fa-shopping-bag"></i><span class="icon-name">My Orders</span>
-                    </a>
-                    <?php
-                    $orderCounter = $data->AllOrdersCountCustomer($userID);
-                    if($orderCounter != 0){?>
-                        <sup style="margin-left: 52px;"><?php echo $orderCounter ?></sup>
-                    <?php
-                    }?>
-                </li>
-                <li class="sidebar-brand"> <a href="customer-account-settings.php"><i class="fas fa-user-cog"></i><span class="icon-name">My Account</span></a></li>
-            </ul>
-        </div>
+        <?php
+            //side navigation
+            include 'side-navigation.php';
+        ?>
         <div class="page-content-wrapper">
             <?php
-            $records = $data->displayCart($userID);
-            if (empty($records)) {
+            $cart= $data->displayCart($userID);
+            if (empty($cart)) {
             ?>
                 <div class="container" id="no-items-in-cart">
                     <div class="divv">
@@ -112,55 +74,61 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
             } else {
             ?>
             <div id="kart-container" class="product-container">
-                <form method="post">
-                    <div id="product-header">
-                        <div class="col-5 head-col">
-                            <p class="produkto">Product</p>
-                        </div>
-                        <div class="col-2 head-col heder">
-                            <p>Unit Price</p>
-                        </div>
-                        <div class="col-2 head-col heder">
-                            <p>Quantity</p>
-                        </div>
-                        <div class="col-2 head-col heder">
-                            <p>Total Price</p>
-                        </div>
-                        <div class="col head-col heder">
-                            <p>Action</p>
-                        </div>
+                <div class="title-div">
+                    <h4>Shopping Cart</h4>
+                </div>
+                <div id="product-header">
+                    <div class="col-5 head-col">
+                        <p class="produkto">Product</p>
                     </div>
-                </form>
-            <div id="dine">
-                <?php
-                //to divide the shops in cart
-                $stations = $data->divideShops($userID);
-                $grandtotal = 0;
-                $i = 0;
-            
-                $selectAllChecked = 'checked';
-                foreach ($stations as $station) {
-                    $shopID = $station['shopID'];
-                    $records = $data->sortCart($userID, $shopID);
-                    $sellers = $data->cartGetShop($shopID, $userID);
-                    $shops = $sellers[0];
-
-                    // Check if all shop products are checked
-                    $shopAllChecked = 'checked';
-                    foreach ($records as $record) {
-                        if ($record['checked'] == 0 && $record['quantity'] >= 0){
-                            $shopAllChecked = '';
-                            $selectAllChecked = ''; 
+                    <div class="col-2 head-col heder">
+                        <p>Unit Price</p>
+                    </div>
+                    <div class="col-2 head-col heder">
+                        <p>Quantity</p>
+                    </div>
+                    <div class="col-2 head-col heder">
+                        <p>Total Price</p>
+                    </div>
+                    <div class="col head-col heder">
+                        <p>Action</p>
+                    </div>
+                </div>
+                <div class="dine">
+                    <?php
+                    //to divide the shops in cart
+                    $stations = $data->divideShops($userID);
+                    $grandtotal = 0;
+                    $i = 0;
+                    $selectAllChecked = 'checked';
+                    foreach ($stations as $station) {
+                        //to get the station details 
+                        $sellers = $data->cartGetShop($station['shopID'], $userID);
+                        $shops = $sellers[0];
+                        
+                        //to display all the added products in cart per shop
+                        $records = $data->sortCartwithStock($userID, $station['shopID']);
+                    
+                        //Check if all shop products are checked
+                        $shopAllChecked = 'checked';
+                        foreach ($records as $sortcart) {
+                            if ($sortcart['checked'] == 0){
+                                $shopAllChecked = '';
+                                $selectAllChecked = ''; 
+                            }
                         }
-                    }
-                ?>
-                <div class="prodak">
-                    <form action="assets/includes/selectDeselect-inc.php" method="post">
+                
+                        if(!empty($records)){
+                            //if all products under the shop is out of stock, the seller name div is hidden else, visible
+                            $cartdata = $records[0];
+                            if($cartdata['stocks'] != 0){
+                    ?>
+                    <div class="prodak prodak-with-stock">
                         <div class="seller-name">
-                            <!-- Select all per store -->
+                            <!-- Select all in shop -->
                             <div class="checkbox-div">
-                                <input <?= $shopAllChecked ?> type="checkbox" name="select-all-shop" class="tsekbox quant-input-update cbox-md cbox-store-selectall">
-                                <input type="hidden" name="select-all-shop-id" value="<?= $shops['shopID'] ?>">
+                                <input <?= $shopAllChecked ?> type="checkbox" name="check" class="tsekbox selectall-in-shop">
+                                <input type="hidden" class="shopID" value="<?= $shops['shopID'] ?>">
                             </div>
                             <a href="customer-viewstore-timeline.php?stationID=<?php echo $shops['shopID']?>">
                                 <i class="fas fa-store"></i>
@@ -175,141 +143,171 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
                                 </svg>
                             </a>
                         </div>  
-                    </form>
-                    <?php
-                    //to show all products in cart per shop 
-                    foreach ($records as $val) {
-                        $subtotal = $val['price'] * $val['quantity'];
+                        <?php
+                        //to show all products in cart per shop 
+                        foreach ($records as $val) {
+                            $subtotal = $val['price'] * $val['quantity'];
+                            
+                            // Only include to total if checked
+                            if ($val['checked'] == 1)
+                                $grandtotal += $val['price'] * $val['quantity'];
+                                $checked = $val['checked'] == 1 ? 'checked' : '';
 
-                        // Only include to total if checked
-                        if ($val['checked'] == 1)
-                            $grandtotal += $val['price'] * $val['quantity'];
-                            $checked = $val['checked'] == 1 ? 'checked' : '';
-                        
-  
-                        if ($val['stocks'] != 0){
                             //set the quantity equal to the avail stocks if the stocks is below or equal to the added quantity of the user
                             if($val['stocks'] < $val['quantity']){
                                 $data->setCartQuantityEqualtoStock($val['stocks'], $val['productID'], $userID);
-                            }
-
+                            }                
+                            
                             // set the quantity to 1 if the stocks is returned
-                            if($val['quantity'] <= 1){
+                            if($val['quantity'] == 0 && $val['stocks'] != 0){
                                 $data->setCartQuantityOne($val['productID']);   
                             }
-                    ?>
-                    <div class="sa-products">
-                        <form id="form-update-cart" action="assets/includes/updateCart-inc.php?prodID=<?php echo $val['productID']?>&quantity=<?= $val['quantity'] ?>" method="post">
-                            <div class="checkbox-div">
-                                <input class="tsekbox quant-input-update cbox-md" type="checkbox" name="checked" <?= $checked ?>/>
+                        ?>
+                        <div class="sa-products product-data">
+                            <input type="hidden" class="product-id" value="<?php echo $val['productID']?>">
+                            <div class="form">
+                                <div class="checkbox-div">
+                                    <input type="checkbox" class="tsekbox select-one" name="check" <?= $checked ?>/>
+                                </div>
+                                <div class="product-col">
+                                    <div class="imeyds-div">
+                                        <a href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>">
+                                            <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']; ?>">
+                                        </a>
+                                    </div>
+                                    <div class="neym-div">
+                                        <a class="product-name" href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>"><?php echo $val['product_name']; ?></a>
+                                    </div>
+                                    <div class="unit-price-div">
+                                        <span class="price" data-price="<?= $val['price'] ?>">₱<?= number_format($val['price'], 2) ?></span>
+                                    </div>
+                                    <div class="quantity-container">
+                                        <div class="input-group quantity-div">
+                                            <button class="btn decrement-btn update-quantity" type="button"><i class="fas fa-minus"></i></button>
+                                            <input class="form-control quantity" type="number" value="<?= $val['quantity'] ?>">
+                                            <button class="btn increment-btn update-quantity" type="button"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                        <p class="with-stocks" data-stocks="<?php echo $val['stocks']?>"><?php echo $val['stocks']?> items left</p>
+                                    </div>
+                                    <div class="total-price-div">
+                                        <span class="subtotal">₱<?=number_format($subtotal, 2)?></span>
+                                    </div>
+                                    <div class="del-prod-div">
+                                        <a class="btn deleteOne" href="assets/includes/deleteOneinCart-inc.php?cartID=<?=$val['cartID']?>">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="product-col">
-                                <div class="imeyds-div">
-                                    <a href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>">
-                                        <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']; ?>">
-                                    </a>
-                                </div>
-                                <div class="neym-div">
-                                    <a class="product-name" href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>"><?php echo $val['product_name']; ?></a>
-                                </div>
-                                <div class="unit-price-div">
-                                    <span>₱<?= number_format($val['price'], 2); ?></span>
-                                </div>
-                                <div class="quantity-div">
-                                    <input class="form-control quant-input-update update-quanty" type="number" name="quantity" id="<?php echo $val['productID']?>" value="<?= $val['quantity']; ?>" min=1 max="<?php echo $val['stocks'] ?>">                               
-                                    <p class="stocks"><?php echo $val['stocks']?> items left</p>
-                                </div>
-                                <div class="total-price-div">
-                                    <span>₱<?= number_format($subtotal, 2); ?></span>
-                                </div>
-                                <div class="del-prod-div">
-                                    <a class="btn deleteOne" href="assets/includes/deleteOneinCart-inc.php?cartID=<?=$val['cartID']?>">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div> 
                         <?php
                         }
-                        else{
-                            //set the quantity to 0 if the stocks 0
-                            $data->setCartQuantityZero($val['productID']);
                         ?>
-                    <div class="sa-products no-stock">
-                        <form>
-                            <div class="sold-out-div">
-                                <p>No stock</p>
-                            </div>
-                            
-                            <div class="product-col">
-                                <div class="imeyds-div no-stock-img">
-                                    <a href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>">
-                                        <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']; ?>">
-                                    </a>
-                                </div>
-                                <div class="neym-div">
-                                    <a class="product-name" href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>"><?php echo $val['product_name']; ?></a>
-                                </div>
-                                <div class="unit-price-div">
-                                    <span>₱<?= number_format($val['price'], 2); ?></span>
-                                </div>
-                                <div class="quantity-div">
-                                    <input class="form-control quant-input-update" type="number" name="quantity" disabled value="<?= $val['quantity']; ?>" min=1 max="<?php echo $val['stocks'] ?>">
-                                    <p class="stocks"><?php echo $val['stocks']?> items left</p>
-                                </div>
-                                <div class="total-price-div">
-                                    <span>₱<?= number_format($subtotal, 2); ?></span>
-                                </div>
-                                <div class="del-prod-div">
-                                    <a class="btn deleteOne" style="background: #f8f5f5;" href="assets/includes/deleteOneinCart-inc.php?cartID=<?=$val['cartID']?>">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+                        <div class="empty-div"></div>
                     </div>
                     <?php
+                            }
                         }
                     }
+                    $nostock = $data->sortCartnoStock($userID);
+                    if(!empty($nostock)){
                     ?>
-                </div>
-            <?php
-                }
-            ?>
-                <div class="row g-0" id="checkout">
-                    <div class="col bottom-action">
-                        <div class="checkbox-div">
-                            <input <?php echo $selectAllChecked?> class="tsekbox delete-all" id="select-all" name="select-all" type="checkbox"/>
-                            <label for="select-all">Select all (<?php echo $cartItemCount?>)</label>
-                        </div>
-                        <?php if ($cartChecked == 0){?>
-                        <a class="btn del" role="button" id="no-selected-to-delete"><i class="far fa-trash-alt"></i></a>
+                    <div class="prodak no-stock">
+                        <div class="seller-name">
+                            <div class="checkbox-div">
+                                <input type="checkbox">
+                            </div>
+                            <p class="no-stock-p">Out of stock</p>
+                        </div>  
                         <?php
-                        }else{?>
-                        <a class="btn del" role="button" id="deleteAll"><i class="far fa-trash-alt"></i></a>
-                        <?php
-                        }?>
-                    </div>
-                    <div class="col-auto checkout-col">
-                        <div class="total">
-                            <span>Total (<?=$cartCheckedwithQuant?> item):&nbsp;</span>
-                            <p class="price">₱<?= number_format($grandtotal, 2); ?></p>
-                        </div>
-                        <?php 
-                        if($cartCheckedwithQuant != 0){?>
-                            <div class="checkout"><a class="btn btn-primary" role="button" href="customer-checkout.php">Check Out</a></div>
-                        <?php 
-                        }else if($cartCheckedwithQuant == 0){?>
-                        <div class="checkout"><a class="btn btn-primary disabled" role="button" id="checkOUT">Check Out</a></div>
-                        <?php
-                        }
+                            foreach($nostock as $val){
+                                $subtotal = $val['price'] * $val['quantity'];
+                                $data->setCartQuantityZero($val['productID']);
                         ?>
-
+                        <div class="sa-products no-stock">
+                            <div class="form">
+                                <div class="sold-out-div">
+                                    <p>No Stock</p>
+                                </div>
+                                <div class="product-col">
+                                    <div class="imeyds-div">
+                                        <a href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>">
+                                            <img class="product-img" src="assets/img/products/<?php echo $val['prod_image']; ?>">
+                                        </a>
+                                    </div>
+                                    <div class="neym-div">
+                                        <a class="product-name" href="customer-view-products.php?stationID=<?php echo $val['shopID']; ?>&&prodID=<?php echo $val['productID'] ?>"><?php echo $val['product_name']; ?></a>
+                                    </div>
+                                    <div class="unit-price-div no-stock">
+                                        <span>₱<?= number_format($val['price'], 2) ?></span>
+                                    </div>
+                                    <div class="quantity-container no-stock">
+                                        <div class="input-group quantity-div">
+                                            <button class="btn disabled" type="button"><i class="fas fa-minus"></i></button>
+                                            <input class="form-control" type="number" value="<?= $val['quantity'] ?>" disabled>
+                                            <button class="btn disabled" type="button"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                        <p><?php echo $val['stocks']?> items left</p>
+                                    </div>
+                                    <div class="total-price-div">
+                                        <span>₱<?=number_format($subtotal, 2)?></span>
+                                    </div>
+                                    <div class="del-prod-div">
+                                        <a class="btn deleteOne" href="assets/includes/deleteOneinCart-inc.php?cartID=<?=$val['cartID']?>">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <?php
+                            }
+                        ?>
+                        <div class="empty-div no-stock">
+                            <a class="remove-nostock">Remove this product/s</a>
+                        </div>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    <div class="row g-0" id="checkout">
+                        <div class="col bottom-action">
+                            <div class="checkbox-div">
+                                <input type="checkbox" id="select-all" class="tsekbox delete-all" name="check" <?php echo $selectAllChecked?>/>
+                                <label for="select-all" class="select-all" data-count="<?=$cartItemCountwithQuantity ?>">Select all (<?php echo $cartItemCountwithQuantity?>)</label>
+                                <label for="select-all" class="all">All</label>
+                            </div>
+                            <?php if ($cartCheckedwithQuant == 0){?>
+                            <a class="btn del" role="button" id="no-selected-to-delete"><i class="far fa-trash-alt"></i></a>
+                            <?php
+                            }else{?>
+                            <a class="btn del" role="button" id="deleteAll"><i class="far fa-trash-alt"></i></a>
+                            <?php
+                            }?>
+                        </div>
+                        <div class="col-auto checkout-col">
+                            <div class="total">
+                                <span class="item-count">Total (<?=$cartCheckedwithQuant?> item):&nbsp;</span>
+                                <p class="price grand-total">₱<?= number_format($grandtotal, 2); ?></p>
+                            </div>
+                            <?php 
+                                if($cartCheckedwithQuant != 0){
+                            ?>
+                                <div class="checkout">
+                                    <a class="btn btn-primary place-order" role="button" href="customer-checkout.php">Check Out</a>
+                                </div>
+                            <?php 
+                                }else if($cartCheckedwithQuant == 0){
+                            ?>
+                                <div class="checkout">
+                                    <a class="btn btn-primary place-order disabled" role="button" href="customer-checkout.php">Check Out</a>
+                                </div>
+                            <?php
+                                }
+                            ?>
+                        </div>
                     </div>
                 </div>
-            <!-- end ni dine-->
-            </div>
             <?php
             }
             ?>
@@ -318,12 +316,11 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
     </div>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"></script>
 <script src="assets/js/bs-init.js"></script>
 <script src="assets/js/cart.js"></script>
 <!-- <script src="assets/js/cart-backup.js"></script> -->
 <script src="assets/js/Sidebar-Menu.js"></script>
-<script src="assets/js/sweetalert2.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     <?php
     if (isset($_SESSION['message'])) { ?>
@@ -361,46 +358,11 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
         });
     });
 
-    // //CONFIRMATION TO REMOVE ONE PRODUCTS IN CART
-    // $('.deleteOne').click(function (e) { 
-    //     e.preventDefault();
-    //     var value = $(this).val();
-    //     Swal.fire({
-    //         title: 'Confirmation',
-    //         text: "Do you want to remove this product in your cart?",
-    //         icon: 'question',
-    //         showCancelButton: true,
-    //         cancelButtonText: 'No',
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Yes'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             // alert(value);
-    //             $.ajax({
-    //                 type: "GET",
-    //                 url: "assets/includes/deleteOneinCart-inc.php",
-    //                 data: "cartID=" + value,
-    //                 success: function (data) {
-    //                 Swal.fire({
-    //                     title: 'Successfully!',
-    //                         text: 'Product removed successfully!',
-    //                         icon: 'success',
-    //                         button: true
-    //                     }).then(() => {
-    //                         location.reload();
-    //                     });
-    //                 }
-    //             });
-    //         }
-    //     })        
-    // });
-
     //CONFIRMATION TO REMOVE ALL PRODUCTS IN CART
     $('#deleteAll').click(function() {
         Swal.fire({
             title: 'Confirmation',
-            text: "Do you want to remove <?=$cartChecked?> product in your cart?",
+            text: "Do you want to remove <?=$cartChecked?> product/s in your cart?",
             icon: 'question',
             showCancelButton: true,
             cancelButtonText: 'No',
@@ -409,7 +371,7 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.isConfirmed) {
-                document.location = 'assets/includes/deleteAllinCart-inc.php';
+                document.location = 'assets/includes/deleteAllinCart-inc.php?type=checked';
             }
         })
     });
@@ -424,26 +386,40 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
         });
     });
 
-    $('#select-all').click(function() {
-        $.ajax({
-            type: "POST",
-            url: "assets/includes/selectAll-inc.php",
-            dataType: 'json',
-            data: {
-                checked: $(this).is(":checked")
-            },
-            success: function(data) {
-
-                console.log(data);
-                console.log('good');
-                location.reload();
-            },
-            error: function(e) {
-                console.log(e.response);
-                console.log('error');
+    $('.remove-nostock').click(function () { 
+        Swal.fire({
+            title: 'Confirmation',
+            text: "Do you want to remove inactive products in your cart?",
+            icon: 'question',
+            showCancelButton: true,
+            cancelButtonText: 'No',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.location = 'assets/includes/deleteAllinCart-inc.php?type=no-stock';
             }
-        });
+        })
     });
+
+    // $('#select-all').click(function() {
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "assets/includes/selectAll-inc.php",
+    //         dataType: 'json',
+    //         data: {
+    //             checked: $(this).is(":checked")
+    //         },
+    //         success: function(data) {
+    //             console.log(data);
+    //             location.reload();
+    //         },
+    //         error: function(e) {
+    //             console.log(e.response);
+    //         }
+    //     });
+    // });
 
         //for last seen update
         let lastSeenUpdate = function(){
@@ -469,21 +445,17 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
         setInterval(fetchMessageNotif, 500);
 
         
-        //for message notif
+        //live fetch cart
         let fetchCart = function(){
       	    $.get("assets/ajax/ajax-cart.php", 
-            {
-                userID: <?php echo $userID ?>
-            },
-            // function(data){
-            //     $(".dine").html(data);
-            // }
+                function(data){
+                    // $(".dine").html(data);
+                }
             );
         }
-
         fetchCart();
-        //auto update every .5 sec
-        setInterval(fetchCart, 100);
+        //auto update every 1.5 sec
+        setInterval(fetchCart, 1500);
 
 </script>
 </body>
