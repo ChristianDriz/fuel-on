@@ -35,7 +35,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON | Login</title>
+    <title>Fuel ON | Sign in</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -49,28 +49,23 @@
     <nav class="navbar navbar-light navbar-expand-md">
         <div class="container"><a class="navbar-brand" href="index.php"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
-    <div class="login" style="background: rgb(254, 166, 0);">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-xl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <form class="text-center d-inline" id="login-form" method="post" action="assets/includes/validation-inc.php">
-                                <h2>Login</h2>
-                                <div class="mb-3"><input class="form-control" type="text" name="email" id="inputemail" placeholder="Email" value="<?php echo $email?>"></div>
-                                <div id="pass" class="mb-3"><input class="form-control pass" type="password" id="inputpass" name="password" placeholder="Password" data-toggle="password" >
-                                    <div class="input-group-text"><i class="far fa-eye" id="icon" onclick="toggle()"></i></div>
-                                </div>
-                                <p class="text-muted forgotpass">
-                                    <a href="forgot-pass.php">Forgot password?</a>
-                                </p>
-                                <div class="mb-3"><input class="btn btn-primary d-block w-100" type="submit" name="submitbutton" value="Login"></div>
-                                <p class="text-muted">Don't have an account?&nbsp;<a href="register-customer.php">Sign up here</a></p>
-                            </form>
-                        </div>
-                    </div>
+    <div class="login">
+        <div class="login-div">
+            <form class="sign-in-form" method="POST" action="assets/includes/validation-inc.php" enctype="multipart/form-data">
+                <h2>Sign in</h2>
+                <div class="input-div">
+                    <input class="form-control" type="email" placeholder="Email" name="email" value="<?php echo $email?>">
                 </div>
-            </div>
+                <div class="input-div">
+                    <input class="form-control input-pass" type="password" placeholder="Password" name="password"> 
+                    <i class="fas fa-eye" id="show-pass"></i>
+                </div>
+                <a class="forgot-pass-link" href="forgot-pass.php">Forgot password?</a>
+                <div class="sign-in-btn-div">
+                    <button class="btn" type="submit" name="submit">Sign in</button>
+                </div>
+                <p class="no-account">Don't have an account?<a class="sign-up-link" href="register-customer.php">Sign up here</a></p>
+            </form>
         </div>
     </div>
     <footer id="footerpad">
@@ -141,7 +136,7 @@
         //incorrect
         if(isset($_SESSION['error_message'])) {?>
         Swal.fire({
-            title: 'Wrong Credentials',
+            title: 'Incorrect email or password',
             text: '<?php echo $_SESSION['error_message']?>',
             icon: 'error',
             button: true

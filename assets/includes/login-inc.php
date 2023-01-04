@@ -18,14 +18,12 @@ session_start();
     $login->loginUser();
 
     if($_SESSION['userType'] == 1){
-        // header("location: ../../customer-home.php");
         $dbh->success("../../customer-home.php", "Login successfully!");
-    }else if($_SESSION['userType'] == 2){
-        // header("location: ../../store-home.php"); 
+    }
+    else if($_SESSION['userType'] == 2){
         $dbh->success("../../store-home.php", "Login successfully!");
     }
     else if($_SESSION['userType'] == 0){
-        $dbh->success("../../admin-home-panel.php", "Login successfully!");
-        
+        $dbh->success("../../admin-home-panel.php", "Login successfully!"); 
     }
     

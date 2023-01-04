@@ -186,6 +186,17 @@ $pickupCounter = $dbh->OrderCountShop($pickup, $userID);
         }?>
 
     $(document).ready(function () {
+        //to return the scroll position in the header
+        $(window).on('unload', function () { 
+            var scrollPosition = $('#transaction-row-header').scrollLeft();
+            localStorage.setItem('scrollPosition', scrollPosition);
+        });
+        
+        if(localStorage.scrollPosition){
+            $('#transaction-row-header').scrollLeft(localStorage.getItem('scrollPosition'));
+        }
+        
+
         $('.complete-btn').click(function () { 
             // var value = $(this).val();
             const url = $(this).attr('href');

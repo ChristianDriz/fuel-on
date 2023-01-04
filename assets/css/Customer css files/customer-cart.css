@@ -501,7 +501,7 @@ body {
 }
 
 #checkout .checkout .btn {
-  width: 260px;
+  width: 100%;
   padding: 8px 0px;
   background-color: #fea600;
   border: none;

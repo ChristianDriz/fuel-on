@@ -26,26 +26,18 @@
         <div class="container"><a class="navbar-brand"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
     <div class="login">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <form class="d-inline" action="assets/includes/forgot-pass-inc.php" method="post">
-                                <h2>Forgot Password</h2>
-                                <p class="text-muted forgotpass">Enter your email address</p>
-                                <div class="mb-3">
-                                    <input class="form-control" type="email" name="email" placeholder="Email" required>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="btn btn-primary d-block w-100" name="submit" type="submit">Continue</buton>
-                                </div>
-                                <p class="text-muted">Back to&nbsp;<a href="assets/includes/logout-inc.php">Login</a></p>
-                            </form>
-                        </div>
-                    </div>
+        <div class="login-div">
+            <form class="sign-in-form" method="post" action="assets/includes/forgot-pass-inc.php" enctype="multipart/form-data">
+                <h2>Forgot Password</h2>
+                <div class="input-div">
+                    <label class="form-label">Enter your email address</label>
+                    <input class="form-control" type="email" name="email" placeholder="Email" required>
                 </div>
-            </div>
+                <div class="sign-in-btn-div">
+                    <button class="btn" name="submit" type="submit">Continue</button>
+                </div>
+                <p class="no-account">Back to<a class="sign-up-link" href="assets/includes/logout-inc.php">Sign in</a></p>
+            </form>
         </div>
     </div>
     <footer id="footerpad">

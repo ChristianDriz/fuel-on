@@ -38,6 +38,17 @@
                 $dbh->info("../../admin-account-settings.php", "Input fields are empty");
             } 
         }
+        //if pass is less than 8 characters
+        elseif(strlen($new_pass) < 8){
+            //1 is customer, 2 is store, 3 is admin
+            if ($userType == 1) {
+                $dbh->info("../../customer-account-settings.php", "Password must be 8 characters in length.");
+            }else if ($userType == 2){
+                $dbh->info("../../store-account-settings.php", "Password must be 8 characters in length.");
+            }else if ($userType == 0){
+                $dbh->info("../../admin-account-settings.php", "Password must be 8 characters in length.");
+            } 
+        }
         else{
             $hashedPass = $dbh->checkPassword($userID, $email);
             $checkPass = password_verify($old_pass, $hashedPass[0]['password']);

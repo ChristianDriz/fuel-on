@@ -21,8 +21,6 @@ document.addEventListener('scroll', () => {
             brand.style.color = "#ffffff";
             nodeList[i].style.color = "#ffffff";
             bar.style.color = "rgba(255,255,255,0.74)";
-
-
         }
     }
 });
@@ -30,20 +28,19 @@ document.addEventListener('scroll', () => {
 
 
 /* show password */
-var state= false;
-    function toggle(){
-        if(state){
-        document.getElementById("inputpass").setAttribute("type","password");
-        document.getElementById("icon").style.color='#6c757d';
+var state = false;
+$('#show-pass').click(function () {
+    if(state){
+        $('.input-pass').attr('type', 'password');
+        $(this).attr('class', 'fas fa-eye');
         state = false;
-        }
-        else
-        {
-        document.getElementById("inputpass").setAttribute("type","text");
-        document.getElementById("icon").style.color='#000000';
+    }
+    else{
+        $('.input-pass').attr('type', 'text');
+        $(this).attr('class', 'fas fa-eye-slash');
         state = true;
-            }
-        }
+    }
+});
 /* end show password*/  
 
 /* register script*/

@@ -73,7 +73,7 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
             <?php
             } else {
             ?>
-            <div id="kart-container" class="product-container">
+            <div id="kart-container" class="container product-container">
                 <div class="title-div">
                     <h4>Shopping Cart</h4>
                 </div>
@@ -308,10 +308,10 @@ $cartCheckedwithQuant = $data->cartAllCheckedwithQuant($userID);
                         </div>
                     </div>
                 </div>
-            <?php
-            }
-            ?>
             </div>
+            <?php
+                }
+            ?>
         </div>
     </div>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>

@@ -3,12 +3,10 @@
 class Login extends DBHandler{
 
     public function getUser($email, $password){
-    
-        $email = $_SESSION['email'];
         
-        $stmt = $this->connect()->prepare('SELECT password FROM tbl_users WHERE email = ? OR phone_num = ?;');
+        $stmt = $this->connect()->prepare('SELECT password FROM tbl_users WHERE email = ?');
 
-        if(!$stmt->execute(array($email, $password))){
+        if(!$stmt->execute(array($email))){
             $stmt = null;
             // echo "<script>alert('Connection Failed!');document.location='../../login.php'</script>";
             $this->error("../../login.php", "Connection Failed!");
@@ -30,11 +28,10 @@ class Login extends DBHandler{
             exit();
         }
         else if($checkPass == true){
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_users WHERE email = ? OR phone_num = ? AND password = ?;');
+            $stmt = $this->connect()->prepare('SELECT * FROM tbl_users WHERE email = ? AND password = ?;');
 
-            if(!$stmt->execute(array($email, $email, $password))){
+            if(!$stmt->execute(array($email, $hashedPass[0]["password"]))){
                 $stmt = null;
-                // echo "<script>alert('Connection Failed!');document.location='../../login.php'</script>";
                 $this->error("../../login.php", "Connection Failed!");
                 exit();
             }

@@ -90,7 +90,10 @@ session_start();
         $email = $_SESSION['email'];
         $userID = $_SESSION['userID'];
 
-        if($newpass == $confirmnewpass){
+        if(strlen($newpass) < 8){
+            $dbh->info("../../new-pass.php", "Password must be 8 characters in length.");
+        }
+        elseif($newpass == $confirmnewpass){
 
             $hashedPass = password_hash($newpass, PASSWORD_DEFAULT);
 

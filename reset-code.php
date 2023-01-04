@@ -34,25 +34,15 @@
         <div class="container"><a class="navbar-brand"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
     <div class="login">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <form class="d-inline" action="assets/includes/forgot-pass-inc.php" method="post">
-                                <h2>Code Verification</h2>
-                                <p class="text-muted forgotpass">Enter the verification code</p>
-                                <div class="mb-3">
-                                    <input class="form-control" type="number" name="code" placeholder="Enter code" required>
-                                </div>
-                                <div class="mb-3">
-                                    <button class="btn btn-primary d-block w-100" type="submit" name="submit-code">Submit</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        <div class="login-div">
+            <form class="sign-in-form" method="post" action="assets/includes/forgot-pass-inc.php" enctype="multipart/form-data">
+                <h2>Code Verification</h2>
+                <div class="input-div">
+                    <label class="form-label">Enter the verification code</label>
+                    <input class="form-control" type="number" name="code" placeholder="Enter 6 digit code" required>
                 </div>
-            </div>
+                <div class="sign-in-btn-div"><button class="btn" type="submit" name="submit-code">Submit</button></div>
+            </form>
         </div>
     </div>
     <footer id="footerpad">

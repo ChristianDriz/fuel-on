@@ -12,8 +12,7 @@ class LoginContr extends Login{
 
     public function loginUser(){
         if($this->emptyInput() == false){
-            // echo "<script>alert('Empty Input!');document.location='../../login.php'</script>";
-            $this->info("../../login.php", "Please input your details.");
+            $this->info("../../login.php?email=$this->email", "Please complete the input fields");
             exit();
         }
         $this->getUser($this->email, $this->password);

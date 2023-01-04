@@ -25,7 +25,7 @@
                     <li class="nav-item"><a class="nav-link" id="index-nav-link" href="index.php">Home</a></li>
                     <!-- <li class="nav-item"><a class="nav-link" id="index-nav-link" href="#services">Services</a></li> -->
                     <li class="nav-item"><a class="nav-link" id="index-nav-link" href="about.php">About</a></li>
-                    <li class="nav-item"><a class="nav-link" id="index-nav-link" href="login.php">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" id="index-nav-link" href="login.php">Sign in</a></li>
                     <li class="nav-item"><a class="nav-link" id="index-nav-link" href="register-customer.php">Sign up</a></li>
                 </ul>
             </div>

@@ -34,26 +34,18 @@
         <div class="container"><a class="navbar-brand"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
     <div class="login">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <form class="d-inline" action="assets/includes/forgot-pass-inc.php" method="post">
-                                <h2>New Password</h2>
-                                <p class="text-muted forgotpass">Create a new password</p>
-                                <div class="mb-3">
-                                    <input class="form-control" type="password" name="password" placeholder="Password">
-                                </div>
-                                <div class="mb-3">
-                                    <input class="form-control" type="password" name="confirm-password" placeholder="Confirm Password">
-                                </div>
-                                <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit" name="change-password">Change</button></div>
-                            </form>
-                        </div>
-                    </div>
+        <div class="login-div">
+            <form class="sign-in-form" method="post" action="assets/includes/forgot-pass-inc.php" enctype="multipart/form-data">
+                <h2>New Password</h2>
+                <div class="input-div">
+                    <label class="form-label">Create your new password</label>
+                    <input class="form-control" type="password" name="password" placeholder="Enter new password" required>
                 </div>
-            </div>
+                <div class="input-div">
+                    <input class="form-control" type="password" name="confirm-password" placeholder="Confirm new password" required>
+                </div>
+                <div class="sign-in-btn-div"><button class="btn" type="submit" name="change-password">Change</button></div>
+            </form>
         </div>
     </div>
     <footer id="footerpad">
@@ -91,7 +83,20 @@
         unset($_SESSION['message']);
         }
 
-        //Info
+        //info
+        if(isset($_SESSION['info_message'])) {
+        ?>
+        Swal.fire({
+            title: 'Oops...',
+            text: '<?php echo $_SESSION['info_message']?>',
+            icon: 'info',
+            button: true
+        });
+        <?php 
+        unset($_SESSION['info_message']);
+        }
+
+        //error
         if(isset($_SESSION['error_message'])) {
         ?>
         Swal.fire({

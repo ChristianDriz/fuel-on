@@ -34,25 +34,18 @@ session_destroy();
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md">
-        <div class="container"><a class="navbar-brand" href="index.html"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
+        <div class="container"><a class="navbar-brand"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
     <div class="login">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-5 col-xxl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <form class="d-inline" method="post">
-                                <h2>Successfully</h2>
-                                <p class="text-muted forgotpass">Your password has been changed successfully.<br>You can login now with your new password.&nbsp;</p>
-                                <div class="mb-3">
-                                    <a class="btn btn-primary d-block w-100" href="login.php">Login Now</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        <div class="login-div">
+            <form class="sign-in-form" method="post" enctype="multipart/form-data">
+                <h2>Successfully</h2>
+                <div class="changed-pass-div">
+                    <label class="form-label">Your password has been changed successfully.</label>
+                    <label class="form-label">You can login now with your new password.</label>
                 </div>
-            </div>
+                <div class="sign-in-now"><a class="btn" role="button" href="login.php">Sign in now</a></div>
+            </form>
         </div>
     </div>
     <footer id="footerpad">

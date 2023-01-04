@@ -2,6 +2,8 @@ body {
   font-family: 'Source Sans Pro';
 }
 
+/* top-nav */
+
 .navbar {
   background-color: #ffffff;
 }
@@ -12,80 +14,137 @@ body {
   font-size: 20px;
 }
 
-.form-label {
-  position: absolute;
-  margin: 7rem;
+/* login-form */
+
+.login {
+  height: 75vh;
+  background-color: #fea600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.text-muted {
+.login-div {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(78,70,70,0.28);
+}
+
+.sign-in-form {
   text-align: center;
-  text-decoration: none;
-  color: #6c757d!important;
 }
 
-.text-muted a {
+.input-div {
+  padding: 15px 0;
+  position: relative;
+}
+
+.input-div .form-label {
+  padding: 0 64.6px;
+}
+
+.input-div input {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  background-color: #f5f0f0;
+}
+
+.input-div input:focus {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f5f0f0;
+  box-shadow: 0 0 0 #ffffff;
+}
+
+#show-pass {
+  position: absolute;
+  text-align: center;
+  width: 20px;
+  top: 30px;
+  right: 15px;
+  cursor: pointer;
+  color: #524f4f;
+}
+
+.forgot-pass-link {
   text-decoration: none;
 }
 
-.text-muted a:hover {
-  color: var(--bs-blue);
+.forgot-pass-link:hover {
   text-decoration: underline;
 }
 
-.card {
-  margin-top: 80px;
-  border-radius: 5px;
-  box-shadow: 5px 5px 5px rgba(0,0,0,0.05);
-}
-
-h2 {
+.sign-in-btn-div {
+  padding: 40px 0;
   text-align: center;
-  margin: 0 0 30px 0;
-  padding: 0 20px;
 }
 
-form {
-  padding: 20px 0 20px 0;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #fea600;
-  margin: 30px 0 50px 0;
+.sign-in-btn-div .btn {
   border-radius: 50px;
-  border: none;
+  background-color: #fea600;
+  color: #ffffff;
+  width: 80%;
   padding: 10px;
 }
 
-.btn-primary:hover {
-  background-color: #dc940d;
-}
-
-#login {
-  min-height: 100vh;
-}
-
-.login {
-  min-height: 75vh;
+.sign-in-btn-div .btn:focus {
+  border-radius: 50px;
   background-color: #fea600;
+  color: #ffffff;
+  width: 80%;
+  padding: 10px;
 }
 
-#pass {
-  display: flex;
+.no-account {
+  padding: 0 105.79px;
+  margin: 0;
 }
 
-.pass {
-  border-top-right-radius: 1px;
-  border-bottom-right-radius: 1px;
+.sign-up-link {
+  margin-left: 5px;
+  text-decoration: none;
 }
 
-.input-group-text {
-  border-top-left-radius: 1px;
-  border-bottom-left-radius: 1px;
-  border-left: none;
-  background-color: rgba(241,241,241,0.85);
-  color: #6c757d;
+.sign-up-link:hover {
+  text-decoration: underline;
 }
+
+@media (max-width: 410px) {
+  .no-account {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.changed-pass-div {
+  padding: 15px 0;
+  display: grid;
+}
+
+.sign-in-now {
+  padding: 30px 0 10px 0;
+}
+
+.sign-in-now .btn {
+  border-radius: 50px;
+  background-color: #fea600;
+  color: #ffffff;
+  width: 80%;
+  padding: 10px;
+}
+
+.sign-in-now .btn:focus {
+  border-radius: 50px;
+  background-color: #fea600;
+  color: #ffffff;
+  width: 80%;
+  padding: 10px;
+}
+
+/* footer */
 
 #footerpad {
   width: 100%;

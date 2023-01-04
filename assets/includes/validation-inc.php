@@ -1,16 +1,18 @@
 <?php
 session_start();
- if(isset($_POST['email'])){
+ if(isset($_POST['submit'])){
     $_SESSION['email'] = $_POST['email'];
     $_SESSION['password'] = $_POST['password'];
 
     $email = $_POST['email'];
-
+    $password = $_POST['password'];
+    
     require_once("../classes/dbHandler.php");
     $dbh = new Config();
 
     $user = $dbh->getVerified($email);
-    foreach($user as $users){};
+    $users = $user[0];
+
     $userID = $users['userID'];
     $userType = $users['user_type'];
     $ver = $users['verified'];

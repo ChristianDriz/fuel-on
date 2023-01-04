@@ -173,6 +173,17 @@ $pickupCounter = $dbh->OrderCountShop($pickup, $userID);
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/sweetalert2.js"></script>
     <script>    
+        //to return the scroll position in the header
+        $(window).on('unload', function () { 
+            var scrollPosition = $('#transaction-row-header').scrollLeft();
+            localStorage.setItem('scrollPosition', scrollPosition);
+        });
+        
+        if(localStorage.scrollPosition){
+            $('#transaction-row-header').scrollLeft(localStorage.getItem('scrollPosition'));
+        }
+
+        
         <?php 
         if(isset($_SESSION['message'])) {?>
         //SUCCESS
