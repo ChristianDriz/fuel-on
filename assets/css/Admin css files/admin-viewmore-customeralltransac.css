@@ -413,8 +413,14 @@ body {
 }
 
 .note-div span {
-  color: #898787;
-  font-size: 14px;
+  color: #000000;
+  font-weight: 600;
+  /*font-size: 14px;*/
+}
+
+.note-div span i {
+  margin-right: 5px;
+  color: #fea600;
 }
 
 .timeline-div {

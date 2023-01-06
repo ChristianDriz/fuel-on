@@ -75,3 +75,17 @@ $(document).ready(function () {
         })
     });
 });
+
+/* show password */
+var pass = false;
+$('.show-pass').click(function () {
+    if(pass){
+        $('.input-pass').attr('type', 'password');
+        pass = false;
+    }
+    else{
+        $('.input-pass').attr('type', 'text');
+        pass = true;
+    }
+});
+/* end show password*/  

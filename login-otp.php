@@ -28,31 +28,26 @@
     <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
     <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Landing%20page%20css%20files/otp.css">
+    <link rel="stylesheet" href="assets/css/Landing%20page%20css%20files/forgot-pass.css">
 </head>
 
 <body>
     <nav class="navbar navbar-light navbar-expand-md navbar-top">
         <div class="container">
-            <a class="navbar-brand"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a><label class="form-label">Verification</label>
+            <a class="navbar-brand"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a><label class="form-label"></label>
             <a class="sign-out" href="assets/includes/logout-inc.php">Sign out</a>
         </div>
     </nav>
     <div class="login">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-sm-10 col-md-6 col-xl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <form class="text-center d-inline" action="assets/includes/verifyCustomer-inc.php" method="post">
-                                <h2 class="text-center">Verification</h2>
-                                <div class="mb-3"><input class="form-control" type="number" name="otp" placeholder="Input code here..."></div>
-                                <div class="mb-3 button-div"><button class="btn btn-primary d-block w-100" role="button" type="submit" name="verify">Verify</button></div>
-                            </form>
-                        </div>
-                    </div>
+        <div class="login-div">
+            <form class="sign-in-form" method="post" action="assets/includes/verifyCustomer-inc.php" enctype="multipart/form-data">
+                <h2>Account Verification</h2>
+                <div class="input-div">
+                    <label class="form-label">Enter the verification code</label>
+                    <input class="form-control" type="number" name="otp" placeholder="Enter 6 digit code">
                 </div>
-            </div>
+                <div class="sign-in-btn-div"><button class="btn" type="submit" name="verify">Verify</button></div>
+            </form>
         </div>
     </div>
     <footer id="footerpad">

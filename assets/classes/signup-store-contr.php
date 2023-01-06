@@ -78,7 +78,7 @@ class SignupStoreContr extends SignupStore{
         }
 
         if($this->invalidPhone() == false){
-            $this->info("../../register-store.php?$data", "Invalid phone number format.");
+            $this->info("../../register-store.php?$data", "Invalid phone number format must be starts with 09.");
             exit();
         }
 
@@ -93,7 +93,7 @@ class SignupStoreContr extends SignupStore{
         }
 
         if($this->userTaken() == false){
-            $this->info("../../register-store.php?$data", "Account already taken. Please use another email.");
+            $this->info("../../register-store.php?$data", "Account already taken. Please use another email address.");
             exit();
         }
 
@@ -167,7 +167,7 @@ class SignupStoreContr extends SignupStore{
 
     private function invalidPhone(){
         $result;
-        if(!preg_match("/^(09)[0-9]{0,9}$/", $this->phone)){
+        if(!preg_match("/^(09)[0-9]\d{8}$/", $this->phone)){
             $result = false;
         }
         else{

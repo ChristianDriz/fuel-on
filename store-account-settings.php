@@ -206,16 +206,20 @@ $shopDetails = $shop[0];
                             </div>
                             <div class="modal-body">
                                 <div class="input-div">
-                                    <label class="form-label">Old Password</label>
-                                    <input class="form-control" type="password" name="old_pass" placeholder="Enter your old password">
+                                    <label class="form-label">Current Password</label>
+                                    <input class="form-control input-pass" type="password" name="old_pass" placeholder="Enter your current password">
                                 </div>
                                 <div class="input-div">
                                     <label class="form-label">New Password</label>
-                                    <input class="form-control" type="password" name="new_pass" placeholder="Enter your new password">
+                                    <input class="form-control input-pass" type="password" name="new_pass" placeholder="Enter your new password">
                                 </div>
                                 <div class="input-div">
                                     <label class="form-label">Confirm New Password</label>
-                                    <input class="form-control" type="password" name="confirm_pass" placeholder="Re-enter your new password">
+                                    <input class="form-control input-pass" type="password" name="confirm_pass" placeholder="Re-enter your new password">
+                                </div>
+                                <div class="form-check checkbox-div">
+                                    <input class="form-check-input show-pass" type="checkbox" id="formCheck">
+                                    <label class="form-check-label" for="formCheck">Show password</label>
                                 </div>
                             </div>
                             <div class="modal-footer">

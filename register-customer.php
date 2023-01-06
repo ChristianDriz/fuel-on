@@ -20,7 +20,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Fuel ON | Register Customer</title>
+    <title>Fuel ON | Sign up Customer</title>
     <link rel="icon" href="assets/img/fuelon_logo.png">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -34,51 +34,47 @@
     <nav class="navbar navbar-light navbar-expand-md">
         <div class="container"><a class="navbar-brand" href="index.php"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
-    <div class="register">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-xl-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs nav-fill card-header-tabs">
-                                <li class="nav-item"><a class="nav-link active" href="register-customer.php">Customer</a></li>
-                                <li class="nav-item"><a class="nav-link" href="register-store.php">Station</a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <form id="Form" method="post" action="assets/includes/registerCustomer-inc.php?type=1">
-                                <h2>Registration</h2>
-                                <div class="form-group">
-                                    <label class="form-label">Email</label>
-                                    <input class="form-control" type="email" name="email" value="<?php echo $email?>">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">First name</label>
-                                    <input class="form-control" type="text" name="fname" value="<?php echo $fname?>">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Last name</label>
-                                    <input class="form-control" type="text" name="lname" value="<?php echo $lname?>">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Phone number</label>
-                                    <input class="form-control" type="tel" name="phone" value="<?php echo $phone?>">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Password</label>
-                                    <input class="form-control" type="password" name="password" data-toggle="password">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Confirm password</label>
-                                    <input class="form-control" type="password" name="confirm" data-toggle="password">
-                                </div>
-                                <button class="btn btn-primary d-block w-100" type="submit" name="submit" id="register">Register</button>
-                                <p class="text-muted">Already have an account?&nbsp;<a href="login.php">Login here</a></p>
-                            </form>
-                        </div>
-                    </div>
+    <div class="login">
+        <div class="login-div">
+            <ul class="nav nav-fill signup-type">
+                <li class="nav-item"><a class="nav-link active" href="register-customer.php">Customer</a></li>
+                <li class="nav-item"><a class="nav-link" href="register-store.php">Station Owner</a></li>
+            </ul>
+            <form class="sign-in-form" action="assets/includes/registerCustomer-inc.php?type=1" method="post" enctype="multipart/form-data">
+                <h2>Sign up</h2>
+                <div class="input-div">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" type="email" placeholder="Enter your active email" name="email" value="<?php echo $email?>">
                 </div>
-            </div>
+                <div class="input-div">
+                    <label class="form-label">First name</label>
+                    <input class="form-control" type="text" placeholder="Enter your first name" name="fname" value="<?php echo $fname?>">
+                </div>
+                <div class="input-div">
+                    <label class="form-label">Last name</label>
+                    <input class="form-control" type="text" placeholder="Enter your last name" name="lname" value="<?php echo $lname?>">
+                </div>
+                <div class="input-div">
+                    <label class="form-label">Phone number</label>
+                    <input class="form-control" type="number" placeholder="Enter your phone number" name="phone" value="<?php echo $phone?>">
+                </div>
+                <div class="input-div">
+                    <label class="form-label">Password</label>
+                    <input class="form-control input-pass" type="password" placeholder="Password minimum of 8 digits" name="password">
+                </div>
+                <div class="input-div">
+                    <label class="form-label">Confirm password</label>
+                    <input class="form-control input-pass" type="password" placeholder="Re-enter your password" name="confirm">
+                </div>
+                <div class="form-check checkbox-div">
+                    <input class="form-check-input show-pass" type="checkbox" id="formCheck">
+                    <label class="form-check-label" for="formCheck">Show password</label>
+                </div>
+                <div class="sign-in-btn-div">
+                    <button class="btn" type="submit" name="submit" id="register">Sign up</button>
+                </div>
+                <p class="no-account">Already have an account?<a class="sign-up-link" href="login.php">Sign in here</a></p>
+            </form>
         </div>
     </div>
     <footer id="footerpad">
@@ -123,6 +119,20 @@
         unset($_SESSION['info_message']);
         }
         ?>
+
+        /* show password */
+        var pass = false;
+        $('.show-pass').click(function () {
+            if(pass){
+                $('.input-pass').attr('type', 'password');
+                pass = false;
+            }
+            else{
+                $('.input-pass').attr('type', 'text');
+                pass = true;
+            }
+        });
+        /* end show password*/   
     </script>
 </body>
 

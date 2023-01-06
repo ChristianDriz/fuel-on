@@ -138,11 +138,15 @@ session_start();
                                             </div>
                                             <div class="input-div">
                                                 <label class="form-label">Password</label>
-                                                <input class="form-control" type="password" name="pass" required placeholder="Enter password">
+                                                <input class="form-control input-pass" type="password" name="pass" required placeholder="Enter password">
                                             </div>
                                             <div class="input-div">
                                                 <label class="form-label">Confirm password</label>
-                                                <input class="form-control" type="password" name="confirmpass" required placeholder="Re-enter password">
+                                                <input class="form-control input-pass" type="password" name="confirmpass" required placeholder="Re-enter password">
+                                            </div>
+                                            <div class="form-check checkbox-div">
+                                                <input class="form-check-input show-pass" type="checkbox" id="formCheck">
+                                                <label class="form-check-label" for="formCheck">Show password</label>
                                             </div>
                                             <div class="button-div">
                                                 <button class="btn cancel" type="button">Cancel</button>
@@ -220,6 +224,36 @@ session_start();
             unset($_SESSION['info_message']);
         }
         ?>
+
+        /* show password */
+        var pass = false;
+        $('.show-pass').click(function () {
+            if(pass){
+                $('.input-pass').attr('type', 'password');
+                pass = false;
+            }
+            else{
+                $('.input-pass').attr('type', 'text');
+                pass = true;
+            }
+        });
+        /* end show password*/   
+
+        $('.cancel').click(function () {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will discard the data you input.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = "admin-table.php";
+                }
+            })
+        });
     </script>
 </body>
 </html>

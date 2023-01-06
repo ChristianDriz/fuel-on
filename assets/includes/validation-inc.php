@@ -80,7 +80,7 @@ session_start();
             $dbh->info("../../login.php", "Your account has not been verified by the Admin. Kindly wait for an email.");
         }
         else if ($ver == 2){
-            $dbh->info("../../login.php", "Your account has been declined by the admin. If you have any inquiries please send us an email at fueloninformation@gmail.com");
+            $dbh->info("../../login.php", "Your account has been declined by the admin. Kindly check your email about the reason of declination. If you have any inquiries please send us an email at fueloninformation@gmail.com");
         }
     }
     else{

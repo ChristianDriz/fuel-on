@@ -229,3 +229,14 @@ input.email:focus {
   color: #ffffff;
   border-radius: 8px;
 }
+
+.btn.change-pass-btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+  border-radius: 8px;
+}
+
+.checkbox-div .form-check-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+}

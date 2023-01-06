@@ -111,7 +111,7 @@ if(isset($_GET['orderID'])){
                             <a class="btn" target="_blank" href="generate-invoice.php?orderId=<?= $order['orderID']?>"><i class="fas fa-print"></i>Invoice</a> 
                         </div>
                         <div class="note-div">
-                            <span>Customer must pickup the order within 2 days upon approval.</span>
+                            <span><i class="fas fa-exclamation-circle"></i>Customer must pickup the order within 2 days upon approval.</span>
                         </div>
                     </div>
                     <div class="col-12 col-md-8 order-first order-md-last timeline-div">

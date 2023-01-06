@@ -77,6 +77,12 @@ body {
   text-decoration: underline;
 }
 
+.checkbox-div .form-check-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 #ffffff;
+  text-align: left;
+}
+
 .sign-in-btn-div {
   padding: 40px 0;
   text-align: center;

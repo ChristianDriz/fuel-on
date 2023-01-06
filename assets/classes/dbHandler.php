@@ -269,7 +269,7 @@ class Config extends DBHandler
                     AND read_status = 0
                     AND notif_type IN ("Ordered", "Cancelled")
                     GROUP BY notif_date
-                    ORDER BY notif_date DESC;');
+                    ORDER BY notif_date DESC');
 
                     $stmt->execute(array($userID));
                     return $stmt->fetchAll();

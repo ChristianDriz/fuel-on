@@ -45,102 +45,98 @@
     <nav class="navbar navbar-light navbar-expand-md">
         <div class="container"><a class="navbar-brand" href="index.php"><i class="fas fa-gas-pump"></i>&nbsp;FUEL ON</a></div>
     </nav>
-    <div class="register">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-xxl-10">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs nav-fill card-header-tabs">
-                                <li class="nav-item"><a class="nav-link" href="register-customer.php">Customer</a></li>
-                                <li class="nav-item"><a class="nav-link active" href="register-store.php">Station</a></li>
-                            </ul>
+    <div class="login">
+        <div class="login-div">
+            <ul class="nav nav-justified signup-type">
+                <li class="nav-item"><a class="nav-link" href="register-customer.php">Customer</a></li>
+                <li class="nav-item"><a class="nav-link active" href="register-store.php">Station Owner</a></li>
+            </ul>
+            <form class="sign-in-form" action="assets/includes/registerStore-inc.php?type=2" method="post" enctype="multipart/form-data">
+                <h2>Sign up</h2>
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="input-div">
+                            <label class="form-label">Email</label>
+                            <input class="form-control" type="email" placeholder="Enter your active email" name="email" value="<?php echo $email?>">
                         </div>
-                        <div class="card-body">
-                            <form class="register-form" method="post" action="assets/includes/registerStore-inc.php?type=2" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-12 col-xxl-12">
-                                        <h2>Registration</h2>
-                                    </div>
-                                    <div class="col-md-6 col-xl-4 input-cols">
-                                        <div class="form-group">
-                                            <label class="form-label">Email</label>
-                                            <input class="form-control" type="email" placeholder="Owner email or business email" name="email" value="<?php echo $email?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">First name</label>
-                                            <input class="form-control" type="text" name="fname" value="<?php echo $fname?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Last name</label>
-                                            <input class="form-control" type="text" name="lname" value="<?php echo $lname?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Station name</label>
-                                            <input class="form-control" type="text" name="station_name" value="<?php echo $station_name?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Branch name</label>
-                                            <input class="form-control" type="text" name="branch" value="<?php echo $branch?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Station address</label>
-                                            <textarea class="form-control" name="address"><?php echo $address?></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Phone number</label>
-                                            <input class="form-control" type="tel" name="phone" value="<?php echo $phone?>">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-xl-4 input-cols">
-                                        <div class="form-group">
-                                            <label class="form-label">Tin number</label>
-                                            <input class="form-control" type="text" placeholder="000-000-000-000 / 9 to 12 digits" maxlength="15" name="tin_num" value="<?php echo $tin_num?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Schedule</label>
-                                            <select class="form-select form-control sched" name="schedule">
-                                                <option value="withclosing">With Closing</option>
-                                                <option value="24/7">Open 24 Hours </option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group opening">
-                                            <label class="form-label">Opening hour</label>
-                                            <input class="form-control opening" type="time" name="opening">
-                                        </div>
-                                        <div class="form-group closing">
-                                            <label class="form-label">Closing hour</label>
-                                            <input class="form-control closing" type="time" name="closing">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Permit (PDF, PNG, JPG, JPEG) Max 2MB</label>
-                                            <input class="form-control" type="file" name="myfile" accept=".pdf, .png, .jpg, .jpeg">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Password</label>
-                                            <input class="form-control" type="password" name="password" data-toggle="password">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Confirm Password</label>
-                                            <input class="form-control" type="password" name="confirm" data-toggle="password">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-xl-4 map-cols">
-                                        <p>Click the map to add a marker</p>
-                                        <div id="maps" class="map-div"></div>
-                                        <input type="hidden" name="mapLat" id="mapLat" required>
-                                        <input type="hidden" name="mapLng" id="mapLng" required>   
-                                    </div>
-                                    <div class="col-md-8 col-lg-6 col-xl-4 offset-md-2 offset-lg-3 offset-xl-4">
-                                        <button class="btn d-block w-100 signup" type="submit" name="submit">Register</button>
-                                        <p class="text-muted">Already have an account?&nbsp;<a href="login.php">Login here</a></p>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="input-div">
+                            <label class="form-label">First name</label>
+                            <input class="form-control" type="text" placeholder="Enter your first name" name="fname" value="<?php echo $fname?>">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Last name</label>
+                            <input class="form-control" type="text" placeholder="Enter your last name" name="lname" value="<?php echo $lname?>">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Station name</label>
+                            <input class="form-control" type="text" placeholder="Enter station name" name="station_name" value="<?php echo $station_name?>">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Branch name</label>
+                            <input class="form-control" type="text" placeholder="Enter branch name" name="branch" value="<?php echo $branch?>">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Station address</label>
+                            <textarea class="form-control" placeholder="Enter station address" name="address"><?php echo $address?></textarea>
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Phone number</label>
+                            <input class="form-control" type="number" placeholder="Enter your phone number" name="phone" value="<?php echo $phone?>">
                         </div>
                     </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="input-div">
+                            <label class="form-label">TIN number</label>
+                            <input class="form-control" type="text" placeholder="000-000-000-000 9 to 12 digits" maxlength="15" name="tin_num" value="<?php echo $tin_num?>">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Schedule</label>
+                            <select class="form-select sched" name="schedule">
+                                <option value="withclosing">With closing</option>
+                                <option value="24/7">Open 24 hours</option>
+                            </select>
+                        </div>
+                        <div class="input-div opening">
+                            <label class="form-label">Opening hour</label>
+                            <input class="form-control" placeholder="Enter your last name" type="time" name="opening">
+                        </div>
+                        <div class="input-div closing">
+                            <label class="form-label">Closing hour</label>
+                            <input class="form-control" placeholder="Enter your phone number" type="time" name="closing">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Permit (pdf, png, jpg, jpeg) Max 2MB</label>
+                            <input class="form-control file-input" type="file" placeholder="Enter your phone number" name="myfile" accept=".pdf, .png, .jpg, .jpeg">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Password</label>
+                            <input class="form-control input-pass" type="password" placeholder="Password minimum of 8 digits" name="password">
+                        </div>
+                        <div class="input-div">
+                            <label class="form-label">Confirm password</label>
+                            <input class="form-control input-pass" type="password" placeholder="Re-enter your password" name="confirm" >
+                        </div>
+                        <div class="form-check checkbox-div">
+                            <input class="form-check-input show-pass" type="checkbox" id="formCheck">
+                            <label class="form-check-label" for="formCheck">Show password</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-div">
+                            <label class="form-label">Click the map to add a marker</label>
+                            <div id="maps" class="map-div"></div>
+                            <input type="hidden" name="mapLat" id="mapLat" required>
+                            <input type="hidden" name="mapLng" id="mapLng" required> 
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-md-6 col-lg-4 offset-sm-2 offset-md-3 offset-lg-4">
+                        <div class="sign-in-btn-div">
+                            <button class="btn" type="submit" name="submit">Sign up</button>
+                        </div>
+                        <p class="no-account">Already have an account?<a class="sign-up-link" href="login.php">Sign in here</a></p>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     <footer id="footerpad">
@@ -190,6 +186,20 @@
                     $('.closing').css('display', 'block');
                 }
             });
+
+            /* show password */
+            var pass = false;
+            $('.show-pass').click(function () {
+                if(pass){
+                    $('.input-pass').attr('type', 'password');
+                    pass = false;
+                }
+                else{
+                    $('.input-pass').attr('type', 'text');
+                    pass = true;
+                }
+            });
+            /* end show password*/   
         });
 
 
@@ -231,7 +241,6 @@
         unset($_SESSION['message']);
             }
         ?>
-
     </script>
 </body>
 

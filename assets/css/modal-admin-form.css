@@ -103,3 +103,8 @@
   .save {
     margin-left: 10px;
   }
+
+  .checkbox-div .form-check-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 #ffffff;
+  }

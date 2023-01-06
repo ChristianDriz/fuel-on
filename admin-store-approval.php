@@ -233,7 +233,7 @@ session_start();
                 Swal.fire({
                     title: 'Confirmation',
                     icon: 'question',
-                    text: type == 1 ? 'Are you sure you want to approve this store?' : 'Are you sure you want to decline this store?',
+                    text: type == 1 ? 'Are you sure you want to approve this station?' : 'Are you sure you want to decline this station?',
                     showCancelButton: true,
                     confirmButtonColor:  type == 1 ? "#157347" : "#dc3545",
                     confirmButtonText: 'Yes',
@@ -256,7 +256,7 @@ session_start();
                                                 data: "reason=" +value,
                                                 success: function(data) {
                                                     Swal.fire({
-                                                        title: 'Store declined',
+                                                        title: 'Station declined',
                                                         confirmButtonColor: "#157347",
                                                         confirmButtonText: 'OK',
                                                         icon: 'success'
@@ -278,7 +278,7 @@ session_start();
                                 url,
                                 success: function(data) {
                                     Swal.fire({
-                                        title: 'Store approved',
+                                        title: 'Station approved',
                                         confirmButtonColor: "#157347",
                                         confirmButtonText: 'OK',
                                         icon: 'success'

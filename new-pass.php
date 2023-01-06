@@ -39,10 +39,14 @@
                 <h2>New Password</h2>
                 <div class="input-div">
                     <label class="form-label">Create your new password</label>
-                    <input class="form-control" type="password" name="password" placeholder="Enter new password" required>
+                    <input class="form-control input-pass" type="password" name="password" placeholder="Enter new password" required>
                 </div>
                 <div class="input-div">
-                    <input class="form-control" type="password" name="confirm-password" placeholder="Confirm new password" required>
+                    <input class="form-control input-pass" type="password" name="confirm-password" placeholder="Confirm new password" required>
+                </div>
+                <div class="form-check checkbox-div text-start">
+                    <input class="form-check-input show-pass" type="checkbox" id="formCheck">
+                    <label class="form-check-label" for="formCheck">Show password</label>
                 </div>
                 <div class="sign-in-btn-div"><button class="btn" type="submit" name="change-password">Change</button></div>
             </form>
@@ -131,6 +135,20 @@
             unset($_SESSION['verify_message']);
         }
         ?>
+
+        /* show password */
+        var pass = false;
+        $('.show-pass').click(function () {
+            if(pass){
+                $('.input-pass').attr('type', 'password');
+                pass = false;
+            }
+            else{
+                $('.input-pass').attr('type', 'text');
+                pass = true;
+            }
+        });
+        /* end show password*/  
     </script>
 </body>
 

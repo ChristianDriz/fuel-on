@@ -62,7 +62,7 @@
                         <i class="fas fa-store" data-bss-hover-animate="bounce"></i>
                     </span>
                     <h4 class="service-heading">Order</h4>
-                    <p class="text-muted"><br>Order various petroleum products</p>
+                    <p class="text-muted"><br>Order different oil products</p>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                     <span data-bss-disabled-mobile="true" data-aos="zoom-in" data-aos-duration="200" data-aos-delay="600" class="fa-stack fa-4x">
@@ -89,7 +89,7 @@
                 <div class="col-md-12 col-lg-5 text-col">
                     <div>
                         <h2 data-aos="fade-left" data-bss-disabled-mobile="true" data-aos-duration="500">About</h2>
-                        <p data-aos="fade-right" data-bss-disabled-mobile="true" data-aos-delay="250">FuelOn: An On-line Information Management System with 2D Mapping using web-based technology that is capable of monitoring and improving the efficiency of fuel distribution at gasoline stations. It also helps save time and make billings more convenient and efficient.</p>
+                        <p data-aos="fade-right" data-bss-disabled-mobile="true" data-aos-delay="250">FuelOn: An On-line Information Management System with 2D Mapping using web-based technology that is capable of monitoring and improving the efficiency of fuel distribution at gasoline stations.</p>
                     </div>
                 </div>
             </div>

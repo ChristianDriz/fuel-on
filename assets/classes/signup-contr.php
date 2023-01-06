@@ -60,7 +60,7 @@ class SignupContr extends Signup{
 
         if($this->invalidPhone() == false){
             // echo "<script>alert('Invalid Name Input!');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?$data", "Invalid phone number format.");
+            $this->info("../../register-customer.php?$data", "Invalid phone number format must be starts with 09.");
             exit();
         }
 
@@ -78,7 +78,7 @@ class SignupContr extends Signup{
 
         if($this->userTaken() == false){
             // echo "<script>alert('Account already taken! Use another email and phone number.');document.location='../../register-customer.php'</script>";
-            $this->info("../../register-customer.php?$data", "Account already taken. Please use another email or phone number.");
+            $this->info("../../register-customer.php?$data", "Account already taken. Please use another email address.");
             exit();
         }
     }
@@ -118,7 +118,7 @@ class SignupContr extends Signup{
 
     private function invalidPhone(){
         $result;
-        if(!preg_match("/^(09)[0-9]{0,9}$/", $this->phone)){
+        if(!preg_match("/^(09)[0-9]\d{8}$/", $this->phone)){
             $result = false;
         }
         else{
