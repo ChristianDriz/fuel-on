@@ -161,7 +161,7 @@ else{
                                     
                                     if(empty($ratings)){
                                 ?>
-                                    <a class="btn rate-btn" role="button" href="#ratestoremodal" data-bs-toggle="modal">Rate Store</a>
+                                    <a class="btn rate-btn" role="button" href="#ratestoremodal" data-bs-toggle="modal">Rate Station</a>
                                 <?php
                                     }else{
                                 ?>
