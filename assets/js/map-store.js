@@ -38,7 +38,7 @@ function initMap() {
         const content = '<h6 style="text-align: center;">My Station: ' + location.name 
         + '</h6>'
         + '<p style="font-weight: 500; margin: 0;">Address: ' + location.address + '</p>' 
-        + '<p style="font-weight: 500; margin: 0;">Schedule: ' + location.sched + '</p>'
+        + '<p style="font-weight: 500; margin: 0;">' + location.sched + '</p>'
         + '<br>'
 
         //to show the station details

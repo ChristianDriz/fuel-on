@@ -132,9 +132,9 @@ else{
                                         <span style="font-weight: 500;">
                                         <?php
                                             if($val['opening'] == "00:00:00" && $val['closing'] == "00:00:00"){
-                                                echo "24 hours Open"; 
+                                                echo "Open 24 Hours"; 
                                             }else{
-                                                echo $Timeopen . ' to ' . $Timeclose;
+                                                echo 'Open: ' . $Timeopen . ' Close: ' . $Timeclose;
                                             }
                                         ?>
                                         </span>

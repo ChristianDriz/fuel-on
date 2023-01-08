@@ -122,9 +122,9 @@ $orders = $dbh->shopAllOrders($shopID);
                                         </svg>
                                         <?php 
                                             if ($user['opening'] && $user['closing'] == "00:00:00"){
-                                                echo "24 Hours Open";
+                                                echo "Open 24 Hours";
                                             }else{
-                                                echo $Timeopen . ' to ' . $Timeclose;
+                                                echo 'Open: ' . $Timeopen . ' Close: ' . $Timeclose;
                                             }
                                         ?>
                                     </p>

@@ -54,7 +54,7 @@ function createMarkerAjax(location) {
 	const content = '<h6 style="text-align: center;">' + location.name 
 	+ '</h6>'
 	+ '<p style="font-weight: 500; margin: 0;">Address: ' + location.address + '</p>' 
-	+ '<p style="font-weight: 500; margin: 0;">Schedule: ' + location.sched + '</p>'
+	+ '<p style="font-weight: 500; margin: 0;">' + location.sched + '</p>'
 	+ '<br>'
 	+ '<div style="text-align: center;">'
 	+ '<a class="btn" style="background-color:#fea600; border: none; color: #ffffff; padding:3px 10px;" href="customer-viewstore-timeline.php?stationID=' + location.id + '">View Station</a>';

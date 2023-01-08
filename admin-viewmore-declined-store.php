@@ -101,12 +101,12 @@ $shop = $dbh->shopDetails($shopID);
                             <p>Owner: <?php echo $shopdetail['firstname'] . ' ' . $shopdetail['lastname']?></p>
                             <p>Email: <?php echo $shopdetail['email']?></p>
                             <p>Phone: <?php echo $shopdetail['phone_num']?></p>
-                            <p>Schedule: 
+                            <p> 
                             <?php 
                                 if ($shopdetail['opening'] == "00:00:00" && $shopdetail['closing'] == "00:00:00"){
-                                    echo "24 Hours Open";
+                                    echo "Open 24 Hours";
                                 }else{
-                                    echo $Timeopen . ' to ' . $Timeclose;
+                                    echo 'Open: ' . $Timeopen . ' Close: ' . $Timeclose;
                                 }
                             ?>
                             </p>

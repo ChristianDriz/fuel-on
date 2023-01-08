@@ -13,7 +13,7 @@ if(isset($_SESSION['userID'])){
         if($storeLocation['map_lang'] && $storeLocation['map_lat'])
 
             if($storeLocation['opening'] == "00:00:00" && $storeLocation['closing'] == "00:00:00"){
-                $sched = "24 Hours Open";
+                $sched = "Open 24 hours";
 
             }else{
                 //open hour
@@ -26,7 +26,7 @@ if(isset($_SESSION['userID'])){
                 $createdate = date_create($closeTime);
                 $Timeclose = date_format($createdate, "h:i a");
 
-                $sched = $Timeopen . " to " . $Timeclose;
+                $sched = "Open: " . $Timeopen . " Close: " . $Timeclose;
             }
 
         $location[] = [

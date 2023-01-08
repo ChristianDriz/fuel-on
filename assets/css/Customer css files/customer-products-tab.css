@@ -295,6 +295,11 @@ body {
   margin: 0;
   font-size: 15px;
   color: #7a7171;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .product-desc-div .prod-location i {

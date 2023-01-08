@@ -11,7 +11,7 @@ foreach($storeLocations as $shop){
     if($shop['map_lang'] && $shop['map_lat'])
 
         if($shop['opening'] == "00:00:00" && $shop['closing'] == "00:00:00"){
-            $sched = "24 Hours Open";
+            $sched = "Open 24 Hours";
 
         }else{
             //open hour
@@ -24,7 +24,7 @@ foreach($storeLocations as $shop){
             $createdate = date_create($closeTime);
             $Timeclose = date_format($createdate, "h:i a");
 
-            $sched = $Timeopen . " to " . $Timeclose;
+            $sched = "Open: " . $Timeopen . " Close: " . $Timeclose;
         }
 
     $locations[] = [

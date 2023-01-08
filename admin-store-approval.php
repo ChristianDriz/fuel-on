@@ -139,11 +139,11 @@ session_start();
                                         $createdate = date_create($closeTime);
                                         $Timeclose = date_format($createdate, "h:i a");
 
-                                        if ($station['opening'] && $station['closing'] == "00:00:00"){
-                                            echo "24 Hours Open";
+                                        if ($station['opening'] == "00:00:00" && $station['closing'] == "00:00:00"){
+                                            echo "Open 24 Hours";
                                         }
                                         else{
-                                            echo "Open: " . $Timeopen . " " . "Close: " . $Timeclose;
+                                            echo "Open: " . $Timeopen . " Close: " . $Timeclose;
                                         }
                                     ?>
                                     </td>

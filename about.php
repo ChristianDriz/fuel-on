@@ -112,9 +112,9 @@
                             <i class="fab fa-twitter"></i></a><a href="#">
                             <i class="fab fa-instagram"></i></a>
                         </div>
-                        <audio controls="">
+                        <!-- <audio controls="">
                             <source src="assets/audio/dale.wav" type="audio/wav">
-                        </audio>
+                        </audio> -->
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-4 item" data-bss-disabled-mobile="true" data-aos="zoom-out-up">
@@ -127,9 +127,9 @@
                             <i class="fab fa-twitter"></i></a><a href="#">
                             <i class="fab fa-instagram"></i></a>
                         </div>
-                        <audio controls="">
+                        <!-- <audio controls="">
                             <source src="assets/audio/ako.wav" type="audio/wav">
-                        </audio>
+                        </audio> -->
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-4 item" data-bss-disabled-mobile="true" data-aos="zoom-out-up">
@@ -143,9 +143,9 @@
                             <i class="fab fa-twitter"></i></a><a href="#">
                             <i class="fab fa-instagram"></i></a>
                         </div>
-                        <audio controls="">
+                        <!-- <audio controls="">
                             <source src="assets/audio/merin.wav" type="audio/wav">
-                        </audio>
+                        </audio> -->
                     </div>
                 </div>
             </div>
