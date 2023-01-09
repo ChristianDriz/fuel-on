@@ -204,7 +204,7 @@ else{
                         </div>
                         <div class="col nav-col">
                             <ul class="nav">
-                                <li class="nav-item"><a class="nav-link" href="customer-viewstore-timeline.php?stationID=<?php echo $val['userID']; ?>">Timeline</a></li>
+                                <li class="nav-item"><a class="nav-link" href="customer-viewstore-timeline.php?stationID=<?php echo $val['userID']; ?>">All Fuels</a></li>
                                 <li class="nav-item active"><a class="nav-link active active-name" href="customer-viewstore-allproducts.php?stationID=<?php echo $val['userID']; ?>">All Products</a></li>
                             </ul>
                         </div>

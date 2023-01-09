@@ -35,6 +35,7 @@ if(isset($_SESSION['userID'])){
     }
 
     if($status == 'declined'){
+        //no need ibalik order since ang reason ng cancellation is no stock 
         $newStatus = 'Declined';
         $dbh->updateOrder($date, $newStatus, $reason, $orderID);
         $dbh->createNotif($shopID, $customerID, $orderID, $newStatus, $date);

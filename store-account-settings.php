@@ -66,7 +66,7 @@ $shopDetails = $shop[0];
                                 <div class="avatar-bg">
                                     <img src="assets/img/profiles/<?php echo $shopDetails['user_image']?>">
                                 </div>
-                                <input class="form-control file-input image-input" type="file">
+                                <input class="form-control file-input image-input" type="file" name="image">
                                 <div class="leybel">
                                     <p>Maximum size: 2MB</p>
                                     <p>File extension: JPEG, PNG</p>

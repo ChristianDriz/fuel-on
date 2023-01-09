@@ -419,10 +419,18 @@ class Config extends DBHandler
         }
     }
 
+    //will display the most sold products
     public function allProductsCustomer()
     {
         try {
-            $stmt = $this->connect()->prepare('SELECT * FROM tbl_products WHERE quantity != 0');
+            $stmt = $this->connect()->prepare('SELECT tbl_products.*, SUM(tbl_transactions.quantity) AS sold
+            FROM tbl_products
+            LEFT JOIN tbl_transactions
+            ON tbl_products.productID = tbl_transactions.productID
+            AND tbl_transactions.order_status = "completed"
+            GROUP BY tbl_products.productID
+            HAVING SUM(tbl_products.quantity) > 0
+            ORDER BY sold DESC');
             $stmt->execute();
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
@@ -430,6 +438,18 @@ class Config extends DBHandler
             die();
         }
     }
+
+    // public function allProductsCustomer()
+    // {
+    //     try {
+    //         $stmt = $this->connect()->prepare('SELECT * FROM tbl_products WHERE quantity != 0');
+    //         $stmt->execute();
+    //         return $stmt->fetchAll();
+    //     } catch (\PDOException $e) {
+    //         print "Error!: " . $e->getMessage() . "<br/>";
+    //         die();
+    //     }
+    // }
 
     //ALL PRODUCTS NA MAY STOCKS
     public function allProductsWithStock($station)

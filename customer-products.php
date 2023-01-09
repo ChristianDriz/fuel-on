@@ -99,7 +99,7 @@ $data = new Config();
                     foreach ($records as $val) {
                         $getShop = $data->shopDetails($val['shopID']);
                         $station = $getShop[0];
-                        $sold = $data->countShopSold($val['productID']);
+                        // $sold = $data->countShopSold($val['productID']);
                         $quantity = $val['quantity'];
                     ?>
                         <div class="col-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 kolum">
@@ -119,13 +119,13 @@ $data = new Config();
                                         <div class="price-sold-div">
                                             <p class="prod-price"><?= "₱" . $val['price'] ?></p>
                                             <?php
-                                                if($sold == 0){
+                                                if(empty($val['sold'])){
                                             ?>
                                             <p class="sold">0 sold</p>
                                             <?php
                                                 }else{
                                             ?>
-                                            <p class="sold"><?php echo $data->numberconverter($sold)?> sold</p>
+                                            <p class="sold"><?php echo $data->numberconverter($val['sold'])?> sold</p>
                                             <?php
                                                 }
                                             ?>
