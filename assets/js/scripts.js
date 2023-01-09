@@ -32,12 +32,13 @@ var state = false;
 $('#show-pass').click(function () {
     if(state){
         $('.input-pass').attr('type', 'password');
-        $(this).attr('class', 'fas fa-eye');
+        $(this).attr('class', 'fas fa-eye-slash');
+        
         state = false;
     }
     else{
         $('.input-pass').attr('type', 'text');
-        $(this).attr('class', 'fas fa-eye-slash');
+        $(this).attr('class', 'fas fa-eye');
         state = true;
     }
 });

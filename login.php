@@ -58,7 +58,7 @@
                 </div>
                 <div class="input-div">
                     <input class="form-control input-pass" type="password" placeholder="Password" name="password"> 
-                    <i class="fas fa-eye" id="show-pass"></i>
+                    <i class="fas fa-eye-slash" id="show-pass"></i>
                 </div>
                 <a class="forgot-pass-link" href="forgot-pass.php">Forgot password?</a>
                 <div class="sign-in-btn-div">
