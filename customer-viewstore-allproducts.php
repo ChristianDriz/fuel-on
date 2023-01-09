@@ -211,13 +211,12 @@ else{
                     </div>
                 </div>
             </div>
-
             <?php     
             }
-                $withStock = $data->allProductsWithStock($station);
-                $noStock = $data->allProductsNoStock($station);
-
-                if(empty($withStock)){
+                //show all product per station
+                $allprodperstation = $data->allProductsStore($station);
+                
+                if(empty($allprodperstation)){
             ?>
             <div id="no-products">
                 <div class="no-prod-div">
@@ -227,7 +226,8 @@ else{
             </div>
             <?php }
                 else{
-                    $shop = $withStock[0];
+                    $withStock = $data->allProductsWithStock($station);
+                    $shop = $allprodperstation[0];
             ?>
             <div class="container filter-div">
                 <div class="row g-0">
@@ -276,17 +276,20 @@ else{
                                 </div>
                             </a>
                         </div>
-                        <?php } ?>          
+                        <?php 
+                            } 
+                        ?>          
                     </div>
                 
-                <!-- SOLD OUT CONTAINER-->
-                <?php
-                    if(!empty($noStock)){
-                ?>
-                    <div class="soldout-div"><h5>Out of stock</h5></div>
-                <?php
-                    }
-                ?>
+                    <!-- SOLD OUT CONTAINER-->
+                    <?php
+                        $noStock = $data->allProductsNoStock($station);
+                        if(!empty($noStock)){
+                    ?>
+                        <div class="soldout-div"><h5>Out of stock</h5></div>
+                    <?php
+                        }
+                    ?>
                     <div class="row g-0 no-stock">
                         <?php
                             foreach($noStock as $val){

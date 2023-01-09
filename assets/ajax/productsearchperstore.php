@@ -17,11 +17,11 @@
     if(isset($_POST['key'])){
         $key = "%{$_POST['key']}%";
         $shopID = $_POST['shopID'];
+
     }
 
-        $sql = 'SELECT * FROM `tbl_products` 
-        WHERE quantity != 0 
-        AND shopID = ?
+        $sql = 'SELECT * FROM tbl_products
+        WHERE shopID = ?
         AND product_name LIKE ?
         ORDER BY price ASC';
         $stmt = $conn->prepare($sql);
@@ -34,11 +34,24 @@
             foreach($prods as $val){
                 $sold = $data->countShopSold($val ['productID']);
     ?>
-
             <div class="col-6 col-sm-6 col-md-4 col-lg-3 kolum">
                 <a href="customer-view-products.php?prodID=<?php echo $val['productID']?>&stationID=<?php echo $val['shopID'] ?>">
                     <div class="product-div">
-                        <div class="product-image-div"><img class="img" src="assets/img/products/<?= $val['prod_image']?>"></div>
+                        <div class="product-image-div">
+                            <?php
+                                //if product is no stock, will display the no stock label
+                                if($val['quantity'] == 0){
+                            ?>
+                            <img class="img no-stock-img" src="assets/img/products/<?= $val['prod_image']?>">
+                            <div class="sold-out-div"><p>Out of stock</p></div>
+                            <?php
+                                }else{
+                            ?>
+                            <img class="img" src="assets/img/products/<?= $val['prod_image']?>">
+                            <?php
+                                }
+                            ?>
+                        </div>
                         <div class="product-desc-div">
                             <h6 class="prod-name"><?= $val['product_name']?></h6>
                             <div class="price-sold-div">
