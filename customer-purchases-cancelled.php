@@ -109,7 +109,7 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
             <?php
                 }
                 else{
-                    foreach($orders as $key => $row){
+                    foreach($orders as $row){
                         $station = $data->customerGetShop($row['orderID']);
                         $shopDetails = $station[0];
             ?>
@@ -134,10 +134,14 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                     </div>
                     <?php
                         $grandtotal = 0;
+                        $subtotal = 0;
+                        $taxrate = 0.12;
+                        $vat = 0;
                         $records = $data->customerOrders($row['orderID']);
                         foreach($records as $val){
-                            $grandtotal += $val['total'];
-
+                            $subtotal += $val['total'];
+                            $vat = $subtotal * $taxrate;
+                            $grandtotal =  $subtotal + $vat;
                     ?>
                     <div class="sa-products">
                         <a class="product-col" href="customer-view-order.php?orderID=<?php echo $row['orderID']?>">

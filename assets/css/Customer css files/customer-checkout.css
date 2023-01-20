@@ -231,20 +231,13 @@ body {
 #checkout {
   background-color: #ffffff;
   border-radius: 8px;
-  padding: 15px 25px;
+  /*padding: 15px 25px;*/
   margin-top: 5px;
   box-shadow: 0px 2px 5px rgba(207,197,197,0.28);
   z-index: 2;
   position: sticky;
   bottom: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-@media (max-width: 767px) {
-  #checkout {
-    padding: 15px 15px;
-  }
+  text-align: right;
 }
 
 #checkout:before {
@@ -257,66 +250,89 @@ body {
   background: linear-gradient(transparent,rgba(207,197,197,0.28));
 }
 
-.payment-method-div {
-  display: grid;
+.total-row {
+  border-top: 1px dotted #e6dfdf;
 }
 
-.payment-method-div p {
-  color: #7a7171;
-  margin: 0;
-}
-
-.payment-method-div select {
-  padding: 6px 6px;
-  border: 1px solid #ccbdbd;
-  color: #3e3d3d;
-}
-
-.payment-method-div select:focus {
-  outline: none;
-  box-shadow: 0 0 0 #ffffff;
-}
-
-.peyment p {
-  font-weight: 600;
-  color: #3e3d3d;
-}
-
-.place-order-div {
-  text-align: end;
-}
-
-.place-order-div .total-div {
+.total-row .left-col {
+  border-right: 1px dotted #e6dfdf;
+  padding: 5px 10px;
   display: flex;
   align-items: center;
   justify-content: end;
 }
 
-.place-order-div .total-div p {
+.total-row span {
+  color: #7e7575;
+  font-size: 14px;
+}
+
+.total-row p {
   margin: 0;
+  font-weight: 600;
+  padding: 5px 25px;
 }
 
-.place-order-div .total-div .total-p {
-  font-weight: 600;
-  font-size: 26px;
-  color: #fea600;
-  margin-left: 5px;
+@media (max-width: 767px) {
+  .total-row p {
+    margin: 0;
+    font-weight: 600;
+    padding: 5px 15px;
+  }
 }
 
-.place-order-total-span {
+.total-row .order-total-p {
+  font-size: 24px;
   color: #fea600;
-  font-size: 26px;
-  font-weight: 600;
+  margin: -6px 0;
+}
+
+.left-col.subtotal {
+  padding-top: 15px;
+}
+
+.subtotal {
+  padding-top: 7px;
+}
+
+.place-order-div {
+  border-top: 1px solid #f5f0f0;
+  padding: 10px 25px 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+@media (max-width: 767px) {
+  .place-order-div {
+    border-top: 1px solid #f5f0f0;
+    padding: 10px 15px;
+  }
 }
 
 .place-order-div .btn {
   background-color: #fea600;
   color: #ffffff;
-  padding: 6px 60px;
+  padding: 6px 40px;
 }
 
-.place-order-div .btn:hover {
-  background-color: #e89b09;
+.place-order-div .btn:focus {
+  background-color: #fea600;
+  color: #ffffff;
+  padding: 6px 40px;
+}
+
+.payment-method-div {
+  text-align: left;
+}
+
+.payment-method-div span {
+  color: #867d7d;
+}
+
+.payment-method-div p {
+  margin: 0;
+  font-weight: 600;
 }
 
 @media (max-width: 767px) {

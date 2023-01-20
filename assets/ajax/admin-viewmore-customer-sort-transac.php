@@ -193,9 +193,14 @@
             <div class="prodak">
                 <?php
                     $grandtotal = 0;
+                    $subtotal = 0;
+                    $taxrate = 0.12;
+                    $vat = 0;
                     $records = $dbh->customerOrders($order['orderID']);
                     foreach($records as $key => $val){
-                        $grandtotal += $val['total'];
+                        $subtotal += $val['total'];
+                        $vat = $subtotal * $taxrate;
+                        $grandtotal =  $subtotal + $vat;
                 ?>
                 <div class="sa-products">
                     <a class="product-col">
@@ -217,8 +222,31 @@
                 <?php
                     }
                 ?>
-                <div class="total-div"><span>Order Total:</span>
-                    <p>₱<?php echo number_format($grandtotal, 2) ?></p>
+                <div class="row g-0 total-div">
+                    <div class="col-12">
+                        <div class="row g-0 total-row">
+                            <div class="col-7 col-sm-9 left-col"><span>Order Subtotal</span></div>
+                            <div class="col-5 col-sm-3">
+                                <p>₱<?php echo number_format($subtotal, 2) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-0 total-row">
+                            <div class="col-7 col-sm-9 left-col"><span>VAT (12%)</span></div>
+                            <div class="col-5 col-sm-3">
+                                <p>₱<?php echo number_format($vat, 2) ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-0 total-row">
+                            <div class="col-7 col-sm-9 d-flex justify-content-end align-items-center left-col"><span>Order Total</span></div>
+                            <div class="col-5 col-sm-3">
+                                <p class="order-total-p">₱<?php echo number_format($grandtotal, 2) ?></p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

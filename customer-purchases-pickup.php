@@ -133,9 +133,14 @@ $pickupCounter = $data->OrderCountCustomer($pickup, $userID);
                     </div>
                     <?php
                         $grandtotal = 0;
+                        $subtotal = 0;
+                        $taxrate = 0.12;
+                        $vat = 0;
                         $records = $data->customerOrders($row['orderID']);
-                        foreach($records as $key => $val){
-                            $grandtotal += $val['total'];
+                        foreach($records as $val){
+                            $subtotal += $val['total'];
+                            $vat = $subtotal * $taxrate;
+                            $grandtotal =  $subtotal + $vat;
                     ?>
                     <div class="sa-products">
                         <a class="product-col" href="customer-view-order.php?orderID=<?php echo $row['orderID']?>">

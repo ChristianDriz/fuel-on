@@ -164,7 +164,7 @@ $shopDetails = $shop[0];
                                             <i class="fas fa-pen"></i>
                                         </a>
       
-                                        <!--update modal-form-->
+                                        <!--update product modal-form-->
                                         <div class="modal fade" role="dialog" tabindex="-1" id="modal-update<?php echo $val['productID']?>">
                                             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -178,7 +178,8 @@ $shopDetails = $shop[0];
                                                                 <div class="col-12 col-xl-4 form prod-image">
                                                                     <div class="input-div"><label class="form-label">Product Image</label>
                                                                         <div class="avatar-bg"><img src="assets/img/products/<?php echo $val['prod_image'] ?>"/></div>
-                                                                    </div><input class="form-control file-input image-input" type="file" name="image" accept="image/*">
+                                                                    </div>
+                                                                    <input class="form-control file-input image-input" type="file" name="image" accept="image/*">
                                                                     <div class="leybel">
                                                                         <p>Maximum size: 2MB</p>
                                                                         <p>File extension: JPEG, PNG</p>
@@ -187,24 +188,24 @@ $shopDetails = $shop[0];
                                                                 <div class="col-12 col-xl-8 form prod-details">
                                                                     <div class="input-div">
                                                                         <label class="form-label">Product Name</label>
-                                                                        <input class="form-control" type="text" name="prodName" placeholder="Enter product name" value="<?php echo $val['product_name']?>">
+                                                                        <input class="form-control" type="text" name="prodName" placeholder="Enter product name" value="<?php echo $val['product_name']?>" required>
                                                                     </div>
                                                                     <div class="input-div">
                                                                         <label class="form-label">Description</label>
-                                                                        <textarea class="form-control" name="description" placeholder="Enter product description"><?php echo $val['description']?></textarea>
+                                                                        <textarea class="form-control" name="description" placeholder="Enter product description" required><?php echo $val['description']?></textarea>
                                                                     </div>
                                                                     <div class="input-div">
                                                                         <label class="form-label">Price</label>
-                                                                        <input class="form-control" type="number" name="price" min="1" placeholder="Enter price" value="<?php echo number_format($val['price'])?>">
+                                                                        <input class="form-control" type="number" name="price" min="1" placeholder="Enter price" value="<?php echo number_format($val['price'])?>" required>
                                                                     </div>
                                                                     <div class="stocks-n-critical">
                                                                         <div class="input-div stocks-div">
                                                                             <label class="form-label">Stocks</label>
-                                                                            <input class="form-control" type="number" name="stocks" min="0" placeholder="Enter stocks" value="<?php echo $val['quantity']?>">
+                                                                            <input class="form-control" type="number" name="stocks" min="0" placeholder="Enter stocks" value="<?php echo $val['quantity']?>" required>
                                                                         </div>
                                                                         <div class="input-div critical-div">
                                                                             <label class="form-label">Critical Level</label>
-                                                                            <input class="form-control" type="number" name="criticalLevel" min="1" placeholder="Enter product critical level" value="<?php echo $val['critical_level']?>">
+                                                                            <input class="form-control" type="number" name="criticalLevel" min="1" placeholder="Enter product critical level" value="<?php echo $val['critical_level']?>" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="button-div">
@@ -244,7 +245,7 @@ $shopDetails = $shop[0];
                     $level = "";
                 }
             ?>
-            <!--modal form-->
+            <!--add product modal form-->
             <div class="modal fade" role="dialog" tabindex="-1" id="modal-add">
                 <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -258,7 +259,8 @@ $shopDetails = $shop[0];
                                     <div class="col-12 col-xl-4 form prod-image">
                                         <div class="input-div"><label class="form-label">Product Image</label>
                                             <div class="avatar-bg"></div>
-                                        </div><input class="form-control file-input image-input" type="file" name="image" accept="image/*">
+                                        </div>
+                                        <input class="form-control file-input image-input" type="file" name="image" accept="image/*">
                                         <div class="leybel">
                                             <p>Maximum size: 2MB</p>
                                             <p>File extension: JPEG, PNG</p>

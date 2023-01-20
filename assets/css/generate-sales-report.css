@@ -128,13 +128,17 @@ body {
 	border-right: 1px solid black;
   }
   
+  .sales-tbody {
+	border-bottom: 1px solid black;
+  }
+  
   tbody .amount {
 	text-align: right;
   }
   
   tfoot tr td {
-	padding: 8px;
-	border: 1px solid black;
+	padding: 5px 8px;
+	border-right: 1px solid black;
 	text-align: right;
 	font-weight: bold;
   }

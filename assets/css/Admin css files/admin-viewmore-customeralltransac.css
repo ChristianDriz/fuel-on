@@ -617,21 +617,43 @@ body {
 }
 
 .total-div {
-  padding: 10px 25px;
+  /*padding: 10px 25px;*/
   /*border-top: 1px solid #f3eeee;*/
+  text-align: right;
+}
+
+.total-row {
   display: flex;
-  justify-content: end;
-  align-items: center;
+  /*align-items: center;*/
+  /*padding: 2px 0;*/
+  border-top: 1px dotted #e6dfdf;
+}
+
+.total-row .left-col {
+  border-right: 1px dotted #e6dfdf;
+  padding: 5px 10px;
 }
 
 .total-div span {
   color: #7e7575;
+  font-size: 14px;
 }
 
 .total-div p {
   margin: 0;
   font-weight: 600;
+  padding: 5px 20px;
+}
+
+@media (max-width: 767px) {
+  .total-div p {
+    margin: 0;
+    font-weight: 600;
+    padding: 5px 15px;
+  }
+}
+
+.total-div p.order-total-p {
   font-size: 24px;
-  margin-left: 5px;
   color: #fea600;
 }

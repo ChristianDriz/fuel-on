@@ -165,7 +165,7 @@ $shopDetails = $shop[0];
                                             <div class="col form prod-details">
                                                 <div class="input-div">
                                                     <label class="form-label">Category</label>
-                                                    <select class="form-select select-fuel input" name="category">
+                                                    <select class="form-select select-fuel input" name="category" required>
                                                     <?php
                                                         //pang return ng selected dropdown
                                                         if($fuels['fuel_category'] == "Diesel"){        
@@ -213,16 +213,16 @@ $shopDetails = $shop[0];
                                                     </select></div>
                                                 <div class="input-div">
                                                     <label class="form-label">Fuel name</label>
-                                                    <input class="form-control" type="text" name="fuelname" placeholder="Enter fuel name" value="<?php echo $fuels['fuel_type']?>">
+                                                    <input class="form-control" type="text" name="fuelname" placeholder="Enter fuel name" value="<?php echo $fuels['fuel_type']?>" required>
                                                 </div>
                                                 <div class="input-div">
                                                     <label class="form-label">Price</label>
-                                                    <input class="form-control" type="number" step=".01" name="price" placeholder="Enter price" value="<?php echo $fuels['new_price']?>">
+                                                    <input class="form-control" type="number" step=".01" name="price" placeholder="Enter price" value="<?php echo $fuels['new_price']?>" required>
                                                     <input class="form-control" type="hidden" name="oldPrice" value="<?php echo $fuels['new_price']?>">
                                                 </div>
                                                 <div class="input-div">
                                                     <label class="form-label">Status</label>
-                                                    <select class="form-select" name="fuel_status">
+                                                    <select class="form-select" name="fuel_status" required>
                                                     <?php
                                                         //pang return ng selected dropdown
                                                         if($fuels['fuel_status'] == "available"){        

@@ -22,8 +22,6 @@
 
     $date = $dbh->dateconverter($order['date_approved']);
 
-    $grandTotal = 0;
-
     require __DIR__ . "/vendor/autoload.php";
 
     use Dompdf\Dompdf;
@@ -109,10 +107,15 @@ $html = '
                             <th class="amount">Amount</th>
                         </tr>
                     </thead>
-                    <tbody>';
-
+                    <tbody class="sales-tbody">';
+                        $grandtotal = 0;
+                        $subtotal = 0;
+                        $taxrate = 0.12;
+                        $vat = 0;
                         foreach ($records as $record) {
-                            $grandTotal += $record['total'];
+                            $subtotal += $record['total'];
+                            $vat = $subtotal * $taxrate;
+                            $grandtotal =  $subtotal + $vat;
 
                     $html .='
                         <tr>
@@ -138,8 +141,16 @@ $html = '
                     </tbody>
                     <tfoot>
                         <tr>
-                        <td colspan="3">TOTAL</td>
-                        <td>P'.number_format($grandTotal, 2).'</td>
+                            <td colspan="3">SUBTOTAL</td>
+                            <td>P'.number_format($subtotal, 2).'</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">VAT (12%)</td>
+                            <td>P'.number_format($vat, 2).'</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">GRAND TOTAL</td>
+                            <td>P'.number_format($grandtotal, 2).'</td>
                         </tr>
                     </tfoot>
                 </table>

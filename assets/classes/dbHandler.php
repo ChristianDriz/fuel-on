@@ -19,7 +19,7 @@ class DBHandler extends Notifications
             // $password = "";
             // // $dbh = new PDO('mysql:host=localhost;dbname=db_fuelon', $username, $password);
             // $dbh = new PDO('mysql:host=localhost;dbname=u887826340_db_fuelon', $username, $password);
-            // return $dbh;
+            return $dbh;
         } catch (\PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -54,8 +54,7 @@ class Config extends DBHandler
     public function info($url, $message)
     {
         $_SESSION['info_message'] = $message;
-        header('Location: ' . $url);
-        exit();
+        header('Location: ' . $url);            exit();
     }
 
     //ALERT FOR ERROR

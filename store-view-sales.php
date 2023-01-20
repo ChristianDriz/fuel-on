@@ -96,8 +96,13 @@ $orders = $dbh->shopOrdersCompleted($userID, $status);
                                 <tbody>
                                     <?php
                                         $grandtotal = 0;
+                                        $subtotal = 0;
+                                        $taxrate = 0.12;
+                                        $vat = 0;
                                         foreach($orders as $row){
-                                            $grandtotal += $row['total'];
+                                            $subtotal += $row['total'];
+                                            $vat = $subtotal * $taxrate;
+                                            $grandtotal =  $subtotal + $vat;
                                     ?>
                                     <tr>
                                         <!-- <td></td> -->
@@ -113,7 +118,6 @@ $orders = $dbh->shopOrdersCompleted($userID, $status);
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <!-- <th></th> -->
                                         <th class="generate"><a class="btn" target="_blank" href="generate-sales-report.php">Generate Report</a></th>
                                         <th class="text-end" colspan="3">TOTAL</th>
                                         <th class="text-end">₱<?php echo number_format($grandtotal, 2)?></th>

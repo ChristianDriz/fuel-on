@@ -76,6 +76,9 @@
                     <?php
                     $stations = $data->divideShopsCheckout($userID);
                     $grandtotal = 0;
+                    $subtotal = 0;
+                    $taxrate = 0.12;
+                    $vat = 0;
                     $count = 0;
                     
                     foreach($stations as $station){
@@ -95,7 +98,6 @@
                         </div>
                         <?php
                                 foreach($records as $val){
-                                $subtotal = $val['price'] * $val['quantity'];
                                 $ordtotal += $val['price'] * $val['quantity'];
                         ?>
                         <div class="sa-products">     
@@ -123,38 +125,55 @@
                             <span class="order-total-span">₱<?=number_format($ordtotal, 2);?></span>
                         </div>
                     </div>
-                    <?php $grandtotal += $ordtotal; }?>
-               
-                <div id="checkout">
-                    <div class="payment-method-div">
-                        <p>Payment Method:</p>
-                        <!-- <select name="payment">
-                            <option value="Cash Upon Pickup" selected>Cash upon pickup</option>
-                        </select> -->
-                        <div>
-                            <p style="color: black; font-weight: 600;">Cash upon pickup</p>
+                    <?php
+                        $subtotal += $ordtotal;
+                        $vat = $subtotal * $taxrate;
+                        $grandtotal = $subtotal + $vat; 
+                    }
+                    ?>
+                    <div class="row g-0" id="checkout">
+                        <div class="col-12">
+                            <div class="row g-0 total-row">
+                                <div class="col-7 col-sm-9 left-col subtotal"><span>Order Subtotal</span></div>
+                                <div class="col-5 col-sm-3 subtotal">
+                                    <p>₱<?=number_format($subtotal, 2)?></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="place-order-div">
-                        <div class="total-div">
-                            <p>Total Payment:</p>
-                            <p class="total-p">₱<?=number_format($grandtotal, 2);?></p>
-                        <?php
-                            if($count != 0){
-                        ?>
+                        <div class="col-12">
+                            <div class="row g-0 total-row">
+                                <div class="col-7 col-sm-9 left-col"><span>VAT (12%)</span></div>
+                                <div class="col-5 col-sm-3">
+                                    <p>₱<?=number_format($vat, 2)?></p>
+                                </div>
+                            </div>
                         </div>
-                        <button class="btn" type="submit" name="checkout">Place Order</button>
-                        <?php
-                        }
-                        else{
-                        ?>
-                        <button class="btn disabled" type="submit" name="checkout">Place Order</button>
-                        <?php
-                        }
-                        ?>
-                    </div>
-                </div>  
-            </div>
+                        <div class="col-12">
+                            <div class="row g-0 total-row">
+                                <div class="col-7 col-sm-9 left-col"><span>Total Payment</span></div>
+                                <div class="col-5 col-sm-3">
+                                    <p class="order-total-p">₱<?=number_format($grandtotal, 2)?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col place-order-div">
+                            <div class="payment-method-div"><span>Payment Method:</span>
+                                <p>Cash upon pickup</p>
+                            </div>
+                            <?php
+                                if($count != 0){
+                            ?>
+                            <button class="btn" type="submit" name="checkout">Place Order</button>
+                            <?php
+                                }else{
+                            ?>
+                            <button class="btn disabled" type="submit" name="checkout">Place Order</button>
+                            <?php
+                                }
+                            ?>
+                        </div>
+                    </div> 
+                </div>
             </form>
         </div>
     </div>

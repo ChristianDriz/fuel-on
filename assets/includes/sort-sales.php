@@ -44,8 +44,13 @@
                 <tbody>
                     <?php
                         $grandtotal = 0;
+                        $subtotal = 0;
+                        $taxrate = 0.12;
+                        $vat = 0;
                         foreach($data as $row){
-                            $grandtotal += $row['total'];
+                            $subtotal += $row['total'];
+                            $vat = $subtotal * $taxrate;
+                            $grandtotal =  $subtotal + $vat;
                     ?>
                     <tr>
                         <!-- <td></td> -->

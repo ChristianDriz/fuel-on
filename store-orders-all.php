@@ -126,9 +126,14 @@ $pickupCounter = $dbh->OrderCountShop($pickup, $userID);
                     </div>
                     <?php
                         $grandtotal = 0;
+                        $subtotal = 0;
+                        $taxrate = 0.12;
+                        $vat = 0;
                         $records = $dbh->customerOrders($row['orderID']);
                         foreach($records as $val){
-                            $grandtotal += $val['total'];
+                            $subtotal += $val['total'];
+                            $vat = $subtotal * $taxrate;
+                            $grandtotal =  $subtotal + $vat;
                     ?>
                     <div class="sa-products">
                         <a class="product-col" href="store-view-order.php?orderID=<?php echo $row['orderID']?>">

@@ -129,14 +129,20 @@ $html = '
                             <th class="amount">Amount</th>
                         </tr>
                     </thead>
-                    <tbody>';
+                    <tbody class="sales-tbody">';
 
                         // $status = 'Completed';
                         // $orders = $data->shopOrdersCompleted($userID, $status);
 
                         $grandtotal = 0;
+                        $subtotal = 0;
+                        $taxrate = 0.12;
+                        $vat = 0;
                         foreach ($orders as $row) {
-                            $grandtotal += $row['total'];
+                            $subtotal += $row['total'];
+
+                            $vat = $subtotal * $taxrate;
+                            $grandtotal =  $subtotal + $vat;
     
                             $date = $row['date_completed'];
                             $createdate = date_create($date);
@@ -168,7 +174,15 @@ $html = '
                     </tbody>
                     <tfoot>
                         <tr>
-                          <td colspan="4">TOTAL</td>
+                            <td colspan="4">SUBTOTAL</td>
+                            <td>P'.number_format($subtotal, 2).'</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">VAT (12%)</td>
+                            <td>P'.number_format($vat, 2).'</td>
+                        </tr>
+                        <tr>
+                          <td colspan="4">GRAND TOTAL</td>
                           <td>P'.number_format($grandtotal, 2).'</td>
                         </tr>
                     </tfoot>
