@@ -98,6 +98,7 @@
                         </div>
                         <?php
                                 foreach($records as $val){
+                                $prodtotal = $val['price'] * $val['quantity'];
                                 $ordtotal += $val['price'] * $val['quantity'];
                         ?>
                         <div class="sa-products">     
@@ -115,7 +116,7 @@
                                     <span>x<?=$val['quantity'];?></span>
                                 </div>
                                 <div class="total-price-div">
-                                    <span>₱<?=number_format($subtotal, 2);?></span>
+                                    <span>₱<?=number_format($prodtotal, 2);?></span>
                                 </div>
                             </div>   
                         </div>
